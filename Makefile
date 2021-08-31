@@ -4,13 +4,21 @@ all: $(NAME)
 
 OSY = $(shell uname)
 
-CF1 = 
+CF1 = start.c
 
 CF2 = 
 
 HDIR = ./includes
 
 HDR = $(HDIR)/$(NAME).h
+
+LIBDIR = ./libft
+
+LIBFT = $(LIBDIR)/libft.a
+
+INCLUD = -I $(HDIR) -I $(LIBDIR) -I /usr/local/include
+
+LIBS = -L $(MLXDIR) -lmlx -L $(LIBDIR) -lft -L /usr/local/lib  -lreadline
 
 ifeq ($(BON), 1)
 		CF=$(addprefix srcs/bonus/, $(CF2))
@@ -30,8 +38,6 @@ DEPFL = -MMD -MF $(@:.o=.d)
 
 -include $(DF)
 
-INCLUD = -I $(HDIR)
-
 ifeq ($(OSY), Linux)
 	D += -D OS=1
 else
@@ -42,13 +48,16 @@ FL = -Wall -Wextra -Werror $(INCLUD) -g # -O2
 
 CC = gcc #clang
 
-%.o: %.c
-	$(CC) $(FL) -c $< -o $@ $(DEPFL) $D
+%.o: %.c $(HDR) $(LIBFT)
+	$(CC) $(FL) -c $< -o $@ $(LIBS) $(DEPFL) $D
 
-$(NAME): $(OF) $(HDR)
-	$(CC) -o $@ $(FL) $(OF) $(DEPFL) $D
+$(NAME): $(OF) $(HDR) $(LIBFT)
+	$(CC) -o $@ $(FL) $(OF) $(LIBS) $(DEPFL) $D
 
 # $? 
+
+$(LIBFT):
+	$(MAKE) -C $(LIBDIR) bonus
 
 bonus:
 	$(MAKE) BON=1 all
