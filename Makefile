@@ -4,7 +4,7 @@ all: $(NAME)
 
 OSY = $(shell uname)
 
-CF1 = start.c
+CF1 = start.c parser.c utils.c free.c err.c
 
 CF2 = 
 
@@ -12,13 +12,13 @@ HDIR = ./includes
 
 HDR = $(HDIR)/$(NAME).h
 
-LIBDIR = ./libft
+LIBDIR = libft/
 
-LIBFT = $(LIBDIR)/libft.a
+LIBFT = $(LIBDIR)libft.a
 
 INCLUD = -I $(HDIR) -I $(LIBDIR) -I /usr/local/include
 
-LIBS = -L $(MLXDIR) -lmlx -L $(LIBDIR) -lft -L /usr/local/lib  -lreadline
+LIBS = -L $(MLXDIR) -lmlx -L $(LIBDIR) -lft -lreadline
 
 ifeq ($(BON), 1)
 		CF=$(addprefix srcs/bonus/, $(CF2))
@@ -66,6 +66,7 @@ clean:
 	rm -rf $(OF)
 	rm -rf $(DF)
 	rm -rf $(NAME).d
+	$(MAKE) fclean -C $(LIBDIR)
 
 fclean: clean
 	rm -rf $(NAME)
@@ -76,7 +77,9 @@ norm:
 	norminette -v
 	norminette -o $(addprefix srcs/, $(CF1)) \
 	$(addprefix srcs/bonus/, $(CF2)) \
-	$(HDIR)/*.h
+	$(HDIR)/*.h \
+	$(LIBDIR)
+
 
 CMD1="cat -e"
 CMD2="grep f"
@@ -86,16 +89,16 @@ FILE2=file2
 CMD="< $(FILE1) $(CMD1) | $(CMD2) > $(FILE2)"
 CMDB="< $(FILE1) $(CMD1) | $(CMD2) | $(CMD3) > $(FILE2)"
 run: $(NAME)
-	./$(NAME) $(FILE1) $(CMD1) $(CMD2) $(FILE2)
+	./$(NAME)
 
 runb: bonus
-	./$(NAME) $(FILE1) $(CMD1) $(CMD2) $(CMD3) $(FILE2)
+	./$(NAME)
 
 val: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(FILE1) $(CMD1) $(CMD2) $(FILE2)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 valb: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(FILE1) $(CMD1) $(CMD2) $(CMD3) $(FILE2)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 # --track-origins=yes --leak-check=full -s ARG=$(ARG); 
 
