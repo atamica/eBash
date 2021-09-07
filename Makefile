@@ -4,7 +4,7 @@ all: $(NAME)
 
 OSY = $(shell uname)
 
-CF1 = start.c parser.c utils.c free.c err.c
+CF1 = start.c parser.c utils.c free.c err.c builtins/cd.c
 
 CF2 = 
 
@@ -97,7 +97,7 @@ runb: bonus
 val: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
-valb: $(NAME)
+valb: bonus $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 # --track-origins=yes --leak-check=full -s ARG=$(ARG); 

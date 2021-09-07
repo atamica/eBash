@@ -17,7 +17,7 @@ void	parser(char *input, t_cmd *cmd)
 	}
 }
 
-int	pars(char *str, t_cmd *cmd, char **env)
+int	pars(char *str, t_cmd *cmd)
 {
 	int		r;
 	int		start;
@@ -37,17 +37,14 @@ int	pars(char *str, t_cmd *cmd, char **env)
 			i++;
 		ptr = ft_substr(str, start, i - start);
 		// try add path
-		cmd->path = cmdf(ptr, env);
+		cmd->path = cmdf(ptr);
 		free(ptr);
-
-			
-		printf("parser path=%s\n", cmd->path);
 		cmd->arg = ft_split(str, ' ');
-		print_param(cmd->arg);
-		r = 1;
-		//cmd->path = 
+		if (cmd->path)
+			r = 1;
 		// parse options
 		// parse args
+		// parse "; | || & && >> << < >"
 	}
 	return (r);
 }

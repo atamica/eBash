@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include <stdio.h>		// readline, printf
+						// void perror(const char *s);
 
 # if OS == 1			// Linux
 #  include <readline/readline.h>
@@ -50,6 +51,9 @@
 // };
 						// int closedir(DIR *dirp);
 
+
+# include <curses.h>	// int tputs(const char *str, int affcnt, 
+						// 		int (*putc)(int));
 # include <sys/ioctl.h>	// int ioctl(int fd, unsigned long request, ...);
 
 # include <termios.h>	// int tcgetattr(int fd, struct termios *termios_p);
@@ -88,13 +92,17 @@
 # define MSGE8 "\033[31mError in cmd!\n\033[0m"
 # define MSGE9 "\033[31mError in "
 
+# define MSG "\033[36mminishell\u2328\033[0m"
 # define MSG1 "\n"
+
 # define LINUX 1
 
 # if OS != LINUX
-#  define DIRECTOR O_DIRECTORY
+#  define DIRR O_DIRECTORY
+#  define ENV environ
 # else
-#  define DIRECTOR __O_DIRECTORY
+#  define DIRR __O_DIRECTORY
+#  define ENV __environ
 # endif
 
 # define RESET "\033[0m"
@@ -139,6 +147,7 @@ typedef struct s_d
 	int		stat1;
 	int		stat2;
 	int		fr;
+	char	*input;
 }				t_d;
 
 /*
@@ -146,7 +155,7 @@ typedef struct s_d
 */
 
 void	parser(char *input, t_cmd *cmd);
-int		pars(char *str, t_cmd *cmd, char **env);
+int		pars(char *str, t_cmd *cmd);
 
 /*
 **		utils.c
@@ -155,8 +164,8 @@ int		pars(char *str, t_cmd *cmd, char **env);
 int		is_dir(char *path);
 int		file_exist(char *path);
 char	*ft_strjoin_m(char const *s1, char const *s2);
-void	free_mem(char **ptr);
-char	*cmdf(char *cmd, char **env);
+// void	free_mem(char **ptr);
+char	*cmdf(char *cmd);
 void	dup2_check(int old_fd, int new_fd, t_d *d);
 void	print_param(char **arg);
 
@@ -178,5 +187,12 @@ void	free_nu(void *ptr);
 void	free2(char **ptr);
 void	close_f(int fd);
 void	free_d(t_d *d);
+
+/*
+**		free.c
+*/
+
+int		cd(t_cmd *cmd);
+int		check_builtins(char *cmd);
 
 #endif

@@ -4,10 +4,13 @@ int	is_dir(char *path)
 {
 	struct stat	st;
 
-	if (stat(path, &st) < 0)
-		return (-1);
-	if (S_ISDIR(st.st_mode))
-		return (1);
+	if (path)
+	{
+		if (stat(path, &st) < 0)
+			return (-1);
+		if (S_ISDIR(st.st_mode))
+			return (1);
+	}
 	return (0);
 }
 
@@ -15,10 +18,13 @@ int	file_exist(char *path)
 {
 	struct stat	st;
 
-	if (stat(path, &st) < 0)
-		return (-1);
-	if (S_ISREG(st.st_mode))
-		return (1);
+	if (path)
+	{
+		if (stat(path, &st) < 0)
+			return (-1);
+		if (S_ISREG(st.st_mode))
+			return (1);
+	}
 	return (0);
 }
 
@@ -44,60 +50,26 @@ char	*ft_strjoin_m(char const *s1, char const *s2)
 	return (NULL);
 }
 
-void	free_mem(char **ptr)
+char	*cmdf(char *cmd)
 {
-	char	*tmp1;
+	char	*cmd_path;
+	char	**paths;
 	char	**tmp;
 
-	if (ptr)
-	{
-		tmp = ptr;
-		while (*tmp)
-		{
-			tmp1 = *tmp;
-			tmp++;
-			free(tmp1);
-		}
-		free(ptr);
-	}
-}
-
-static char	*find_path(char **paths, char *cmd)
-{
-	char	*res;
-	char	**tmp;
-
-	res = NULL;
+	if ((file_exist(cmd) == 1) || check_builtins(cmd))
+		return (ft_strdup(cmd));
+	paths = ft_split(getenv("PATH"), ':');
+	cmd_path = NULL;
 	if (paths)
 	{
 		tmp = paths;
-		while (*tmp && !res)
+		while (*tmp && !cmd_path)
 		{
-			res = ft_strjoin_m(*tmp, cmd);
-			if (file_exist(res) != 1)
-				free_null((void **)&res);
-			tmp++;
+			cmd_path = ft_strjoin_m(*tmp++, cmd);
+			if (file_exist(cmd_path) != 1)
+				free_null((void **)&cmd_path);
 		}
-		free_mem(paths);
-	}
-	return (res);
-}
-
-char	*cmdf(char *cmd, char **env)
-{
-	char	*cmd_path;
-
-	if (file_exist(cmd) == 1)
-		return (ft_strdup(cmd));
-	cmd_path = NULL;
-	if (env && cmd)
-	{
-		while (*env && !cmd_path)
-		{
-			if (!ft_strncmp(*env, "PATH=", 5))
-				cmd_path = find_path(ft_split(*env + 5, ':'), cmd);
-			env++;
-		}
+		free2(paths);
 	}
 	return (cmd_path);
 }

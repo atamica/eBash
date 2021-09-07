@@ -36,15 +36,12 @@ void	close_f(int fd)
 
 void	free_d(t_d *d)
 {
-	if (d->fr)
-	{
-		close_f(d->file1.fd);
-		close_f(d->file2.fd);
-		free_nu(d->pipe_fd);
+//		close_f(d->file1.fd);
+//		close_f(d->file2.fd);
+//		free_nu(d->pipe_fd);
 		free_nu(d->cmd1.path);
 		free2(d->cmd1.arg);
-		free_nu(d->cmd2.path);
-		free2(d->cmd2.arg);
-		d->fr = 0;
-	}
+//		free_nu(d->cmd2.path);
+//		free2(d->cmd2.arg);
+		free_nu(d->input);
 }
