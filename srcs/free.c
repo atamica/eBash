@@ -23,8 +23,8 @@ void	free2(char **ptr)
 	{
 		tmp = (void **)ptr;
 		while (*tmp)
-			free_nu(*tmp++);
-		free_nu(ptr);
+			free_null(tmp++);
+		free_null((void **)ptr);
 	}
 }
 
@@ -36,12 +36,17 @@ void	close_f(int fd)
 
 void	free_d(t_d *d)
 {
+	if (d->fr)
+	{
 //		close_f(d->file1.fd);
 //		close_f(d->file2.fd);
 //		free_nu(d->pipe_fd);
-		free_nu(d->cmd1.path);
+		free_null((void **)&d->cmd1.path);
 		free2(d->cmd1.arg);
 //		free_nu(d->cmd2.path);
 //		free2(d->cmd2.arg);
-		free_nu(d->input);
+		free_null((void **)&d->input);
+		d->fr = 0;	
+	}
+
 }

@@ -33,7 +33,7 @@ int	check_builtins(char *cmd)
 	t_cmd	cmd_b;
 
 	res = 0;
-	if (ft_strncmp(cmd, "cd", 2) && ((cmd[2] == ' ') || !cmd[2]))
+	if (!ft_strncmp(cmd, "cd", 2) && ((cmd[2] == ' ') || !cmd[2]))
 	{
 		cmd_b.arg = ft_split(cmd, ' ');
 		res = cd(&cmd_b);

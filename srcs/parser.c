@@ -38,7 +38,8 @@ int	pars(char *str, t_cmd *cmd)
 		ptr = ft_substr(str, start, i - start);
 		// try add path
 		cmd->path = cmdf(ptr);
-		free(ptr);
+printf("path=%s\n", cmd->path);
+		free_null((void **)&ptr);
 		cmd->arg = ft_split(str, ' ');
 		if (cmd->path)
 			r = 1;

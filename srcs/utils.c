@@ -56,9 +56,11 @@ char	*cmdf(char *cmd)
 	char	**paths;
 	char	**tmp;
 
+printf("ch_bui=%i", check_builtins(cmd));
 	if ((file_exist(cmd) == 1) || check_builtins(cmd))
 		return (ft_strdup(cmd));
 	paths = ft_split(getenv("PATH"), ':');
+print_param(paths);
 	cmd_path = NULL;
 	if (paths)
 	{

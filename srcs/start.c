@@ -61,6 +61,7 @@ int main(void)
 	{
 		// inputing...
 		d.input = readline(MSG);
+		d.fr = 1;
 		// eof
 		if (!d.input)
 		{
@@ -77,12 +78,11 @@ int main(void)
 		add_history(d.input);
 
 		/* do stuff */
-
+	
 		printf("ret=%i\n", pars(d.input, &d.cmd1));
 		printf("cmd=(%s) dir=%i file=%i\n", d.cmd1.path, is_dir(d.cmd1.path), file_exist(d.cmd1.path));
 		if (d.cmd1.path)
 			cmd0(&d);
-
 		free_d(&d);
 	}
 	printf(MSG1);
