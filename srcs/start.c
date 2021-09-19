@@ -23,7 +23,7 @@ printf("err cmd1\n");
 static void	wait_chailds(t_d *d)
 {
 	if (waitpid(d->cmd1_pid, &d->stat1, 0) < 0)
-		err(7, d);	
+		err(7, d);
 	if (d->stat1)
 		err_msg(MSGE8, d->stat1, d);
 }
@@ -36,11 +36,34 @@ static int	cmd0(t_d *d)
 	{
 		wait_chailds(d);
 //		free_d(d);
-	}	
+	}
 	else
 		cmd1(d);
 	return (0);
 }
+
+static int	cmd_exec(t_d *d)
+{
+	pars(d->input, &(d->cmd1));
+	/* if (d->cmd1.path)
+		cmd0(&d); */
+	if (!d->cmd1.path)
+		return(0);
+	d->cmd1_pid = fork();
+	if_err_exit(d->cmd1_pid, 5, d);
+	if (d->cmd1_pid)
+	{
+		wait_chailds(d);
+//		free_d(d);
+	}
+	else
+	{
+		cmd1(d);
+		cmd_exec(d);
+	}
+	return (0);
+}
+
 
 int main(void)
 {
@@ -70,7 +93,7 @@ int main(void)
 		}
 		/* if (d.input[0] == 'a')
 			rl_redisplay(); */
-		
+
 		// path autocompletion when tabulation hit
 		//rl_bind_key('\t', rl_complete);
 
@@ -78,7 +101,7 @@ int main(void)
 		add_history(d.input);
 
 		/* do stuff */
-	
+
 		printf("ret=%i\n", pars(d.input, &d.cmd1));
 		printf("cmd=(%s) dir=%i file=%i\n", d.cmd1.path, is_dir(d.cmd1.path), file_exist(d.cmd1.path));
 		if (d.cmd1.path)
