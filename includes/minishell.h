@@ -112,6 +112,7 @@
 # define BLUE "\033[34m"
 # define MAGENTA "\033[35m"
 # define CYAN "\033[36m"
+extern char ** environ;
 
 typedef enum e_pipe {IN, OUT}	t_pipe;
 

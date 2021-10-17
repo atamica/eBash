@@ -18,7 +18,7 @@ LIBFT = $(LIBDIR)libft.a
 
 INCLUD = -I $(HDIR) -I $(LIBDIR) -I /usr/local/include
 
-LIBS = -L $(MLXDIR) -lmlx -L $(LIBDIR) -lft -lreadline
+LIBS = -L $(LIBDIR) -lft -lreadline
 
 ifeq ($(BON), 1)
 		CF=$(addprefix srcs/bonus/, $(CF2))
@@ -49,7 +49,7 @@ FL = -Wall -Wextra -Werror $(INCLUD) -g # -O2
 CC = gcc #clang
 
 %.o: %.c $(HDR) $(LIBFT)
-	$(CC) $(FL) -c $< -o $@ $(LIBS) $(DEPFL) $D
+	$(CC) $(FL) -c $< -o $@ $(DEPFL) $D
 
 $(NAME): $(OF) $(HDR) $(LIBFT)
 	$(CC) -o $@ $(FL) $(OF) $(LIBS) $(DEPFL) $D
