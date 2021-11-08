@@ -12,31 +12,29 @@
 
 #include "libft.h"
 
-static size_t	kw(char const *s, char c)
+static size_t	count_words(char const *s, char c)
 {
 	size_t	r;
-	size_t	i;
-	size_t	l;
+	size_t	len_word;
 
 	r = 0;
-	i = 0;
-	while (s[i])
+	while (*s)
 	{
-		l = 0;
-		while (s[i] && (s[i] != c))
+		len_word = 0;
+		while (*s && (*s != c))
 		{
-			l++;
-			i++;
+			len_word++;
+			s++;
 		}
-		if (l)
+		if (len_word)
 			r++;
-		if (s[i])
-			i++;
+		if (*s)
+			s++;
 	}
 	return (r);
 }
 
-static size_t	lw(char const *s, char c, size_t *n)
+static size_t	len_word(char const *s, char c, size_t *n)
 {
 	size_t	i;
 	size_t	l;
@@ -65,22 +63,22 @@ static size_t	lw(char const *s, char c, size_t *n)
 	return (0);
 }
 
-static char	**mlc(char **rt, char const *s, size_t wc, char c)
+static char	**mlc(char **rt, char const *s, size_t words_count, char c)
 {
 	size_t	i;
 	size_t	l;
 	size_t	n;
 
-	rt[wc] = NULL;
+	rt[words_count] = NULL;
 	i = -1;
-	while (wc--)
+	while (words_count--)
 	{
-		l = lw(s, c, &n);
+		l = len_word(s, c, &n);
 		rt[++i] = (char *)malloc((l + 1) * sizeof(char));
 		if (rt[i])
 		{
 			s += n;
-			ft_strlcpy(rt[i], s, l + 1);
+			ft_strlcpy(rt[i], s, l);
 			s += l;
 		}
 		else
@@ -96,15 +94,15 @@ static char	**mlc(char **rt, char const *s, size_t wc, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	size_t	wc;
+	size_t	words_count;
 	char	**rt;
 
 	if (s)
 	{
-		wc = kw(s, c);
-		rt = (char **)malloc((wc + 1) * (sizeof(char *)));
+		words_count = count_words(s, c);
+		rt = (char **)malloc((words_count + 1) * (sizeof(char *)));
 		if (rt)
-			return (mlc(rt, s, wc, c));
+			return (mlc(rt, s, words_count, c));
 	}
 	return (NULL);
 }

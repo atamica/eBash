@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atamica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/31 19:28:43 by atamica           #+#    #+#             */
-/*   Updated: 2020/11/10 13:35:32 by atamica          ###   ########.fr       */
+/*   Created: 2021/11/07 09:50:58 by atamica           #+#    #+#             */
+/*   Updated: 2021/11/07 09:51:01 by atamica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_atoi(const char *str)
+int	ft_pwd(void)
 {
-	int	z;
-	int	r;
+	char	*tmp;
 
-	z = 1;
-	r = 0;
-	while (ft_isalsp(*str))
-		str++;
-	if (*str == '+' || *str == '-')
-		if (*str++ == '-')
-			z = -1;
-	while (ft_isdigit(*str))
+	tmp = malloc(LEN_PATH);
+	if (tmp)
 	{
-		if (r * 10 < r)
-			return (-(z >= 0));
-		r *= 10;
-		r += *str++ - '0';
+		printf("%s\n", getcwd(tmp, LEN_PATH));
+		free(tmp);
+		return (0);
 	}
-	return (z * r);
+	return (2);
 }

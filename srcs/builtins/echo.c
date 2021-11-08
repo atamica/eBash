@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atamica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/31 19:28:43 by atamica           #+#    #+#             */
-/*   Updated: 2020/11/10 13:35:32 by atamica          ###   ########.fr       */
+/*   Created: 2021/11/07 08:22:25 by atamica           #+#    #+#             */
+/*   Updated: 2021/11/07 08:22:34 by atamica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_atoi(const char *str)
+int	ft_echo(t_cmd *cmd)
 {
-	int	z;
-	int	r;
+	int	fl;
 
-	z = 1;
-	r = 0;
-	while (ft_isalsp(*str))
-		str++;
-	if (*str == '+' || *str == '-')
-		if (*str++ == '-')
-			z = -1;
-	while (ft_isdigit(*str))
-	{
-		if (r * 10 < r)
-			return (-(z >= 0));
-		r *= 10;
-		r += *str++ - '0';
-	}
-	return (z * r);
+	fl = (cmd && !ft_strncmp(*(cmd->arg + 1), "-n", 3));
+	print_param(cmd->arg + fl + 1, MSG0, ' ');
+	if (!fl)
+		printf(N);
+	return (0);
 }

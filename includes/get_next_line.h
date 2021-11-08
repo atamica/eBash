@@ -15,12 +15,10 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-//# include <stdio.h>
+# include <stdio.h>
 # include <fcntl.h>
 # include <strings.h>
 # include <libgen.h>
-
-# define BUFFER_SIZE 1
 
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
@@ -28,7 +26,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlcpy (char *dst, const char *src, size_t size);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin_free(char *s1, char *s2);
-int		ft_sizeof_line(char *buf);
 int		get_next_line(int fd, char **line);
 
 #endif
