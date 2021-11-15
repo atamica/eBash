@@ -98,7 +98,7 @@ printf("path=%s\n", cmd->path);
 			i--; */
 		if (cmd->path)
 			r = 1;
-		clear_pipes(d);
+//		clear_pipes(d);
 		while (str[i] && !ft_strchr(" ;&|<>", str[i]))
 		{
 			if (str[i] == '>')

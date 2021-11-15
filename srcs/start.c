@@ -51,8 +51,8 @@ printf("$: (%s)\n", tmp);
 		} */
 //		pars(d.input, &d.cmd);
 
-
-printf("pars: ret=%i (%s)\n", pars(d.input, &d.cmd), d.input);
+parser(d.input, &d.cmd);
+//printf("pars: ret=%i (%s)\n", pars(d.input, &d.cmd, &d), d.input);
 printf("cmd=(%s) dir=%i file=%i type=%i\n", d.cmd.path, is_dir(d.cmd.path), \
 		is_file_exist(d.cmd.path), d.cmd.type);
 

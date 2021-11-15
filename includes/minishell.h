@@ -283,7 +283,6 @@ typedef struct s_d
 	int		*pipe_fd;
 	int		stat;
 	int		fr;
-	char	*input;
 	int		pipe;
 	int		inredir;
 	int		outredir;
@@ -332,7 +331,7 @@ int			exec_cmds(t_cmds *cmds);
 */
 
 int			parser(char *str, t_cmd *cmd);
-int			pars(char *str, t_cmd *cmd);
+int			pars(char *str, t_cmd *cmd, t_d *d);
 void		set_flags(t_fl *fl, char c);
 
 /*
