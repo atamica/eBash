@@ -40,7 +40,7 @@ char	*repl_d(char *ptr, t_d *d)
 	char		*name;
 
 	res = ptr;
-	pos = ft_strchr(ptr, DL);
+	pos = ft_get_spec_ch(ptr, DL);
 	while (pos && is_in_name(pos + 1))
 	{
 		r = (t_replace){.st = pos - res, .len = 2};
@@ -53,15 +53,38 @@ char	*repl_d(char *ptr, t_d *d)
 			free (res);
 		res = tmp;
 		free (name);
-		pos = ft_strchr(res + ft_strlen(r.val) - r.len, DL);
+		pos = ft_get_spec_ch(res + ft_strlen(r.val) - r.len, DL);
 		free (r.val);
 	}
 	return (res);
 }
 
-/* t_cmd	*pars_cmd(char **tokens, int i, )
+/*
+void	*pars_cmd(char *token, int i, t_cmd *cmd, t_d *d)
 {
+	char	*st;
+	t_cmd	*cmd;
 
+	cmd = malloc(sizeof(t_cmd));
+	if_err_fatal(cmd, d);
+	init_cmd0(&cmd);
+
+	st = token;
+	if (st)
+	{
+		while (*st && ft_isalsp(st))
+			st++;
+		if (!(*st))
+		{
+			if (cmd[i + 1].str)
+				cmd->pipe = 1;
+			return ;	//		empty cmd
+		}
+			
+		if (*st == L || *st == R)
+	}
+	
+	
 } */
 
 t_cmds	*pa(t_d *d)
@@ -75,9 +98,9 @@ t_cmds	*pa(t_d *d)
 	if_err_fatal(cm, d);
 	*cm = (t_cmds){.d = d, .cod = 0, .count = 0, .cmd = NULL};
 	tmp = split_cmds(d);
-/* printf("pa: (%s)\n", *tmp);
+printf("pa: (%s)\n", *tmp);
 print_param(tmp, "pa:", ' ');
-printf(N); */
+printf(N);
 	if (!tmp)						// err or do nothing
 		return (cm);
 	while (tmp[i])
@@ -89,7 +112,7 @@ printf(N); */
 	while (tmp[++i])
 	{
 		cm->cmd[i].str = repl_d(tmp[i], d);
-printf("pa:(%s) -> {%s}\n", tmp[i], cm->cmd[i].str);
+printf("_pa:(%s) -> {%s}\n", tmp[i], cm->cmd[i].str);
 //		cm->cmd[i] = pars_cmd();
 	}
 	return (cm);

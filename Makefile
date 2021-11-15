@@ -1,5 +1,7 @@
 NAME = minishell
 
+SRC = srcs/
+
 all: $(NAME)
 
 OSY = $(shell uname)
@@ -8,10 +10,16 @@ BUILTINS = cd.c echo.c pwd.c manager.c env.c env1.c export.c unset.c exit.c
 
 REDIR = rd.c rd1.c
 
-CF1 = start.c par.c parser.c utils.c free.c err.c find.c init.c is.c is1.c \
-	get_spec_char.c run.c run1.c signals.c\
+CFGNL = get_next_line.c get_next_line_utils.c
+
+#get_spec_char.c
+CF1 = start.c par.c parser.c utils.c utils1.c free.c err.c find.c init.c \
+	is.c is1.c run.c run1.c signals.c get_spec_char.c get_spec_old.c \
 	$(addprefix builtins/, $(BUILTINS)) \
-	$(addprefix redirections/, $(REDIR))
+	$(addprefix redirections/, $(REDIR)) \
+	$(addprefix ../gnl/, $(CFGNL)) \
+	history.c
+
 CF2 = 
 
 HDIR = ./includes
@@ -25,18 +33,20 @@ LIBFT = $(LIBDIR)libft.a
 
 
 ifneq ($(OSY), Linux)
-INCLUD = -I $(HDIR) -I $(LIBDIR) -I ~/.brew/Cellar/readline/8.1.1/include 
+CC = gcc
+INCLUD = -I $(HDIR) -I $(LIBDIR) -I gnl/ -I ~/.brew/Cellar/readline/8.1.1/include 
 LIBS = -L $(LIBDIR) $(LIBFT) -lreadline  -L ~/.brew/Cellar/readline/8.1.1/lib/
 else
-INCLUD = -I $(HDIR) -I $(LIBDIR) -I /usr/local/include
+CC = clang #gcc
+INCLUD = -I $(HDIR) -I $(LIBDIR) -I /usr/local/include -I ./gnl/
 LIBS = -L $(LIBDIR) -lft -lreadline
 endif
 
 ifeq ($(BON), 1)
-	CF=$(addprefix srcs/bonus/, $(CF2))
+	CF=$(addprefix $(SRC)bonus/, $(CF2))
 	D = -D BONUS=1
 else
-	CF=$(addprefix srcs/, $(CF1))
+	CF=$(addprefix $(SRC), $(CF1))
 	D = -D BONUS=0
 endif
 
@@ -45,6 +55,7 @@ OF2 = $(CF2:.c=.o)
 
 OF = $(CF:.c=.o)
 DF = $(CF:.c=.d)
+#OFGNL = $(CFGNL:.c=.o)
 
 DEPFL = -MMD -MF $(@:.o=.d)
 
@@ -57,8 +68,6 @@ else
 endif
 
 FL = -Wall -Wextra -Werror $(INCLUD) -g # -O2
-
-CC = gcc #clang
 
 %.o: %.c $(HDR)
 	$(CC) $(FL) -c $< -o $@ $D
@@ -87,8 +96,8 @@ re: fclean all
 
 norm:
 	norminette -v
-	norminette -o $(addprefix srcs/, $(CF1)) \
-	$(addprefix srcs/bonus/, $(CF2)) \
+	norminette -o $(addprefix $(SRC), $(CF1)) \
+	$(addprefix $(SRC)bonus/, $(CF2)) \
 	$(HDIR)/*.h \
 	$(LIBDIR)
 
@@ -107,7 +116,7 @@ runb: bonus
 	./$(NAME)
 
 tst: $(HDR) $(LIBFT)
-	gcc -I includes -I libft -o tst srcs/get_spec_char.c tmp/tst_escaped_char.c  libft/libft.a; ./tst
+	gcc -I includes -I gnl -I libft -o tst srcs/get_spec_char.c tmp/tst_escaped_char.c  libft/libft.a; ./tst
 
 tst_pipe_split: $(HDR) $(LIBFT)
 	gcc -I includes -I libft -o tst_pipe_split srcs/get_spec_char.c tmp/test_parser_cmd_set.c srcs/signals.c libft/libft.a; ./tst_pipe_split

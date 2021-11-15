@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	skip_sp(char *str, int *i, t_fl *fl)
+static void	skip_sp(char *str, int *i, t_fl *fl)
 {
 	int	j;
 
@@ -20,7 +20,7 @@ int	parser(char *str, t_cmd *cmd)
 
 	r = 0;
 	i = 0;
-//	init_cmd(cmd);
+	init_cmd0(cmd);
 	init_fl(&fl);
 	if (str)
 	{

@@ -336,7 +336,10 @@ char		*ft_strjoin_m(char const *s1, char const *s2);
 char		*cmdf(char *cmd);
 void		dup2_check(int old_fd, int new_fd, t_d *d);
 void		print_param(char **arg, char *prefix, char separator);
+
 char		*prompt(t_d *d);
+size_t		sp_count(char *ptr);
+char		*skip_spa(char *ptr);
 
 /*
 **		err.c
@@ -391,6 +394,7 @@ char		*dollar(char *str, t_d *d);
 **		init.c
 */
 
+void		init_cmd0(t_cmd *cmd);
 void		init_cmd(t_cmd *cmd);
 void		init_fl(t_fl *fl);
 void		init_start(t_d *d, int ac, char **av, char **env);

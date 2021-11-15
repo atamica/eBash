@@ -1,7 +1,7 @@
 #include "minishell.h"
 //extern int code_event;
 
-static void	init_cmd0(t_cmd *cmd)
+void	init_cmd0(t_cmd *cmd)
 {
 	cmd->arg = NULL;
 	cmd->path = NULL;

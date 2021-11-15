@@ -7,8 +7,8 @@ int	main(int ac, char **av, char **env)
 //	char	*tm;
 //	char	**tok;
 	t_d		d;
-//	t_cmds	*cmds;
-//	int		i;
+	t_cmds	*cmds;
+	int		i;
 
 	init_start(&d, ac, av, env);
 /* 	buf = NULL;
@@ -40,14 +40,18 @@ printf("qu:(%s) (%s)\n", in_quotes(d.input, '"'), in_quotes(d.input, '\''));
 printf("$: (%s)\n", tmp);
 		} */
 //		pars(d.input, &d.cmd);
+
 printf("pars: ret=%i (%s)\n", pars(d.input, &d.cmd), d.input);
 printf("cmd=(%s) dir=%i file=%i type=%i\n", d.cmd.path, is_dir(d.cmd.path), \
 		is_file_exist(d.cmd.path), d.cmd.type);
+
+/*
 printf("args=");
 print_param(d.cmd.arg, " ", ' ');
-printf(N); /**/
+printf(N);
 printf("redir: %i\n", find_redir(d.input));
 printf("spec: (%s) [%s]\n", d.input, ft_get_spec_ch(d.input, L));
+*/
 //printf("filenames: (%s) ret=%i fd:0(%i) 1(%i)\n", d.input, get_fd(d.input, &d, &d.cmd), d.cmd.fd[0], d.cmd.fd[1]);
 /*  
 tok  = split_cmds(&d);
@@ -61,11 +65,11 @@ printf(N);*/
 // tm = repl_d(d.input, &d);
 // printf("$: (%s) - (%s)\n", d.input, tm);
 // free (tm);
-//cmds = pa(&d);
+cmds = pa(&d);
 //d.cmd = *cmds[0].cmd;
-/* i = 0;
-while (i < cmds->count)
-	printf("(%s)\n", cmds->cmd[i++].str); */
+i = -1;
+while (++i < cmds->count)
+	printf("%2i. (%s)\n", i, cmds->cmd[i].str);
 printf("===================================================\n");
 		d.cmd.env = d.env_in;
 		if (d.cmd.path && (d.cmd.type == EXTERNALS))
