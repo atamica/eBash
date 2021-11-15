@@ -46,3 +46,8 @@ int	is_only_digits(char *str)
 	}
 	return (r);
 }
+
+int	is_in_name(char *str)
+{
+	return ((*(str) == '_') || ft_isalnum(*(str)));
+}

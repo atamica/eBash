@@ -54,7 +54,7 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	copy_envs(d);
 	using_history ();
 	tmp = getenv(LVL);
-	if (ft_strlen(tmp))
+	if (tmp && ft_strlen(tmp))
 	{
 		lvl = ft_atoi(tmp) + 1;
 		free(tmp);
@@ -65,6 +65,7 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	set_env_val(LVL, tmp, d);
 	free(tmp);
 	code_event = 0;
+	rl_catch_signals = 0;
 	init_signals();
 //	set_env_val("SHELL", "minishell", d);
 //	printf("pwd=%s\n", getcwd(path, LEN_PATH)); // getting the current user's path

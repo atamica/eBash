@@ -47,16 +47,18 @@ void	init_signals(void)
 	}
 } */
 
-//void	recive(int signo, siginfo_t *siginfo, void *contex)
-void	recive(int signo, void *contex)
+void	recive(int signo, siginfo_t *siginfo, void *contex)
+//void	recive(int signo, void *contex)
 {
 	//static int				old_pid;
 	//static unsigned char	out_char;
 	//static unsigned char	counter;
 //	int						pid_in;
 	//int n;
+	//char buf[3];
 
 	(void)contex;
+	(void)siginfo;
 //	pid_in = siginfo->si_pid;
 /* 	if (!pid_in)
 		pid_in = old_pid;
@@ -71,9 +73,10 @@ void	recive(int signo, void *contex)
 		
 		//printf("CTRL+C pressed\n");
 		//code_event = CTRL_C;
+		//ft_putchar_fd('\b', 1);
 		printf(N);
-		rl_on_new_line();
 		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
 		//exit(EOWNERDEAD);
 	}
@@ -81,7 +84,9 @@ void	recive(int signo, void *contex)
 	{
 		//printf("CTRL+\\ pressed\n");
 		//code_event = CTRL_SL;
+		//if (read(1, buf, 1) != 1)
 		//exit(ENOTRECOVERABLE);
+		
 	}
 /* 	wait(&n);
 	if (n == 2 || n == 3)

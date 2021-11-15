@@ -43,7 +43,7 @@ int	parser(char *str, t_cmd *cmd)
 			cmd->path = cmdf(ptr);
 		cmd->type = type_cmd(ptr);
 //printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
-		free_nu(ptr);
+		free(ptr);
 // parse options
 
 // parse args
@@ -68,7 +68,7 @@ int	pars(char *str, t_cmd *cmd)
 
 	r = 0;
 	i = 0;
-//	init_cmd(cmd);
+	init_cmd(cmd);
 	init_fl(&fl);
 	if (str)
 	{
@@ -83,6 +83,7 @@ int	pars(char *str, t_cmd *cmd)
 			ptr = MSG0;
 		else
 			ptr = ft_substr(str, start, i - start);
+//printf("pars: ptr=(%s)\n", ptr);
 // try add path
 		if (is_builtins(ptr)) // || (is_file_exist(ptr) == 1) 
 			cmd->path = ft_strdup(ptr);
@@ -90,7 +91,7 @@ int	pars(char *str, t_cmd *cmd)
 			cmd->path = cmdf(ptr);
 		cmd->type = type_cmd(ptr);
 //printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
-		free_nu(ptr);
+		free(ptr);
 // parse options
 
 // parse args

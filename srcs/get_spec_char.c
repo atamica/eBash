@@ -12,9 +12,7 @@ char	*ft_get_spec_ch(char *str, char c)
 	d_quote = 0;
 	i = 0;
 	pos = ft_strchr(str, c);
-	if (!pos)
-		return (NULL);
-	if (pos == str)
+	if (!pos || (pos == str))
 		return (pos);
 	i = 0;
 	while (str[i])
@@ -24,14 +22,14 @@ char	*ft_get_spec_ch(char *str, char c)
 		j = i;
 		while (str[j] && str[j] != DQ && str[j] != SQ)
 			j++;
-		if (str[j] && str[j] == DQ)
+		if (str[j] && str[j] == DQ && c != DL)
 			d_quote = 1;
 		else if (str[j] && str[j] == SQ)
 			s_quote = 1;
 		if (str[j] && (str + j) > pos)
 			return (pos);
 		else if (str + j < pos)
-		{	
+		{
 			j++;
 			if (d_quote)
 			{
@@ -69,6 +67,8 @@ char	*ft_get_spec_char(char *str, char c, t_esc_chars escapes)
 	char d_quote;
 
 	//pos = NULL;
+	if (c == '$')
+		escapes = ESC_SQ;
 	s_quote = 0;
 	d_quote = 0;
 	i = 0;

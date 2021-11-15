@@ -78,7 +78,7 @@ static char	**mlc(char **rt, char const *s, size_t words_count, char c)
 		if (rt[i])
 		{
 			s += n;
-			ft_strlcpy(rt[i], s, l);
+			ft_strlcpy(rt[i], s, l + 1);
 			s += l;
 		}
 		else

@@ -9,22 +9,25 @@ void	free_null(void **ptr)
 	}
 }
 
-void	free_nu(void *ptr)
+/* void	free_nu(void *ptr)
 {
 	if (ptr)
 		free (ptr);
-}
+} */
 
 void	free2(char **ptr)
 {
-	char	**tmp;
+	void	**tmp;
 
 	if (ptr)
 	{
-		tmp = ptr;
+		tmp = (void **)ptr;
 		while (*tmp)
-			free_nu(*tmp++);
-		free_nu(ptr);
+		{
+			free(*tmp);
+			tmp++;
+		}
+		free((void **)ptr);
 	}
 }
 

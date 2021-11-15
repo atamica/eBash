@@ -60,6 +60,7 @@ char	*cmdf(char *cmd)
 		tmp = paths;
 		while (*tmp && !cmd_path)
 		{
+
 			cmd_path = ft_strjoin_m(*tmp++, cmd);
 			if (is_file_exist(cmd_path) != 1)
 				free_null((void **)&cmd_path);

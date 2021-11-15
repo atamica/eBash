@@ -97,21 +97,21 @@
 
 #define FILE_PERM 0664
 
-# define MSGE1 "\033[31mError args!\n\033[0m"
-# define MSGE2 "\033[31mError memory!\n\033[0m"
-# define MSGE3 "\033[31mError create pipe!\n\033[0m"
-# define MSGE4 "\033[31mError open file!\n\033[0m"
-# define MSGE5 "\033[31mError create process!\n\033[0m"
-# define MSGE6 "\033[31mError in dup2!\n\033[0m"
-# define MSGE7 "\033[31mError waitpid!\n\033[0m"
-# define MSGE8 "\033[31mError in cmd!\n\033[0m"
-# define MSGE9 "\033[31mError in "
+# define MSGE1 "\001\033[31m\002Error args!\n\001\033[0m\002"
+# define MSGE2 "\001\033[31m\002Error memory!\n\001\033[0m\002"
+# define MSGE3 "\001\033[31m\002Error create pipe!\n\001\033[0m\002"
+# define MSGE4 "\001\033[31m\002Error open file!\n\001\033[0m\002"
+# define MSGE5 "\001\033[31m\002Error create process!\n\001\033[0m\002"
+# define MSGE6 "\001\033[31m\002Error in dup2!\n\001\033[0m\002"
+# define MSGE7 "\001\033[31m\002Error waitpid!\n\001\033[0m\002"
+# define MSGE8 "\001\033[31m\002Error in cmd!\n\001\033[0m\002"
+# define MSGE9 "\001\033[31m\002Error in "
 # define MSGE10 "too many arguments"
 # define MSGE11 "numeric argument required"
 # define MSGE12 "no such file or directory"
 # define MSGE13 "syntax error near unexpected token"
 
-# define MSG "\033[1;36m\u2328\033[0m\033[2C"
+# define MSG "\001\033[1;36m\002\u2328\001\033[0m\033[2C\002"
 # define MSG0 ""
 # define N "\n"
 # define SL '/'
@@ -150,13 +150,13 @@
 # else
 #  define LEN_PATH 4096
 # endif
-# define RESET "\033[0m"
-# define RED "\033[31m"
-# define GREEN "\033[32m"
-# define YELLOW "\033[33m"
-# define BLUE "\033[34m"
-# define MAGENTA "\033[35m"
-# define CYAN "\033[36m"
+# define RESET "\001\033[0m\002"
+# define RED "\001\033[31m\002"
+# define GREEN "\001\033[32m\002"
+# define YELLOW "\001\033[33m\002"
+# define BLUE "\001\033[34m\002"
+# define MAGENTA "\001\033[35m\002"
+# define CYAN "\001\033[36m\002"
 
 # define CTRL_C		130
 # define CTRL_SL	131
@@ -296,7 +296,17 @@ typedef struct s_cmds
 	t_cmd	*cmd;
 	t_d		*d;
 	int		cod;
+	int		count;
 }			t_cmds;
+
+typedef struct s_tk
+{
+	int		pips;
+	int		j;
+	char	*end;
+	char	*st;
+	size_t	len;
+}			t_tk;
 
 /*
 **		run.c
@@ -398,6 +408,7 @@ t_val		is_in_env_list(char **env, char *name);
 int			is_qu(t_fl *fl);
 int			is_fl(t_fl *fl);
 int			is_only_digits(char *str);
+int			is_in_name(char *str);
 
 /*
 **		history.c
@@ -409,11 +420,16 @@ int			add_to_hist_file(const char *f_name);
 **		get_spec_char.c
 */
 
-char		*ft_get_spec_ch(char *str, char c);
 char		*ft_get_spec_char(char *str, char c, t_esc_chars escapes);
 char		**ft_get_cmd_set_m(char *str, char c);
 char		**ft_get_tokens(char *str);
-t_errors	ft_get_redirections(char *str, t_cmd *cmd);
+t_errors	ft_get_redirections(char *str, t_cmd *cmd); 
+
+/*
+**		get_spec_old.c
+*/
+
+char		*ft_get_spec_ch(char *str, char c);
 
 /*
 **		redirections/herdoc.c
@@ -436,14 +452,18 @@ int			err_open(int fd, t_d *d);
 
 char		*replace_q(char *str, char c);
 char		*replace_sq(char *str);
-char  		*replace_dq(char *str);
-char  		*repl_dl(char *ptr, t_d *d);
+char  		*replace_dq(char *str, t_d *d);
+//char  		*repl_dl(char *ptr, t_d *d);
+char		*repl_d(char *ptr, t_d *d);
+t_cmds		*pa(t_d *d);
+int			pipes_count(char *str);
+char		**split_cmds(t_d *d);
 
 /*
 **		srcs/signals.c
 */
 
 void		init_signals(void);
-//void		recive(int signo, siginfo_t *siginfo, void *contex);
-void		recive(int signo, void *contex);
+void		recive(int signo, siginfo_t *siginfo, void *contex);
+//void		recive(int signo, void *contex);
 #endif
