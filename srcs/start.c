@@ -2,6 +2,7 @@
 
 int	main(int ac, char **av, char **env)
 {
+
 	int		status = 1;
 //	char	*tmp;
 //	char	*tm;
@@ -23,9 +24,18 @@ int	main(int ac, char **av, char **env)
 			status = 0;
 			break ;
 		}
+    
+		/* if (d.input[0] == 'a')
+			rl_redisplay(); */
+
+		// path autocompletion when tabulation hit
+		//rl_bind_key('\t', rl_complete);
+
+		// adding the previous input into history
 /*printf("---------------------------------------------------\n");		
 printf("rl:(%s) point=%i end=%i\n", rl_line_buffer, rl_point, rl_end);
 printf("rl:terminal(%s) name=%s\n", rl_terminal_name, rl_readline_name); */
+
 		add_history(d.input);
 /* 		buf = ft_strjoin(d.input, "\n");
 		ft_putstr_fd(buf, fd);
@@ -40,6 +50,7 @@ printf("qu:(%s) (%s)\n", in_quotes(d.input, '"'), in_quotes(d.input, '\''));
 printf("$: (%s)\n", tmp);
 		} */
 //		pars(d.input, &d.cmd);
+
 
 printf("pars: ret=%i (%s)\n", pars(d.input, &d.cmd), d.input);
 printf("cmd=(%s) dir=%i file=%i type=%i\n", d.cmd.path, is_dir(d.cmd.path), \

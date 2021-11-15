@@ -29,7 +29,7 @@
 						// int pipe(int pipefd[2]);
 						// int dup(int oldfd);
 						// int dup2(int oldfd, int newfd);
-						// int execve(const char *pathname, char *const argv[], 
+						// int execve(const char *pathname, char *const argv[],
 						// 			char *const envp[]);
 						// pid_t fork(void);
 						// int close(int fd);
@@ -40,16 +40,16 @@
 						// int ttyslot(void);
 
 # include <signal.h>	// typedef void (*sighandler_t)(int);
-						// sighandler_t signal(int signum, 
+						// sighandler_t signal(int signum,
 						// 		sighandler_t handler);
 						// int kill(pid_t pid, int sig);
 
-# include <sys/types.h>	// int open(const char *pathname, 
+# include <sys/types.h>	// int open(const char *pathname,
 # include <sys/stat.h>	// 		int flags, mode_t mode);
-# include <fcntl.h>		// int stat(const char *pathname, 
+# include <fcntl.h>		// int stat(const char *pathname,
 						// 		struct stat *statbuf);
 						// int fstat(int fd, struct stat *statbuf);
-						// int lstat(const char *pathname, 
+						// int lstat(const char *pathname,
 						// 		struct stat *statbuf);
 
 # include <dirent.h>	// DIR *opendir(const char *name);
@@ -63,12 +63,12 @@
 // };
 						// int closedir(DIR *dirp);
 
-# include <curses.h>	// int tputs(const char *str, int affcnt, 
+# include <curses.h>	// int tputs(const char *str, int affcnt,
 						// 		int (*putc)(int));
 # include <sys/ioctl.h>	// int ioctl(int fd, unsigned long request, ...);
 
 # include <termios.h>	// int tcgetattr(int fd, struct termios *termios_p);
-						// int tcsetattr(int fd, int optional_actions, 
+						// int tcsetattr(int fd, int optional_actions,
 						// 		const struct termios *termios_p);
 # include <term.h>		// int tgetent(char *bp, const char *name);
 						// int tgetflag(char id[2]);
@@ -76,9 +76,9 @@
 						// char *tgetstr(char id[2], char **area);
 						// char *tgoto(char *cap, int col, int row);
 						// cc [ flag... ] file... -I /usr/xpg4/include -L
-						// /usr/xpg4/lib -R  /usr/xpg4/lib 
+						// /usr/xpg4/lib -R  /usr/xpg4/lib
 						// -lcurses  [ library... ]
-						// 
+						//
 						// c89 [ flag... ] file... -lcurses [ library... ]
 
 # include <stdlib.h>	// malloc, free, exit
@@ -283,6 +283,14 @@ typedef struct s_d
 	int		*pipe_fd;
 	int		stat;
 	int		fr;
+	char	*input;
+	int		pipe;
+	int		inredir;
+	int		outredir;
+	int		in2redir;
+	int		out2redir;
+	int		double_pipe;
+	int		double_and;
 	char	*path;
 	char	*prompt;
 	int		ac;
