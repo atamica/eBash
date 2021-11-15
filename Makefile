@@ -119,7 +119,7 @@ tst: $(HDR) $(LIBFT)
 	gcc -I includes -I gnl -I libft -o tst srcs/get_spec_char.c tmp/tst_escaped_char.c  libft/libft.a; ./tst
 
 tst_pipe_split: $(HDR) $(LIBFT)
-	gcc -I includes -I libft -o tst_pipe_split srcs/get_spec_char.c tmp/test_parser_cmd_set.c srcs/signals.c libft/libft.a; ./tst_pipe_split
+#	gcc -I includes -I libft -o tst_pipe_split srcs/get_spec_char.c tmp/test_parser_cmd_set.c srcs/signals.c libft/libft.a; ./tst_pipe_split
 
 val: $(NAME)
 	valgrind -s --leak-check=full --show-leak-kinds=all ./$(NAME)
