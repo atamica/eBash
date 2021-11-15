@@ -1,42 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: atamica <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/06 22:52:43 by atamica           #+#    #+#             */
+/*   Updated: 2021/11/06 22:52:54 by atamica          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	cd(t_cmd *cmd)
+static char	*pth(char *ptr)
+{
+	char	*tmp;
+	char	*path;
+
+	path = NULL;
+	tmp = malloc(LEN_PATH);
+	if (!tmp)
+		return (tmp);
+	path = ft_strjoin_m(getcwd(tmp, LEN_PATH), ptr);
+	free(tmp);
+	return (path);
+}
+
+int	ft_cd(t_cmd *cmd)
 {
 	char	*path;
 	int		res;
 
-	if (!(cmd->arg[1] && ft_strncmp(cmd->arg[1], "~", 2)))
-		path = getenv("HOME");
-	else if (ft_strncmp(cmd->arg[1], "-", 2))
+	path = NULL;
+	if (cmd->arg && cmd->arg[1] && cmd->arg[2])
 	{
-		// cd previous dir
-		// cd ppwd
+		printf("%s: cd: слишком много аргументов\n", PRMT);
+		return (1);
 	}
-	else if (cmd->arg[1][0] ==  '/')// cd abs dir
-		path = ft_strdup(cmd->arg[1]);
-	else	// cd dir
-		path = ft_strjoin_m(getenv("PWD"), cmd->arg[1]);
+	if (cmd->arg && cmd->arg[1])
+	{
+		if (cmd->arg[1][0] == SL)
+			path = ft_strdup(cmd->arg[1]);
+		else
+			path = pth(cmd->arg[1]);
+	}
+	if (!path)
+		return (2);
+	if (cmd->arg && !cmd->arg[1])
+		path = ft_strdup(getenv("HOME"));
 	res = chdir(path);
-	if (res)
-	{
-		ft_putstr_fd("/nminishell: cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putendl_fd(": Нет такого файла или каталога", 2);
-	}
+	if (res < 0)
+		printf("%s: cd: %s: Нет такого файла или каталога\n", PRMT, path);
 	free(path);
-	return (res);
-}
-
-int	check_builtins(char *cmd)
-{
-	int		res;
-	t_cmd	cmd_b;
-
-	res = 0;
-	if (!ft_strncmp(cmd, "cd", 2) && ((cmd[2] == ' ') || !cmd[2]))
-	{
-		cmd_b.arg = ft_split(cmd, ' ');
-		res = cd(&cmd_b);
-	}
-	return (res);
+	return (-res);
 }

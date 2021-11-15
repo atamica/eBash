@@ -9,11 +9,11 @@ void	free_null(void **ptr)
 	}
 }
 
-void	free_nu(void *ptr)
+/* void	free_nu(void *ptr)
 {
 	if (ptr)
 		free (ptr);
-}
+} */
 
 void	free2(char **ptr)
 {
@@ -23,8 +23,11 @@ void	free2(char **ptr)
 	{
 		tmp = (void **)ptr;
 		while (*tmp)
-			free_null(tmp++);
-		free_null((void **)ptr);
+		{
+			free(*tmp);
+			tmp++;
+		}
+		free((void **)ptr);
 	}
 }
 
@@ -36,17 +39,22 @@ void	close_f(int fd)
 
 void	free_d(t_d *d)
 {
-	if (d->fr)
+	if (d->input)
 	{
-//		close_f(d->file1.fd);
-//		close_f(d->file2.fd);
-//		free_nu(d->pipe_fd);
-		free_null((void **)&d->cmd1.path);
-		free2(d->cmd1.arg);
-//		free_nu(d->cmd2.path);
-//		free2(d->cmd2.arg);
+//		free_null((void **)&d->cmd.path);
+//		free2(d->cmd.arg);
 		free_null((void **)&d->input);
+//		free2(d->env_ex);
+		free(d->prompt);
+		free(d->path);
+		free(d->input);
 		d->fr = 0;	
 	}
+}
 
+void	free_cmd(t_cmd *cmd)
+{
+	free2(cmd->arg);
+	free (cmd->path);
+	free (cmd->here_stop);
 }

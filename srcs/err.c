@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   err.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: atamica <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/07 09:53:41 by atamica           #+#    #+#             */
+/*   Updated: 2021/11/07 09:53:50 by atamica          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	err_msg(char *msg, int code, t_d *d)
@@ -41,4 +53,10 @@ int	out_msg(char *msg, int code)
 {
 	perror(msg);
 	return (code);
+}
+
+void	if_err_fatal(void *ptr, t_d *d)
+{
+	if (!ptr)
+		err(2, d);
 }
