@@ -19,7 +19,7 @@ void	init_cmd0(t_cmd *cmd)
 	cmd->pipe = 0;
 }
 
-void	init_cmd(t_cmd *cmd)
+void	init_cmd_free(t_cmd *cmd)
 {
 	free_cmd(cmd);
 	init_cmd0(cmd);

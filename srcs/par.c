@@ -59,20 +59,32 @@ char	*repl_d(char *ptr, t_d *d)
 	return (res);
 }
 
-/*
-void	*pars_cmd(char *token, int i, t_cmd *cmd, t_d *d)
+char	*skip_sps(char *ptr)
+{
+	if (ptr)
+	{
+		while (*ptr && ft_isalsp(*ptr))
+			ptr++;
+	}
+	return (ptr);
+}
+
+t_cmd	*pars_cmd(t_cmd *cmd, t_d *d)
 {
 	char	*st;
-	t_cmd	*cmd;
 
-	cmd = malloc(sizeof(t_cmd));
-	if_err_fatal(cmd, d);
-	init_cmd0(&cmd);
-
-	st = token;
-	if (st)
+	init_cmd0(cmd);
+	st = skip_sps(cmd->str);
+	if (st && *st)
 	{
-		while (*st && ft_isalsp(st))
+		// CMD is not EMPTY
+		// pars CMD
+
+	}
+	return (cmd);
+}
+
+/* while (*st && ft_isalsp(st))
 			st++;
 		if (!(*st))
 		{
@@ -81,12 +93,7 @@ void	*pars_cmd(char *token, int i, t_cmd *cmd, t_d *d)
 			return ;	//		empty cmd
 		}
 			
-		if (*st == L || *st == R)
-	}
-	
-	
-} */
-
+		if (*st == L || *st == R) */
 t_cmds	*pa(t_d *d)
 {
 	t_cmds	*cm;

@@ -69,7 +69,7 @@ int	pars(char *str, t_cmd *cmd, t_d *d)
 
 	r = 0;
 	i = 0;
-	init_cmd(cmd);
+	init_cmd0(cmd);
 	init_fl(&fl);
 	if (str)
 	{

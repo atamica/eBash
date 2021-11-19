@@ -89,7 +89,7 @@ printf("===================================================\n");
 			d.stat = run_builtins(&d);
 printf("code_ret=%i\n", d.stat);
 printf("___________________________________________________\n");
-		init_cmd(&d.cmd);
+		init_cmd_free(&d.cmd);
 //		free_null((void **)&d.input);
 		close_f(d.cmd.fd[0]);
 		close_f(d.cmd.fd[1]);

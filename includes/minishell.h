@@ -402,7 +402,7 @@ char		*dollar(char *str, t_d *d);
 */
 
 void		init_cmd0(t_cmd *cmd);
-void		init_cmd(t_cmd *cmd);
+void		init_cmd_free(t_cmd *cmd);
 void		init_fl(t_fl *fl);
 void		init_start(t_d *d, int ac, char **av, char **env);
 
@@ -469,6 +469,7 @@ char		*repl_d(char *ptr, t_d *d);
 t_cmds		*pa(t_d *d);
 int			pipes_count(char *str);
 char		**split_cmds(t_d *d);
+char		*skip_sps(char *ptr);
 
 /*
 **		srcs/signals.c
