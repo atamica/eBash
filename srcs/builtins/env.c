@@ -45,7 +45,7 @@ int	copy_envs(t_d *d)
 	{
 		d->env_in = (char **)malloc((1 + len_env_list(d->env_ex)) * \
 						sizeof(char *));
-		if_err_fatal(d->env_in, d);
+		if_err_fatal(d->env_in, 2, d);
 		while (d->env_ex[res])
 		{
 			d->env_in[res] = ft_strdup(d->env_ex[res]);

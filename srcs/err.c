@@ -55,8 +55,14 @@ int	out_msg(char *msg, int code)
 	return (code);
 }
 
-void	if_err_fatal(void *ptr, t_d *d)
+void	if_err_fatal(void *ptr, int code, t_d *d)
 {
 	if (!ptr)
-		err(2, d);
+		err(code, d);
+}
+
+int		syntax_err(char c)
+{
+	printf("%s: %s «%c»\n", PRMT, MSGE13, c);
+	return (2);
 }

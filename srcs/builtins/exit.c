@@ -38,7 +38,7 @@ int	ft_exit(t_d *d)
 	}
 	if (code_exit >= 0)
 	{
-		free_d(d);
+//		free_d(d);
 		exit(code_exit);
 	}
 	return (0);

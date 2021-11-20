@@ -79,7 +79,7 @@ t_cmd	*pars_cmd(t_cmd *cmd, t_d *d)
 	{
 		// CMD is not EMPTY
 		// pars CMD
-
+printf("pars_cmd: (%s)\n", d->input);
 	}
 	return (cmd);
 }
@@ -94,6 +94,7 @@ t_cmd	*pars_cmd(t_cmd *cmd, t_d *d)
 		}
 			
 		if (*st == L || *st == R) */
+
 t_cmds	*pa(t_d *d)
 {
 	t_cmds	*cm;
@@ -102,7 +103,7 @@ t_cmds	*pa(t_d *d)
 
 	i = 0;
 	cm = malloc(sizeof(t_cmds));
-	if_err_fatal(cm, d);
+	if_err_fatal(cm, 2, d);
 	*cm = (t_cmds){.d = d, .cod = 0, .count = 0, .cmd = NULL};
 	tmp = split_cmds(d);
 printf("pa: (%s)\n", *tmp);
@@ -114,7 +115,7 @@ printf(N);
 		i++;						// i = count of tokens
 	cm->count = i;
 	cm->cmd = malloc(sizeof(t_cmd) * (i + 1));
-	if_err_fatal(cm->cmd, d);
+	if_err_fatal(cm->cmd, 2, d);
 	i = -1;
 	while (tmp[++i])
 	{
@@ -152,7 +153,7 @@ char	**split_cmds(t_d *d)
 	t = (t_tk){.j = 0, .pips = pipes_count(d->input), .st = d->input};
 	if (t.st)
 	{
-		if_err_fatal(res = malloc(sizeof(char *) * (t.pips + 1)), d);
+		if_err_fatal(res = malloc(sizeof(char *) * (t.pips + 1)), 2, d);
 		if (t.pips)
 		{
 			t.len = ft_get_spec_ch(t.st, P) - t.st;

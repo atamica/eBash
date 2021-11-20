@@ -93,7 +93,6 @@
 
 # include "libft.h"
 # include "get_next_line.h"
-# include <signal.h>
 
 #define FILE_PERM 0664
 
@@ -356,7 +355,8 @@ void		err_msg(char *msg, int code, t_d *d);
 void		err(int code, t_d *d);
 void		if_err_exit(int er, int code, t_d *d);
 int			out_msg(char *msg, int code);
-void		if_err_fatal(void *ptr, t_d *d);
+void		if_err_fatal(void *ptr, int code, t_d *d);
+int			syntax_err(char c);
 
 /*
 **		free.c

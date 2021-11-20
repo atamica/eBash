@@ -16,9 +16,9 @@ static void	create_env(char *name, char *val, t_d *d)
 {
 	free(d->env_in);
 	d->env_in = (char **)malloc(2 * sizeof(char *));
-	if_err_fatal(d->env_in, d);
+	if_err_fatal(d->env_in, 2, d);
 	*d->env_in = ft_strjoin_c(name, val, '=');
-	if_err_fatal(*d->env_in, d);
+	if_err_fatal(*d->env_in, 2, d);
 	d->env_in[1] = NULL;
 }
 
@@ -26,7 +26,7 @@ static void	replase_env(char *name, char *val, t_d *d, t_val *r)
 {
 	free(d->env_in[r->position]);
 	d->env_in[r->position] = ft_strjoin_c(name, val, '=');
-	if_err_fatal(d->env_in[r->position], d);
+	if_err_fatal(d->env_in[r->position], 2, d);
 }
 
 static void	paste_env(char *name, char *val, t_d *d)
@@ -35,7 +35,7 @@ static void	paste_env(char *name, char *val, t_d *d)
 	char	**tmp;
 
 	tmp = (char **)malloc((len_env_list(d->env_in) + 1) * sizeof(char *));
-	if_err_fatal(tmp, d);
+	if_err_fatal(tmp, 2, d);
 	i = 0;
 	while (*(d->env_in + i))
 	{
@@ -43,7 +43,7 @@ static void	paste_env(char *name, char *val, t_d *d)
 		i++;
 	}
 	tmp[i] = ft_strjoin_c(name, val, '=');
-	if_err_fatal(tmp[i], d);
+	if_err_fatal(tmp[i], 2, d);
 	tmp[i + 1] = NULL;
 	free(d->env_in);
 	d->env_in = tmp;

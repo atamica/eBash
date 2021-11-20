@@ -12,7 +12,7 @@ char	*prompt(t_d *d)
 	len = ft_strlen(GREEN) + ft_strlen(user) + ft_strlen(RESET) + \
 			ft_strlen(BLUE) + ft_strlen(path) + ft_strlen(RESET) + 3;
 	d->prompt = (char *)malloc(len);
-	if_err_fatal(d->prompt, d);
+	if_err_fatal(d->prompt, 2, d);
 	len = ft_strlen(GREEN);
 	ft_memcpy(d->prompt, GREEN, ft_strlen(GREEN));
 	ft_memcpy(d->prompt + len, user, ft_strlen(user));
