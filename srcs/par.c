@@ -153,7 +153,7 @@ char	**split_cmds(t_d *d)
 	t = (t_tk){.j = 0, .pips = pipes_count(d->input), .st = d->input};
 	if (t.st)
 	{
-		if_err_fatal(res = malloc(sizeof(char *) * (t.pips + 1)), 2, d);
+		if_err_fatal(res = malloc(sizeof(char *) * (t.pips + 2)), 2, d);
 		if (t.pips)
 		{
 			t.len = ft_get_spec_ch(t.st, P) - t.st;

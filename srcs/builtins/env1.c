@@ -34,7 +34,7 @@ static void	paste_env(char *name, char *val, t_d *d)
 	int		i;
 	char	**tmp;
 
-	tmp = (char **)malloc((len_env_list(d->env_in) + 1) * sizeof(char *));
+	tmp = (char **)malloc((len_env_list(d->env_in) + 2) * sizeof(char *));
 	if_err_fatal(tmp, 2, d);
 	i = 0;
 	while (*(d->env_in + i))
