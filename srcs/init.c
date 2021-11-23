@@ -38,9 +38,6 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 {
 	int		lvl;
 	char	*tmp;
-//	char	*promt;
-//	char	p[LEN_PATH];
-
 
 # if OS == LINUX
 	rl_clear_history();
@@ -49,16 +46,11 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	d->ac = ac;
 	d->av = av;
 	d->env_ex = env;
-	d->tmp = ft_strdup(MSGE5);
-	free(d->tmp);
 	copy_envs(d);
 	using_history ();
 	tmp = getenv(LVL);
 	if (tmp && ft_strlen(tmp))
-	{
 		lvl = ft_atoi(tmp) + 1;
-		free(tmp);
-	}
 	else
 		lvl = 1;
 	tmp = ft_itoa(lvl);
@@ -67,6 +59,4 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	code_event = 0;
 	rl_catch_signals = 0;
 	init_signals();
-//	set_env_val("SHELL", "minishell", d);
-//	printf("pwd=%s\n", getcwd(path, LEN_PATH)); // getting the current user's path
 }

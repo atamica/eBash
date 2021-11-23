@@ -314,6 +314,21 @@ typedef struct s_tk
 	size_t	len;
 }			t_tk;
 
+typedef struct s_a
+{
+	char	*tmp;
+	char	*input;
+	t_cmds	*cmds;
+	int		*pipe_fd;
+	int		stat;
+	int		fr;
+	char	*prompt;
+	int		ac;
+	char	**av;
+	char	**env_in;
+	char	**env_ex;
+}				t_a;
+
 /*
 **		run.c
 */
