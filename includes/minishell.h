@@ -112,6 +112,7 @@
 
 # define MSG "\001\033[1;36m\002\u2328\001\033[0m\033[2C\002"
 # define MSG0 ""
+# define ALL_SP " \t\v\n\f\r"
 # define N "\n"
 # define SL '/'
 # define BSL '\\'

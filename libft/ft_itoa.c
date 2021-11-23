@@ -59,7 +59,6 @@ char	*ft_itoa(int n)
 			m /= 10;
 		}
 		*(s + z) = '\0';
-		return (s);
 	}
-	return (NULL);
+	return (s);
 }
