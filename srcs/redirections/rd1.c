@@ -17,7 +17,7 @@ int	rd_s_left(char *str, t_cmd *cmd, t_d *d)
 	char	*ptr;
 	char	*tmp;
 
-	ptr = ft_get_spec_ch(str, L) + 1;
+	ptr = get_pos_char(str, L) + 1;
 	tmp = filename(ptr);
 	if (tmp)
 	{
@@ -33,7 +33,7 @@ int	rd_d_left(char *str, t_cmd *cmd)
 {
 	char	*ptr;
 
-	ptr = ft_get_spec_ch(str, L) + 2;
+	ptr = get_pos_char(str, L) + 2;
 	cmd->here_stop = filename(ptr);
 	if (!ft_strlen(cmd->here_stop))
 		return (ERROR);
@@ -45,7 +45,7 @@ int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
 	char	*ptr;
 	char	*tmp;
 
-	ptr = ft_get_spec_ch(str, R) + 1;
+	ptr = get_pos_char(str, R) + 1;
 	tmp = filename(ptr);
 	if (tmp)
 	{
@@ -62,7 +62,7 @@ int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 	char	*ptr;
 	char	*tmp;
 
-	ptr = ft_get_spec_ch(str, R) + 2;
+	ptr = get_pos_char(str, R) + 2;
 	tmp = filename(ptr);
 	if (tmp)
 	{

@@ -312,7 +312,6 @@ typedef struct s_tk
 	int		j;
 	char	*end;
 	char	*st;
-	size_t	len;
 }			t_tk;
 
 typedef struct s_a
@@ -456,7 +455,8 @@ t_errors	ft_get_redirections(char *str, t_cmd *cmd);
 **		get_spec_old.c
 */
 
-char		*ft_get_spec_ch(char *str, char c);
+char		*get_pos_char(char *str, char c);
+//char		*ft_get_spec_ch(char *str, char c);
 
 /*
 **		redirections/herdoc.c

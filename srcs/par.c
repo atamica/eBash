@@ -40,7 +40,7 @@ char	*repl_d(char *ptr, t_d *d)
 	char		*name;
 
 	res = ptr;
-	pos = ft_get_spec_ch(ptr, DL);
+	pos = get_pos_char(ptr, DL);
 	while (pos && is_in_name(pos + 1))
 	{
 		r = (t_replace){.st = pos - res, .len = 2};
@@ -53,7 +53,7 @@ char	*repl_d(char *ptr, t_d *d)
 			free (res);
 		res = tmp;
 		free (name);
-		pos = ft_get_spec_ch(res + ft_strlen(r.val) - r.len, DL);
+		pos = get_pos_char(res + ft_strlen(r.val) - r.len, DL);
 		free (r.val);
 	}
 	return (res);
@@ -134,10 +134,10 @@ int	pipes_count(char *str)
 	l = 0;
 	if (str && *str)
 	{
-		ptr = ft_get_spec_ch(str, P);
-		while (ptr)
+		ptr = get_pos_char(str, P);
+		while (ptr++)
 		{
-			ptr = ft_get_spec_ch(ptr + 1, P);
+			ptr = get_pos_char(ptr, P);
 			l++;
 		}
 	}
@@ -154,17 +154,11 @@ char	**split_cmds(t_d *d)
 	if (t.st)
 	{
 		if_err_fatal(res = malloc(sizeof(char *) * (t.pips + 2)), 2, d);
-		if (t.pips)
+		while (t.pips--)
 		{
-			t.len = ft_get_spec_ch(t.st, P) - t.st;
-			while (t.j < t.pips)
-			{
-				res[t.j++] = ft_substr(t.st, 0, t.len);
-				t.st += t.len + 1;
-				t.end = ft_get_spec_ch(t.st, P);
-				if (t.end)
-					t.len = t.end - t.st;
-			}
+			t.end = get_pos_char(t.st, P);
+			res[t.j++] = ft_substr(t.st, 0, t.end - t.st);
+			t.st = t.end + 1;
 		}
 		res[t.j++] = ft_substr(t.st, 0, ft_strlen(t.st));
 	}

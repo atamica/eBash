@@ -1,5 +1,28 @@
 #include "minishell.h"
 
+char	*get_pos_char(char *str, char c)
+{
+	int	fl_sq;
+	int	fl_dq;
+
+	fl_dq = 0;
+	fl_sq = 0;
+	if (str)
+	{
+		while (*str)
+		{
+			if ((*str == SQ) && !fl_dq)
+				fl_sq = !fl_sq;
+			else if ((*str == DQ) && !fl_sq)
+				fl_dq = !fl_dq;
+			else if ((*str == c) && !fl_sq && (c == DL || !fl_dq))
+				return (str);
+			str++;
+		}
+	}
+	return (NULL);
+}
+
 /* char	*ft_get_spec_ch(char *str, char c)
 {
 	char *pos;
@@ -10,7 +33,6 @@
 
 	s_quote = 0;
 	d_quote = 0;
-	i = 0;
 	pos = ft_strchr(str, c);
 	if (!pos || (pos == str))
 		return (pos);
@@ -22,14 +44,14 @@
 		j = i;
 		while (str[j] && str[j] != DQ && str[j] != SQ)
 			j++;
-		if (str[j] && str[j] == DQ)
+		if (str[j] && str[j] == DQ && c != DL)
 			d_quote = 1;
 		else if (str[j] && str[j] == SQ)
 			s_quote = 1;
 		if (str[j] && (str + j) > pos)
 			return (pos);
 		else if (str + j < pos)
-		{	
+		{
 			j++;
 			if (d_quote)
 			{
@@ -50,11 +72,7 @@
 					pos = ft_strchr(str + j + 1, c);
 			}
 		}
-		if (str[j])
-			i = j + 1;
-		else 
-			i = j;
+		i = j + (str[j] != '\0');
 	}
 	return (pos);
-}
- */
+} */

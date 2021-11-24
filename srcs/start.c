@@ -76,6 +76,7 @@ printf(N);*/
 // tm = repl_d(d.input, &d);
 // printf("$: (%s) - (%s)\n", d.input, tm);
 // free (tm);
+//printf("gpc: (%s)\n", get_pos_char(d.input, DL));
 cmds = pa(&d);
 //d.cmd = *cmds[0].cmd;
 i = -1;
