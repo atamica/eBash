@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+/* size_t	ft_strlen(const char *s)
 {
 	size_t i;
 
@@ -71,7 +71,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		ft_strlcpy(substr, (s + start), minlen + 1);
 	}
 	return (substr);
-}
+} */
 
 char	*ft_strjoin_free(char *s1, char *s2)
 {
@@ -101,7 +101,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	free(s2);
 	return (strjoin);
 }
-
+/* 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t i;
@@ -121,3 +121,4 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	dst[i] = '\0';
 	return (n);
 }
+ */
