@@ -5,6 +5,7 @@ void	init_cmd0(t_cmd *cmd)
 {
 	cmd->arg = NULL;
 	cmd->path = NULL;
+	cmd->str = NULL;
 	cmd->here_stop = NULL;
 	cmd->type = EMPTY;
 	cmd->fds[0] = STDIN_FILENO;

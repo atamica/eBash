@@ -14,7 +14,7 @@ CFGNL = get_next_line.c get_next_line_utils.c
 
 #get_spec_char.c
 CF1 = start.c par.c parser.c utils.c utils1.c free.c err.c find.c init.c \
-	is.c is1.c run.c run1.c signals.c get_spec_char.c get_spec_old.c \
+	is.c is1.c run.c run1.c run2.c signals.c get_spec_char.c get_spec_old.c \
 	$(addprefix builtins/, $(BUILTINS)) \
 	$(addprefix redirections/, $(REDIR)) \
 	$(addprefix ../gnl/, $(CFGNL)) \

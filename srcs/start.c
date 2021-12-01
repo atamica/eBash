@@ -81,14 +81,25 @@ cmds = pa(&d);
 //d.cmd = *cmds[0].cmd;
 i = -1;
 while (++i < cmds->count)
-	printf("%2i. (%s)\n", i, cmds->cmd[i].str);
+	printf("%2i. str(%s) type(%i)\n", i, cmds->cmd[i].str,  cmds->cmd[i].type);
 printf("===================================================\n");
-		d.cmd.env = d.env_in;
+/* 		d.cmd.env = d.env_in;
 		if (d.cmd.path && (d.cmd.type == EXTERNALS))
-			d.stat = cmd0(&d);
+			d.stat = cmd0(&d);\
 		else
 			d.stat = run_builtins(&d);
-printf("___________________________________________________\n");			
+printf("___________________________________________________\n"); */
+i = -1;
+while (++i < cmds->count)
+{
+	if (cmds[i].cmd->type == EXTERNALS)
+		d.stat = cmd_cmd(&d, cmds[i].cmd);
+	else
+		d.stat = run_builtins_cmd(&d, cmds[i].cmd);
+	printf("code_ret=%i\n", d.stat);
+}
+free_cmds(cmds);
+printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
 printf("code_ret=%i\n", d.stat);
 		init_cmd_free(&d.cmd);
 //		free_null((void **)&d.input);

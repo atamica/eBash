@@ -41,10 +41,7 @@ void	free_d(t_d *d)
 {
 	if (d->input)
 	{
-//		free_null((void **)&d->cmd.path);
-//		free2(d->cmd.arg);
 		free_null((void **)&d->input);
-//		free2(d->env_ex);
 		free(d->prompt);
 		free(d->path);
 		free(d->input);
@@ -57,4 +54,18 @@ void	free_cmd(t_cmd *cmd)
 	free2(cmd->arg);
 	free (cmd->path);
 	free (cmd->here_stop);
+	free (cmd->str);
+}
+
+void	free_cmds(t_cmds *cmds)
+{
+	t_cmd	*tmp;
+
+	if (cmds->cmd)
+	{
+		tmp = cmds->cmd;
+		while (tmp->type)
+			free_cmd(tmp++);
+		free((void **)cmds);
+	}
 }

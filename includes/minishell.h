@@ -340,6 +340,10 @@ int			run(char *str);
 int			exec_cmd(t_d *d);
 int			exec_cmds(t_cmds *cmds);
 
+void		cmd1_cmd(t_d *d, t_cmd *cmd);
+void		wait_chailds_cmd(t_d *d);
+int			cmd_cmd(t_d *d, t_cmd *cmd);
+
 /*
 **		parser.c
 */
@@ -383,6 +387,7 @@ void		free2(char **ptr);
 void		close_f(int fd);
 void		free_d(t_d *d);
 void		free_cmd(t_cmd *cmd);
+void		free_cmds(t_cmds *cmds);
 
 /*
 **		builtins/ *.c
@@ -402,6 +407,7 @@ void		set_env_val(char *name, char *val, t_d *d);
 char		*get_env_val(char **env, char *name);
 int			copy_envs(t_d *d);
 int			len_env_list(char **env);
+int			run_builtins_cmd(t_d *d, t_cmd *cmd);
 
 /*
 **		find.c

@@ -39,23 +39,30 @@ char	*repl_d(char *ptr, t_d *d)
 	char		*tmp;
 	char		*name;
 
-	res = ptr;
-	pos = get_pos_char(ptr, DL);
-	while (pos && is_in_name(pos + 1))
+	res = ft_strdup(ptr);
+	pos = get_pos_char(res, DL);
+	while (pos)
 	{
-		r = (t_replace){.st = pos - res, .len = 2};
-		while (pos[r.len] && is_in_name(pos + r.len))
+		r = (t_replace){.st = pos - res, .len = 0};
+		while (is_in_name(pos + r.len))
 			r.len++;
-		name = ft_substr(res + r.st, 1, r.len - 1);
-		r = (t_replace){.src = res, r.val = get_env_val(d->env_in, name)};
-		tmp = replace(&r);
-		if (res != ptr)
+		if (r.len)
+		{
+			name = ft_substr(res + r.st, 1, r.len);
+printf("$:name [%s]\n", name);
+			r.src = res;
+			r.val = get_env_val(d->env_in, name);
+printf("$:st [%i]\n", r.st);
+			tmp = replace(&r);
+printf("$:(%s) [%c]\n", tmp, getchar());
 			free (res);
-		res = tmp;
-		free (name);
-		pos = get_pos_char(res + ft_strlen(r.val) - r.len, DL);
+			res = tmp;
+			free (name);
+		}
+		pos = get_pos_char(res + r.st, DL);
 		free (r.val);
 	}
+printf("$:->(%s)\n", res);
 	return (res);
 }
 
@@ -106,9 +113,8 @@ t_cmds	*pa(t_d *d)
 	if_err_fatal(cm, 2, d);
 	*cm = (t_cmds){.d = d, .cod = 0, .count = 0, .cmd = NULL};
 	tmp = split_cmds(d);
-printf("pa: (%s)\n", *tmp);
-print_param(tmp, "pa:", ' ');
-printf(N);
+//print_param(tmp, "pa:", ' ');
+//printf(N);
 	if (!tmp)						// err or do nothing
 		return (cm);
 	while (tmp[i])
@@ -119,10 +125,14 @@ printf(N);
 	i = -1;
 	while (tmp[++i])
 	{
+		parser(repl_d(tmp[i], d), cm->cmd + i);
 		cm->cmd[i].str = repl_d(tmp[i], d);
+
 printf("_pa:(%s) -> {%s}\n", tmp[i], cm->cmd[i].str);
 //		cm->cmd[i] = pars_cmd();
 	}
+	cm->cmd[i].type = EMPTY;
+	free2(tmp);
 	return (cm);
 }
 
