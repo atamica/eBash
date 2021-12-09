@@ -48,7 +48,8 @@ int	parser(char *str, t_cmd *cmd)
 
 // parse args
 		cmd->arg = ft_split(str, ' ');
-
+print_param(cmd->arg,"parser:", ':');
+printf(N);
 		if (cmd->path)
 			r = 1;
 		

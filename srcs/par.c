@@ -109,30 +109,58 @@ t_cmds	*pa(t_d *d)
 	char	**tmp;
 
 	i = 0;
-	cm = malloc(sizeof(t_cmds));
-	if_err_fatal(cm, 2, d);
+	if_err_fatal(cm = malloc(sizeof(t_cmds)), 2, d);
 	*cm = (t_cmds){.d = d, .cod = 0, .count = 0, .cmd = NULL};
 	tmp = split_cmds(d);
 //print_param(tmp, "pa:", ' ');
 //printf(N);
-	if (!tmp)						// err or do nothing
-		return (cm);
-	while (tmp[i])
-		i++;						// i = count of tokens
-	cm->count = i;
-	cm->cmd = malloc(sizeof(t_cmd) * (i + 1));
-	if_err_fatal(cm->cmd, 2, d);
-	i = -1;
-	while (tmp[++i])
+	if (tmp)						// err or do nothing
 	{
-		parser(repl_d(tmp[i], d), cm->cmd + i);
-		cm->cmd[i].str = repl_d(tmp[i], d);
-
+		while (tmp[i])
+			i++;						// i = count of tokens
+		cm->count = i;
+		if_err_fatal(cm->cmd = malloc(sizeof(t_cmd) * (i + 1)), 2, d);
+		i = -1;
+		while (tmp[++i])
+		{
+			parser(repl_d(tmp[i], d), cm->cmd + i);
+			cm->cmd[i].str = repl_d(tmp[i], d);
 printf("_pa:(%s) -> {%s}\n", tmp[i], cm->cmd[i].str);
 //		cm->cmd[i] = pars_cmd();
+		}
+		cm->cmd[i].type = EMPTY;
+		free2(tmp);
 	}
-	cm->cmd[i].type = EMPTY;
-	free2(tmp);
+	return (cm);
+}
+
+t_cmds	*pa2(t_d *d)
+{
+	t_cmds		*cm;
+	int			i;
+	t_splits	*tmp;
+
+	if_err_fatal(cm = malloc(sizeof(t_cmds)), 2, d);
+	*cm = (t_cmds){.d = d, .cod = 0, .count = 0, .cmd = NULL};
+	tmp = split_cmds2(d);
+// print_param(tmp->cmds, "pa2: ", '+');
+// printf(" amount=%i\n", tmp->amount);
+	if (*tmp->cmds)
+	{
+		cm->count = tmp->amount;
+		if_err_fatal(cm->cmd = malloc(sizeof(t_cmd) * (cm->count + 1)), 2, d);
+		i = -1;
+		while (tmp->cmds[++i])
+		{
+			parser(repl_d(tmp->cmds[i], d), cm->cmd + i);
+			cm->cmd[i].str = repl_d(tmp->cmds[i], d);
+			cm->cmd[i].env = d->env_in;
+//printf("_pa2:(%s) -> {%s} [%s]\n", tmp->cmds[i], cm->cmd[i].str, cm->cmd[i].path);
+		}
+		cm->cmd[i].type = EMPTY;
+		free2(tmp->cmds);
+		free(tmp);
+	}
 	return (cm);
 }
 
@@ -161,7 +189,7 @@ char	**split_cmds(t_d *d)
 
 	res = NULL;
 	t = (t_tk){.j = 0, .pips = pipes_count(d->input), .st = d->input};
-	if (t.st)
+	if (t.st && *t.st)
 	{
 		if_err_fatal(res = malloc(sizeof(char *) * (t.pips + 2)), 2, d);
 		while (t.pips--)
@@ -173,6 +201,29 @@ char	**split_cmds(t_d *d)
 		res[t.j++] = ft_substr(t.st, 0, ft_strlen(t.st));
 	}
 	res[t.j] = NULL;
+	return (res);
+}
+
+t_splits	*split_cmds2(t_d *d)
+{
+	t_tk		t;
+	t_splits	*res;
+
+	if_err_fatal(res = malloc(sizeof(t_splits)), 2, d);
+	t = (t_tk){.j = 0, .pips = pipes_count(d->input), .st = d->input};
+	res->amount = t.pips + 1;
+	if (t.st)
+	{
+		if_err_fatal(res->cmds = malloc(sizeof(char *) * (res->amount + 1)), 2, d);
+		while (t.pips--)
+		{
+			t.end = get_pos_char(t.st, P);
+			res->cmds[t.j++] = ft_substr(t.st, 0, t.end - t.st);
+			t.st = t.end + 1;
+		}
+		res->cmds[t.j++] = ft_substr(t.st, 0, ft_strlen(t.st));
+	}
+	res->cmds[t.j] = NULL;
 	return (res);
 }
 

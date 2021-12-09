@@ -91,6 +91,7 @@
 # include <sys/wait.h>	// pid_t wait(int *wstatus);
 						// pid_t waitpid(pid_t pid, int *wstatus, int options);
 
+
 # include "libft.h"
 # include "get_next_line.h"
 
@@ -329,6 +330,12 @@ typedef struct s_a
 	char	**env_ex;
 }				t_a;
 
+typedef struct s_splits
+{
+	int		amount;
+	char	**cmds;
+}				t_splits;
+
 /*
 **		run.c
 */
@@ -492,6 +499,8 @@ t_cmds		*pa(t_d *d);
 int			pipes_count(char *str);
 char		**split_cmds(t_d *d);
 char		*skip_sps(char *ptr);
+t_splits	*split_cmds2(t_d *d);
+t_cmds		*pa2(t_d *d);
 
 /*
 **		srcs/signals.c

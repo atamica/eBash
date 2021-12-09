@@ -77,11 +77,11 @@ printf(N);*/
 // printf("$: (%s) - (%s)\n", d.input, tm);
 // free (tm);
 //printf("gpc: (%s)\n", get_pos_char(d.input, DL));
-cmds = pa(&d);
+cmds = pa2(&d);
 //d.cmd = *cmds[0].cmd;
 i = -1;
 while (++i < cmds->count)
-	printf("%2i. str(%s) type(%i)\n", i, cmds->cmd[i].str,  cmds->cmd[i].type);
+	printf("%2i. str(%s) type(%i)\n", i, cmds->cmd[i].path,  cmds->cmd[i].type);
 printf("===================================================\n");
 /* 		d.cmd.env = d.env_in;
 		if (d.cmd.path && (d.cmd.type == EXTERNALS))
@@ -92,11 +92,15 @@ printf("___________________________________________________\n"); */
 i = -1;
 while (++i < cmds->count)
 {
-	if (cmds[i].cmd->type == EXTERNALS)
-		d.stat = cmd_cmd(&d, cmds[i].cmd);
-	else
-		d.stat = run_builtins_cmd(&d, cmds[i].cmd);
+//	d.cmd = *cmds[i].cmd;
+//print_param(d.cmd.arg, "st:", ':');
+//	cmds[i].cmd->env = d.cmd.env;
+	if (cmds->cmd[i].type == EXTERNALS)
+		d.stat = cmd_cmd(&d, cmds->cmd + i);
+	else if (cmds->cmd[i].type == BUILTINS)
+		d.stat = run_builtins_cmd(&d, cmds->cmd + i);
 	printf("code_ret=%i\n", d.stat);
+	printf("~~~~~~~~~~~~~~~~~~~~\n");
 }
 free_cmds(cmds);
 printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");

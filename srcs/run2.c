@@ -4,6 +4,9 @@ void	cmd1_cmd(t_d *d, t_cmd *cmd)
 {
 	if (cmd->path)
 	{
+printf("cmd_cmd: path=%s ", cmd->path);
+print_param(cmd->arg, "_", ' ');
+printf(N);
 		if (execve(cmd->path, cmd->arg, cmd->env) == -1)
 		{
 			perror(MSGE8);
@@ -24,7 +27,7 @@ void	wait_chailds_cmd(t_d *d)
 		out_msg(MSGE7, 0);
 	if (d->stat)
 		out_msg(MSGE8, 0);
-	d->cmd.code_ret = res;
+	//d->cmd.code_ret = res;
 }
 
 
@@ -36,5 +39,5 @@ int	cmd_cmd(t_d *d, t_cmd *cmd)
 		wait_chailds_cmd(d);
 	else
 		cmd1_cmd(d, cmd);
-	return (d->cmd.code_ret);
+	return (d->stat);
 }
