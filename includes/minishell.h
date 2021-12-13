@@ -23,6 +23,10 @@
 #  include <readline/history.h>
 # endif
 
+//# define NDEBUG
+
+# include <assert.h>
+
 # include <unistd.h>	// int unlink(const char *pathname);
 						// ssize_t read(int fd, void *buf, size_t count);
 						// ssize_t write(int fd, const void *buf, size_t count);
@@ -90,7 +94,6 @@
 
 # include <sys/wait.h>	// pid_t wait(int *wstatus);
 						// pid_t waitpid(pid_t pid, int *wstatus, int options);
-
 
 # include "libft.h"
 # include "get_next_line.h"
@@ -448,6 +451,7 @@ int			is_qu(t_fl *fl);
 int			is_fl(t_fl *fl);
 int			is_only_digits(char *str);
 int			is_in_name(char *str);
+int			is_in_fname(char c);
 
 /*
 **		history.c

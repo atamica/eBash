@@ -82,6 +82,7 @@ cmds = pa2(&d);
 i = -1;
 while (++i < cmds->count)
 	printf("%2i. str(%s) type(%i)\n", i, cmds->cmd[i].path,  cmds->cmd[i].type);
+// assert(1);
 printf("===================================================\n");
 /* 		d.cmd.env = d.env_in;
 		if (d.cmd.path && (d.cmd.type == EXTERNALS))
@@ -99,7 +100,7 @@ while (++i < cmds->count)
 		d.stat = cmd_cmd(&d, cmds->cmd + i);
 	else if (cmds->cmd[i].type == BUILTINS)
 		d.stat = run_builtins_cmd(&d, cmds->cmd + i);
-	printf("code_ret=%i\n", d.stat);
+//	printf("code_ret=%i\n", d.stat);
 	printf("~~~~~~~~~~~~~~~~~~~~\n");
 }
 free_cmds(cmds);

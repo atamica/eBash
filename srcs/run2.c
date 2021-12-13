@@ -4,9 +4,9 @@ void	cmd1_cmd(t_d *d, t_cmd *cmd)
 {
 	if (cmd->path)
 	{
-printf("cmd_cmd: path=%s ", cmd->path);
+/* printf("cmd_cmd: path=%s ", cmd->path);
 print_param(cmd->arg, "_", ' ');
-printf(N);
+printf(N); */
 		if (execve(cmd->path, cmd->arg, cmd->env) == -1)
 		{
 			perror(MSGE8);

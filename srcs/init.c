@@ -14,7 +14,7 @@ void	init_cmd0(t_cmd *cmd)
 	cmd->code_red = 0;
 	cmd->redir.code_in = 0;
 	cmd->redir.code_out = 0;
-//	cmd->env = NULL;
+	cmd->env = NULL;
 	cmd->fd[0] = STDIN_FILENO;
 	cmd->fd[1] = STDOUT_FILENO;
 	cmd->pipe = 0;
@@ -28,6 +28,7 @@ void	init_cmd_free(t_cmd *cmd)
 
 void	init_fl(t_fl *fl)
 {
+	// *fl = (t_fl){0, 0, 0, 0, 0};
 	fl->fl_s_qu = 0;
 	fl->fl_d_qu = 0;
 	fl->fl_dol = 0;

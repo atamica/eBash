@@ -51,3 +51,8 @@ int	is_in_name(char *str)
 {
 	return ((*(str) == '_') || ft_isalnum(*(str)));
 }
+
+int	is_in_fname(char c)
+{
+	return((c == '.') || (c == '_') || (c == SL) || ft_isalnum(c));
+}

@@ -152,6 +152,7 @@ t_cmds	*pa2(t_d *d)
 		i = -1;
 		while (tmp->cmds[++i])
 		{
+			init_cmd0(cm->cmd + i);
 			parser(repl_d(tmp->cmds[i], d), cm->cmd + i);
 			cm->cmd[i].str = repl_d(tmp->cmds[i], d);
 			cm->cmd[i].env = d->env_in;
@@ -211,10 +212,11 @@ t_splits	*split_cmds2(t_d *d)
 
 	if_err_fatal(res = malloc(sizeof(t_splits)), 2, d);
 	t = (t_tk){.j = 0, .pips = pipes_count(d->input), .st = d->input};
-	res->amount = t.pips + 1;
+	res->amount = 0;
 	if (t.st)
 	{
-		if_err_fatal(res->cmds = malloc(sizeof(char *) * (res->amount + 1)), 2, d);
+		res->amount = t.pips + 1;
+		if_err_fatal(res->cmds = malloc(sizeof(char *) * (t.pips + 2)), 2, d);
 		while (t.pips--)
 		{
 			t.end = get_pos_char(t.st, P);

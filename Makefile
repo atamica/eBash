@@ -30,8 +30,6 @@ LIBDIR = libft/
 
 LIBFT = $(LIBDIR)libft.a
 
-
-
 ifneq ($(OSY), Linux)
 CC = gcc
 INCLUD = -I $(HDIR) -I $(LIBDIR) -I gnl/ -I ~/.brew/Cellar/readline/8.1.1/include 
