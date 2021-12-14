@@ -58,7 +58,6 @@ printf(N);
 	return (r);
 }
 
-
 int	pars(char *str, t_cmd *cmd, t_d *d)
 
 {

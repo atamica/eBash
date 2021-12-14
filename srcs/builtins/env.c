@@ -28,6 +28,7 @@ int	len_env_list(char **env)
 int	ft_env(t_d *d)
 {
 	print_param(d->env_in, "", '\n');
+	printf(N);
 	return (0);
 }
 

@@ -43,9 +43,9 @@ int	ft_cd(t_cmd *cmd)
 			path = ft_strdup(cmd->arg[1]);
 		else
 			path = pth(cmd->arg[1]);
+		if (!path)
+			return (2);
 	}
-	if (!path)
-		return (2);
 	if (cmd->arg && !cmd->arg[1])
 		path = ft_strdup(getenv("HOME"));
 	res = chdir(path);
