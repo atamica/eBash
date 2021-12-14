@@ -60,7 +60,7 @@ int	run_builtins_cmd(t_d *d, t_cmd *cmd)
 	int		res;
 
 	res = 0;
-	if (d->cmd.type == BUILTINS)
+	if (cmd->type == BUILTINS)
 	{
 		if (!ft_strncmp(cmd->path, "cd", 3))
 			return (ft_cd(cmd));

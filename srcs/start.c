@@ -91,7 +91,8 @@ printf("===================================================\n");
 			d.stat = run_builtins(&d);
 printf("___________________________________________________\n"); */
 i = -1;
-while (++i < cmds->count)
+d.stat = 0;
+while ((++i < cmds->count) && !d.stat)
 {
 //	d.cmd = *cmds[i].cmd;
 //print_param(d.cmd.arg, "st:", ':');
@@ -101,11 +102,11 @@ while (++i < cmds->count)
 	else if (cmds->cmd[i].type == BUILTINS)
 		d.stat = run_builtins_cmd(&d, cmds->cmd + i);
 //	printf("code_ret=%i\n", d.stat);
-	printf("~~~~~~~~~~~~~~~~~~~~\n");
+	printf("~~~~~~~~~~~~~~~~~~~~ code_ret(%i)\n", d.stat);
 }
+/* d.stat = run(d.input); */
 free_cmds(cmds);
 printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-printf("code_ret=%i\n", d.stat);
 		init_cmd_free(&d.cmd);
 //		free_null((void **)&d.input);
 		close_f(d.cmd.fd[0]);

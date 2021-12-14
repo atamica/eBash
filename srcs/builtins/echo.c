@@ -16,7 +16,7 @@ int	ft_echo(t_cmd *cmd)
 {
 	int	fl;
 
-	fl = (cmd && !ft_strncmp(*(cmd->arg + 1), "-n", 3));
+	fl = (cmd->arg && !ft_strncmp(*(cmd->arg + 1), "-n", 3));
 	print_param(cmd->arg + fl + 1, MSG0, ' ');
 	if (!fl)
 		printf(N);

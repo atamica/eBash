@@ -96,8 +96,9 @@ void	print_param(char **arg, char *prefix, char separator)
 		i = 0;
 		while (arg[i])
 		{
-			printf("%s%c%s%c%c", prefix, c, arg[i], c, separator);
-			i++;
+			if (!arg[i + 1])
+				separator = 0;
+			printf("%s%c%s%c%c", prefix, c, arg[i++], c, separator);
 		}
 	}
 }
