@@ -37,6 +37,14 @@ void	close_f(int fd)
 		close(fd);
 }
 
+void	close_f2(int *fd)
+{
+	if (fd[IN] > 2)
+			close(fd[IN]);
+	if (fd[OUT] > 2)
+		close(fd[OUT]);
+}
+
 void	free_d(t_d *d)
 {
 	if (d->input)

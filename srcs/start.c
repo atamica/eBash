@@ -109,8 +109,7 @@ free_cmds(cmds);
 printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
 		init_cmd_free(&d.cmd);
 //		free_null((void **)&d.input);
-		close_f(d.cmd.fd[0]);
-		close_f(d.cmd.fd[1]);
+		close_f2(d.cmd.fd);
 	}
 	printf(N);
 	free_d(&d);

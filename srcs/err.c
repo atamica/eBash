@@ -21,32 +21,44 @@ void	err_msg(char *msg, int code, t_d *d)
 		exit(code);
 }
 
-void	err(int code, t_d *d)
+char	*msg_error(int code)
 {
 	if (code == 1)
-		err_msg(MSGE1, code, d);
+		return (MSGE1);
 	if (code == 2)
-		err_msg(MSGE2, code, d);
+		return (MSGE2);
 	if (code == 3)
-		err_msg(MSGE3, code, d);
+		return (MSGE3);
 	if (code == 4)
-		err_msg(MSGE4, code, d);
+		return (MSGE4);
 	if (code == 5)
-		err_msg(MSGE5, code, d);
+		return (MSGE5);
 	if (code == 6)
-		err_msg(MSGE6, code, d);
+		return (MSGE6);
 	if (code == 7)
-		err_msg(MSGE7, code, d);
+		return (MSGE7);
 	if (code == 8)
-		err_msg(MSGE8, code, d);
+		return (MSGE8);
 	if (code == 9)
-		err_msg(MSGE9, code, d);
+		return (MSGE9);
+	return (MSG0);
+}
+
+void	err(int code, t_d *d)
+{
+	err_msg(msg_error(code), code, d);
 }
 
 void	if_err_exit(int er, int code, t_d *d)
 {
 	if (er < 0)
 		err(code, d);
+}
+
+void	if_err_no_fatal(int er, int code, t_d *d)
+{
+	if (er)
+		err_msg(msg_error(code), 0, d);
 }
 
 int	out_msg(char *msg, int code)

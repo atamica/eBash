@@ -339,6 +339,14 @@ typedef struct s_splits
 	char	**cmds;
 }				t_splits;
 
+typedef struct s_exe
+{
+	int		code;
+	char	*path;
+	char	**args;
+	char	**env;
+	int		fd[2];
+}				t_exe;
 /*
 **		run.c
 */
@@ -381,11 +389,13 @@ char		*skip_spa(char *ptr);
 */
 
 void		err_msg(char *msg, int code, t_d *d);
+char		*msg_error(int code);
 void		err(int code, t_d *d);
 void		if_err_exit(int er, int code, t_d *d);
 int			out_msg(char *msg, int code);
 void		if_err_fatal(void *ptr, int code, t_d *d);
 int			syntax_err(char c);
+void		if_err_no_fatal(int er, int code, t_d *d);
 
 /*
 **		free.c
@@ -395,6 +405,7 @@ void		free_null(void **ptr);
 void		free_nu(void *ptr);
 void		free2(char **ptr);
 void		close_f(int fd);
+void		close_f2(int *fd);
 void		free_d(t_d *d);
 void		free_cmd(t_cmd *cmd);
 void		free_cmds(t_cmds *cmds);

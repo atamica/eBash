@@ -41,3 +41,31 @@ int	cmd_cmd(t_d *d, t_cmd *cmd)
 		cmd1_cmd(d, cmd);
 	return (d->stat);
 }
+
+int	exe(t_exe *cmde, t_d *d)
+{
+	int		pid;
+	int		res;
+
+	res = 0;
+	if_err_exit(pid = fork(), 5, d);
+	if (pid)
+	{// parent
+		if_err_exit(waitpid(pid, &res, 0), 7, d);
+		if_err_no_fatal(res, 8, d);
+	}
+	else
+	{// child
+		if_err_exit(dup2(cmde->fd[IN], 0), 6, d);
+		if_err_exit(dup2(cmde->fd[OUT], 1), 6, d);
+		close_f2(cmde->fd);
+		if (execve(cmde->path, cmde->args, cmde->env) == -1)
+		{
+			perror(MSGE8);
+			strerror(errno);
+			exit(errno);
+		}
+		exit(0);
+	}
+	return (res);
+}

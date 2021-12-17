@@ -16,8 +16,7 @@ char	*ft_strjoin_c(char const *s1, char const *s2, char c)
 		if (r)
 		{
 			ft_strlcpy(r, s1, l1 + 1);
-			if (size_c)
-				*(r + l1) = c;
+			*(r + l1) = c;
 			ft_strlcpy(r + l1 + size_c, s2, l2 + 1);
 			return (r);
 		}
