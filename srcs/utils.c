@@ -7,6 +7,7 @@ char	*ft_strjoin_c(char const *s1, char const *s2, char c)
 	size_t	l2;
 	int		size_c;
 
+	r = NULL;
 	if (s1 && s2)
 	{
 		size_c = (c != 0);
@@ -18,10 +19,9 @@ char	*ft_strjoin_c(char const *s1, char const *s2, char c)
 			ft_strlcpy(r, s1, l1 + 1);
 			*(r + l1) = c;
 			ft_strlcpy(r + l1 + size_c, s2, l2 + 1);
-			return (r);
 		}
 	}
-	return (NULL);
+	return (r);
 }
 
 char	*ft_strjoin_m(char const *s1, char const *s2)
@@ -30,6 +30,7 @@ char	*ft_strjoin_m(char const *s1, char const *s2)
 	size_t	l1;
 	size_t	l2;
 
+	r = NULL;
 	if (s1 && s2)
 	{
 		l1 = ft_strlen(s1);
@@ -40,10 +41,9 @@ char	*ft_strjoin_m(char const *s1, char const *s2)
 			ft_strlcpy(r, s1, l1 + 1);
 			*(r + l1) = '/';
 			ft_strlcpy(r + l1 + 1, s2, l2 + 1);
-			return (r);
 		}
 	}
-	return (NULL);
+	return (r);
 }
 
 char	*cmdf(char *cmd)
@@ -81,23 +81,11 @@ void	dup2_check(int old_fd, int new_fd, t_d *d)
 	}
 }
 
-void	print_param(char **arg, char *prefix, char separator)
+void	dup_io(int *fd, t_d *d)
 {
-	char	c;
-	int		i;
-	
-	if (arg)
+	if (fd)
 	{
-		if (prefix && *prefix)
-			c = '"';
-		else
-			c = 0;
-		i = 0;
-		while (arg[i])
-		{
-			if (!arg[i + 1])
-				separator = 0;
-			printf("%s%c%s%c%c", prefix, c, arg[i++], c, separator);
-		}
+		dup2_check(STDIN_FILENO, fd[0], d);
+		dup2_check(STDOUT_FILENO, fd[1], d);
 	}
 }

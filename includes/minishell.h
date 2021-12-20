@@ -361,6 +361,7 @@ int			exec_cmds(t_cmds *cmds);
 void		cmd1_cmd(t_d *d, t_cmd *cmd);
 void		wait_chailds_cmd(t_d *d);
 int			cmd_cmd(t_d *d, t_cmd *cmd);
+int			exe(t_exe *cmde, t_d *d);
 
 /*
 **		parser.c
@@ -378,11 +379,12 @@ char		*ft_strjoin_c(char const *s1, char const *s2, char c);
 char		*ft_strjoin_m(char const *s1, char const *s2);
 char		*cmdf(char *cmd);
 void		dup2_check(int old_fd, int new_fd, t_d *d);
-void		print_param(char **arg, char *prefix, char separator);
+void		dup_io(int *fd, t_d *d);
 
 char		*prompt(t_d *d);
 size_t		sp_count(char *ptr);
 char		*skip_spa(char *ptr);
+void		print_param(char **arg, char *prefix, char separator);
 
 /*
 **		err.c

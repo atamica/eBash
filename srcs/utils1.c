@@ -53,3 +53,24 @@ char	*skip_spa(char *ptr)
 	}
 	return (ptr);
 }
+
+void	print_param(char **arg, char *prefix, char separator)
+{
+	char	c;
+	int		i;
+	
+	if (arg)
+	{
+		if (prefix && *prefix)
+			c = '"';
+		else
+			c = 0;
+		i = 0;
+		while (arg[i])
+		{
+			if (!arg[i + 1])
+				separator = 0;
+			printf("%s%c%s%c%c", prefix, c, arg[i++], c, separator);
+		}
+	}
+}

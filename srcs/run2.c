@@ -56,9 +56,7 @@ int	exe(t_exe *cmde, t_d *d)
 	}
 	else
 	{// child
-		if_err_exit(dup2(cmde->fd[IN], 0), 6, d);
-		if_err_exit(dup2(cmde->fd[OUT], 1), 6, d);
-		close_f2(cmde->fd);
+		dup_io(cmde->fd, d);
 		if (execve(cmde->path, cmde->args, cmde->env) == -1)
 		{
 			perror(MSGE8);
