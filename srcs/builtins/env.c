@@ -27,7 +27,7 @@ int	len_env_list(char **env)
 
 int	ft_env(t_d *d)
 {
-	print_param(d->env_in, "", '\n');
+	print_param(d->env, "", '\n');
 	printf(N);
 	return (0);
 }
@@ -44,15 +44,14 @@ int	copy_envs(t_d *d)
 	res = 0;
 	if (d->env_ex)
 	{
-		d->env_in = (char **)malloc((1 + len_env_list(d->env_ex)) * \
-						sizeof(char *));
-		if_err_fatal(d->env_in, 2, d);
+		d->env = malloc((1 + len_env_list(d->env_ex)) * sizeof(char *));
+		if_err_fatal(d->env, 2, d);
 		while (d->env_ex[res])
 		{
-			d->env_in[res] = ft_strdup(d->env_ex[res]);
+			d->env[res] = ft_strdup(d->env_ex[res]);
 			res++;
 		}
-		d->env_in[res] = NULL;
+		d->env[res] = NULL;
 	}
 	return (res);
 }

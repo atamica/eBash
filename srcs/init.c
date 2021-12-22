@@ -50,11 +50,12 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	d->env_ex = env;
 	copy_envs(d);
 	using_history ();
-	tmp = getenv(LVL);
+	tmp = get_env_val(d->env, LVL);
 	if (tmp && ft_strlen(tmp))
 		lvl = ft_atoi(tmp) + 1;
 	else
 		lvl = 1;
+	free(tmp);
 	tmp = ft_itoa(lvl);
 	set_env_val(LVL, tmp, d);
 	free(tmp);

@@ -50,30 +50,35 @@ void	free_d(t_d *d)
 	if (d->input)
 	{
 		free_null((void **)&d->input);
-		free(d->prompt);
+//		free(d->prompt);
 		free(d->path);
 		free(d->input);
-		d->fr = 0;	
+		free2(d->env);
+		d->fr = 0;
 	}
 }
 
 void	free_cmd(t_cmd *cmd)
 {
-	free2(cmd->arg);
-	free (cmd->path);
-	free (cmd->here_stop);
-	free (cmd->str);
+	if (cmd)
+	{
+		free2(cmd->arg);
+		free (cmd->path);
+		free (cmd->here_stop);
+		free (cmd->str);
+	}
 }
 
 void	free_cmds(t_cmds *cmds)
 {
 	t_cmd	*tmp;
 
-	if (cmds->cmd)
+	if (cmds)
 	{
 		tmp = cmds->cmd;
-		while (tmp->type)
+		while (cmds->count--)
 			free_cmd(tmp++);
-		free((void **)cmds);
+		free(cmds->cmd);
+		free(cmds);
 	}
 }

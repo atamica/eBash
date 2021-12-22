@@ -7,7 +7,7 @@ char	*prompt(t_d *d)
 	char	p[LEN_PATH];
 	size_t	len;
 
-	user = get_env_val(d->env_in, "USER");
+	user = get_env_val(d->env, "USER");
 	path = getcwd(p, LEN_PATH);
 	len = ft_strlen(GREEN) + ft_strlen(user) + ft_strlen(RESET) + \
 			ft_strlen(BLUE) + ft_strlen(path) + ft_strlen(RESET) + 3;
@@ -71,6 +71,31 @@ void	print_param(char **arg, char *prefix, char separator)
 			if (!arg[i + 1])
 				separator = 0;
 			printf("%s%c%s%c%c", prefix, c, arg[i++], c, separator);
+		}
+	}
+}
+
+void	print_param_fd(char **arg, char *prefix, char separator, int fd)
+{
+	char	c;
+	int		i;
+	
+	if (arg)
+	{
+		if (prefix && *prefix)
+			c = DQ;
+		else
+			c = 0;
+		i = 0;
+		while (arg[i])
+		{
+			if (!arg[i + 1])
+				separator = 0;
+			ft_putstr_fd(prefix, fd);
+			ft_putchar_fd(c, fd);
+			ft_putstr_fd(arg[i++], fd);
+			ft_putchar_fd(c, fd);
+			ft_putchar_fd(separator, fd);
 		}
 	}
 }

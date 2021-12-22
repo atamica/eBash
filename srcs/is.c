@@ -67,7 +67,7 @@ t_val	is_in_env_list(char **env, char *name)
 	size_t	len;
 	t_val	res;
 
-	res = (t_val){.present = 0, .position = 0, .val = NULL};
+	res = (t_val){.present = 0, .position = 0, .val = NULL};	// {0,0,NULL}
 	if (env && name)
 	{
 		i = 0;

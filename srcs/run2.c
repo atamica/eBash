@@ -7,6 +7,7 @@ void	cmd1_cmd(t_d *d, t_cmd *cmd)
 /* printf("cmd_cmd: path=%s ", cmd->path);
 print_param(cmd->arg, "_", ' ');
 printf(N); */
+	dup_io(cmd->fd, d);
 		if (execve(cmd->path, cmd->arg, cmd->env) == -1)
 		{
 			perror(MSGE8);
@@ -30,7 +31,6 @@ void	wait_chailds_cmd(t_d *d)
 	//d->cmd.code_ret = res;
 }
 
-
 int	cmd_cmd(t_d *d, t_cmd *cmd)
 {
 	d->cmd_pid = fork();
@@ -45,14 +45,13 @@ int	cmd_cmd(t_d *d, t_cmd *cmd)
 int	exe(t_exe *cmde, t_d *d)
 {
 	int		pid;
-	int		res;
 
-	res = 0;
+	cmde->code = 0;
 	if_err_exit(pid = fork(), 5, d);
 	if (pid)
 	{// parent
-		if_err_exit(waitpid(pid, &res, 0), 7, d);
-		if_err_no_fatal(res, 8, d);
+		if_err_exit(waitpid(pid, &cmde->code, 0), 7, d);
+		if_err_no_fatal(cmde->code, 8, d);
 	}
 	else
 	{// child
@@ -65,5 +64,5 @@ int	exe(t_exe *cmde, t_d *d)
 		}
 		exit(0);
 	}
-	return (res);
+	return (cmde->code);
 }

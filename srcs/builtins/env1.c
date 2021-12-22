@@ -14,19 +14,19 @@
 
 static void	create_env(char *name, char *val, t_d *d)
 {
-	free(d->env_in);
-	d->env_in = (char **)malloc(2 * sizeof(char *));
-	if_err_fatal(d->env_in, 2, d);
-	*d->env_in = ft_strjoin_c(name, val, '=');
-	if_err_fatal(*d->env_in, 2, d);
-	d->env_in[1] = NULL;
+	free(d->env);
+	d->env = (char **)malloc(2 * sizeof(char *));
+	if_err_fatal(d->env, 2, d);
+	*d->env = ft_strjoin_c(name, val, '=');
+	if_err_fatal(*d->env, 2, d);
+	d->env[1] = NULL;
 }
 
-static void	replase_env(char *name, char *val, t_d *d, t_val *r)
+static void	replace_env(char *name, char *val, t_d *d, t_val *r)
 {
-	free(d->env_in[r->position]);
-	d->env_in[r->position] = ft_strjoin_c(name, val, '=');
-	if_err_fatal(d->env_in[r->position], 2, d);
+	free(d->env[r->position]);
+	d->env[r->position] = ft_strjoin_c(name, val, '=');
+	if_err_fatal(d->env[r->position], 2, d);
 }
 
 static void	paste_env(char *name, char *val, t_d *d)
@@ -34,19 +34,18 @@ static void	paste_env(char *name, char *val, t_d *d)
 	int		i;
 	char	**tmp;
 
-	tmp = (char **)malloc((len_env_list(d->env_in) + 2) * sizeof(char *));
+	tmp = malloc((len_env_list(d->env) + 2) * sizeof(char *));
 	if_err_fatal(tmp, 2, d);
 	i = 0;
-	while (*(d->env_in + i))
+	while (*(d->env + i))
 	{
-		*(tmp + i) = *(d->env_in + i);
+		*(tmp + i) = *(d->env + i);
 		i++;
 	}
-	tmp[i] = ft_strjoin_c(name, val, '=');
-	if_err_fatal(tmp[i], 2, d);
-	tmp[i + 1] = NULL;
-	free(d->env_in);
-	d->env_in = tmp;
+	if_err_fatal(tmp[i] = ft_strjoin_c(name, val, EQ), 2, d);
+	tmp[++i] = NULL;
+	free(d->env);
+	d->env = tmp;
 }
 
 static void	cut_env(t_d *d, t_val *r)
@@ -54,7 +53,7 @@ static void	cut_env(t_d *d, t_val *r)
 	char	**tmp;
 	char	**cpy;
 
-	tmp = d->env_in;
+	tmp = d->env;
 	cpy = tmp + r->position;
 	while (*cpy)
 	{
@@ -70,13 +69,13 @@ void	set_env_val(char *name, char *val, t_d *d)
 
 	if (name)
 	{
-		r = is_in_env_list(d->env_in, name);
+		r = is_in_env_list(d->env, name);
 		if (val)
 		{
-			if (d->env_in && !*d->env_in)
+			if (d->env && !*d->env)
 				create_env(name, val, d);
 			else if (r.present)
-				replase_env(name, val, d, &r);
+				replace_env(name, val, d, &r);
 			else
 				paste_env(name, val, d);
 		}

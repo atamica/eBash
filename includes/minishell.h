@@ -120,6 +120,7 @@
 # define N "\n"
 # define SL '/'
 # define BSL '\\'
+# define EQ '='
 # define SQ '\''
 # define DQ '"'
 # define DL '$'
@@ -298,8 +299,8 @@ typedef struct s_d
 	char	*prompt;
 	int		ac;
 	char	**av;
-	char	**env_in;
 	char	**env_ex;
+	char	**env;
 }				t_d;
 
 typedef struct s_cmds
@@ -329,7 +330,7 @@ typedef struct s_a
 	char	*prompt;
 	int		ac;
 	char	**av;
-	char	**env_in;
+	char	**env;
 	char	**env_ex;
 }				t_a;
 
@@ -346,6 +347,7 @@ typedef struct s_exe
 	char	**args;
 	char	**env;
 	int		fd[2];
+	int		fdp[2];
 }				t_exe;
 /*
 **		run.c
@@ -385,6 +387,7 @@ char		*prompt(t_d *d);
 size_t		sp_count(char *ptr);
 char		*skip_spa(char *ptr);
 void		print_param(char **arg, char *prefix, char separator);
+void		print_param_fd(char **arg, char *prefix, char separator, int fd);
 
 /*
 **		err.c
@@ -421,7 +424,7 @@ int			ft_echo(t_cmd *cmd);
 int			ft_pwd(void);
 int			ft_env(t_d *d);
 int			ft_export(t_d *d);
-int			ft_exit(t_d *d);
+int			ft_exit(t_cmd *cmd);
 int			ft_unset(char *name, t_d *d);
 
 int			type_cmd(char *cmd);

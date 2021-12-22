@@ -39,7 +39,7 @@ char	*repl_d(char *ptr, t_d *d)
 	char		*tmp;
 	char		*name;
 
-	res = ft_strdup(ptr);
+	res = ptr;
 	pos = get_pos_char(res, DL);
 	while (pos)
 	{
@@ -49,12 +49,9 @@ char	*repl_d(char *ptr, t_d *d)
 		if (r.len)
 		{
 			name = ft_substr(res + r.st, 1, r.len);
-printf("$:name [%s]\n", name);
 			r.src = res;
-			r.val = get_env_val(d->env_in, name);
-printf("$:st [%i]\n", r.st);
+			r.val = get_env_val(d->env, name);
 			tmp = replace(&r);
-printf("$:(%s) [%c]\n", tmp, getchar());
 			free (res);
 			res = tmp;
 			free (name);
@@ -62,7 +59,6 @@ printf("$:(%s) [%c]\n", tmp, getchar());
 		pos = get_pos_char(res + r.st, DL);
 		free (r.val);
 	}
-printf("$:->(%s)\n", res);
 	return (res);
 }
 
@@ -143,8 +139,6 @@ t_cmds	*pa2(t_d *d)
 	if_err_fatal(cm = malloc(sizeof(t_cmds)), 2, d);
 	*cm = (t_cmds){.d = d, .cod = 0, .count = 0, .cmd = NULL};
 	tmp = split_cmds2(d);
-// print_param(tmp->cmds, "pa2: ", '+');
-// printf(" amount=%i\n", tmp->amount);
 	if (*tmp->cmds)
 	{
 		cm->count = tmp->amount;
@@ -153,10 +147,9 @@ t_cmds	*pa2(t_d *d)
 		while (tmp->cmds[++i])
 		{
 			init_cmd0(cm->cmd + i);
-			parser(repl_d(tmp->cmds[i], d), cm->cmd + i);
 			cm->cmd[i].str = repl_d(tmp->cmds[i], d);
-			cm->cmd[i].env = d->env_in;
-//printf("_pa2:(%s) -> {%s} [%s]\n", tmp->cmds[i], cm->cmd[i].str, cm->cmd[i].path);
+			parser(cm->cmd[i].str, cm->cmd + i);
+			cm->cmd[i].env = d->env;
 		}
 		cm->cmd[i].type = EMPTY;
 		free2(tmp->cmds);
@@ -291,7 +284,7 @@ printf("repl: len(%i) of(%i)\n", len, offs);
                 l++;
             name = ft_substr(pos, 1, l);
 printf("repl: name(%s)\n", name);           
-            tmp = get_env_val(d->env_in, name);
+            tmp = get_env_val(d->env, name);
 printf("repl: val(%s)\n", tmp);
 printf("repl:- len(%i) of(%i)\n", len, offs); 
             r = (t_replace){.src = res, .val = tmp, .st = offs, .len = l + 1};
@@ -367,7 +360,7 @@ int fill_cmd(t_cmd *cmd, t_d *d, t_cmds *cmds, char **tok)
 			}
 			r.src = res;
 			name = ft_substr(res + r.st, 1, r.len - 1);
-			r.val = get_env_val(d->env_in, name);
+			r.val = get_env_val(d->env, name);
 			tmp = replace(&r);
 			free (res);
 			res = tmp;

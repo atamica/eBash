@@ -51,10 +51,10 @@ printf("$: (%s)\n", tmp);
 		} */
 //		pars(d.input, &d.cmd);
 
-parser(d.input, &d.cmd);
-//printf("pars: ret=%i (%s)\n", pars(d.input, &d.cmd, &d), d.input);
-printf("cmd=(%s) dir=%i file=%i type=%i\n", d.cmd.path, is_dir(d.cmd.path), \
-		is_file_exist(d.cmd.path), d.cmd.type);
+// parser(d.input, &d.cmd);
+// printf("pars: ret=%i (%s)\n", pars(d.input, &d.cmd, &d), d.input);
+// printf("cmd=(%s) dir=%i file=%i type=%i\n", d.cmd.path, is_dir(d.cmd.path), \
+// 		is_file_exist(d.cmd.path), d.cmd.type);
 
 /*
 printf("args=");
@@ -84,7 +84,7 @@ while (++i < cmds->count)
 	printf("%2i. str(%s) type(%i)\n", i, cmds->cmd[i].path,  cmds->cmd[i].type);
 // assert(1);
 printf("===================================================\n");
-/* 		d.cmd.env = d.env_in;
+/* 		d.cmd.env = d.env;
 		if (d.cmd.path && (d.cmd.type == EXTERNALS))
 			d.stat = cmd0(&d);\
 		else
@@ -97,11 +97,15 @@ while ((++i < cmds->count) && !d.stat)
 //	d.cmd = *cmds[i].cmd;
 //print_param(d.cmd.arg, "st:", ':');
 //	cmds[i].cmd->env = d.cmd.env;
+	if (i < cmds->count)
+	{
+		// create pipe
+		if_err_exit(pipe(cmds->cmd[i].fd), 3, &d);
+	}
 	if (cmds->cmd[i].type == EXTERNALS)
 		d.stat = cmd_cmd(&d, cmds->cmd + i);
 	else if (cmds->cmd[i].type == BUILTINS)
 		d.stat = run_builtins_cmd(&d, cmds->cmd + i);
-//	printf("code_ret=%i\n", d.stat);
 	printf("~~~~~~~~~~~~~~~~~~~~ code_ret(%i)\n", d.stat);
 }
 /* d.stat = run(d.input); */

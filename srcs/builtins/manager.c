@@ -48,7 +48,7 @@ int	run_builtins(t_d *d)
 		if (!ft_strncmp(d->cmd.path, "export", 7))
 			return (ft_export(d));
 		if (!ft_strncmp(d->cmd.path, "exit", 5))
-			return (ft_exit(d));
+			return (ft_exit(&d->cmd));
 		if (!ft_strncmp(d->cmd.path, "unset", 6))
 			return (ft_unset(d->cmd.arg[1], d));
 	}
@@ -73,7 +73,7 @@ int	run_builtins_cmd(t_d *d, t_cmd *cmd)
 		if (!ft_strncmp(cmd->path, "export", 7))
 			return (ft_export(d));
 		if (!ft_strncmp(cmd->path, "exit", 5))
-			return (ft_exit(d));
+			return (ft_exit(cmd));
 		if (!ft_strncmp(cmd->path, "unset", 6))
 			return (ft_unset(cmd->arg[1], d));
 	}

@@ -14,6 +14,6 @@
 
 int	ft_export(t_d *d)
 {
-	print_param(d->env_in, "declare -x ", '\n');
+	print_param(d->env, "declare -x ", '\n');
 	return (0);
 }
