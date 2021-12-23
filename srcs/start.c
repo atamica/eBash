@@ -112,7 +112,7 @@ while ((++i < cmds->count) && !d.stat)
 free_cmds(cmds);
 printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
 		init_cmd_free(&d.cmd);
-//		free_null((void **)&d.input);
+		free(d.input);
 		close_f2(d.cmd.fd);
 	}
 	printf(N);

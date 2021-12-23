@@ -119,8 +119,9 @@ t_cmds	*pa(t_d *d)
 		i = -1;
 		while (tmp[++i])
 		{
-			parser(repl_d(tmp[i], d), cm->cmd + i);
 			cm->cmd[i].str = repl_d(tmp[i], d);
+			parser(cm->cmd[i].str, cm->cmd + i);
+			
 printf("_pa:(%s) -> {%s}\n", tmp[i], cm->cmd[i].str);
 //		cm->cmd[i] = pars_cmd();
 		}
