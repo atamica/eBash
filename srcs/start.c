@@ -24,7 +24,6 @@ int	main(int ac, char **av, char **env)
 			status = 0;
 			break ;
 		}
-    
 		/* if (d.input[0] == 'a')
 			rl_redisplay(); */
 

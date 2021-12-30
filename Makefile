@@ -13,14 +13,23 @@ REDIR = rd.c rd1.c
 CFGNL = get_next_line.c get_next_line_utils.c
 
 #get_spec_char.c
-CF1 = start.c par.c parser.c utils.c utils1.c free.c err.c find.c init.c \
-	is.c is1.c run.c run1.c run2.c signals.c get_spec_char.c get_spec_old.c \
+CF1 = start.c par.c parser.c utils.c utils1.c utils2.c free.c err.c find.c \
+	init.c is.c is1.c run.c run1.c run2.c signals.c get_spec_char.c \
+	get_spec_old.c \
 	$(addprefix builtins/, $(BUILTINS)) \
 	$(addprefix redirections/, $(REDIR)) \
 	$(addprefix ../gnl/, $(CFGNL)) \
 	history.c
 
 CF2 = 
+
+CFTST = par.c parser.c utils.c utils1.c utils2.c free.c err.c find.c \
+	init.c is.c is1.c run.c run1.c run2.c signals.c get_spec_char.c \
+	get_spec_old.c \
+	$(addprefix builtins/, $(BUILTINS)) \
+	$(addprefix redirections/, $(REDIR)) \
+	$(addprefix ../gnl/, $(CFGNL)) \
+	history.c
 
 HDIR = ./includes
 
@@ -114,7 +123,7 @@ runb: bonus
 	./$(NAME)
 
 tst: $(HDR) $(LIBFT)
-	gcc -I includes -I gnl -I libft -o tst srcs/get_spec_char.c tmp/tst_escaped_char.c  libft/libft.a; ./tst
+	gcc -I includes -I gnl -I libft -o tst srcs/tst_del_sp.c $(addprefix $(SRC), $(CFTST)) $(LIBS); ./tst
 
 tst_pipe_split: $(HDR) $(LIBFT)
 #	gcc -I includes -I libft -o tst_pipe_split srcs/get_spec_char.c tmp/test_parser_cmd_set.c srcs/signals.c libft/libft.a; ./tst_pipe_split

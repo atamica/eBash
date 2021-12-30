@@ -349,6 +349,14 @@ typedef struct s_exe
 	int		fd[2];
 	int		fdp[2];
 }				t_exe;
+
+typedef struct s_pos
+{
+	char	*st;
+	char	*end;
+	size_t	len;
+}			t_pos;
+
 /*
 **		run.c
 */
@@ -388,6 +396,8 @@ size_t		sp_count(char *ptr);
 char		*skip_spa(char *ptr);
 void		print_param(char **arg, char *prefix, char separator);
 void		print_param_fd(char **arg, char *prefix, char separator, int fd);
+
+void		del_space(char *str);
 
 /*
 **		err.c
