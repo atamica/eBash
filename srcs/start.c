@@ -17,6 +17,7 @@ int	main(int ac, char **av, char **env)
 	while (status)
 	{
 		d.input = readline(prompt(&d));
+		del_empty_sp(d.input);
 		free(d.prompt);
 		d.fr = 1;
 		if (!d.input)
