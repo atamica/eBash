@@ -117,6 +117,7 @@
 # define MSG "\001\033[1;36m\002\u2328\001\033[0m\033[2C\002"
 # define MSG0 ""
 # define ALL_SP " \t\v\n\f\r"
+# define SP ' '
 # define N "\n"
 # define SL '/'
 # define BSL '\\'
@@ -397,7 +398,7 @@ char		*skip_spa(char *ptr);
 void		print_param(char **arg, char *prefix, char separator);
 void		print_param_fd(char **arg, char *prefix, char separator, int fd);
 
-void		del_space(char *str);
+void		del_empty_sp(char *str);
 
 /*
 **		err.c

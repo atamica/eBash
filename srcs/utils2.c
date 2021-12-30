@@ -30,11 +30,11 @@ static t_pos	fill_no_sp(char *ptr)
 	return ((t_pos){.st = ptr, .end = ptr + min, .len = min});
 }
 
-void	del_space(char *str)
+void	del_empty_sp(char *str)
 {
 	t_pos	r;
 	char	*ptr;
-	size_t	lsp;
+	size_t	leave_sp;
 
 	if (str)
 	{
@@ -44,13 +44,13 @@ void	del_space(char *str)
 			if (ft_strchr(ALL_SP, *ptr))
 			{
 				r = fill_sp(ptr);
-				lsp = ((ptr != str) && *r.end);
-				if (lsp)
-					*r.st++ = '@';
-				if (r.len > lsp)
+				leave_sp = ((ptr != str) && *r.end);
+				if (leave_sp)
+					*r.st++ = SP;
+				if (r.len > leave_sp)
 					while (*r.st)
 						*r.st++ = *r.end++;
-				ptr += lsp;
+				ptr += leave_sp;
 			}	
 			else
 				ptr += fill_no_sp(ptr).len;
