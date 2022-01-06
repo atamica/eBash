@@ -47,8 +47,7 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	init_cmd0(&d->cmd);
 	d->ac = ac;
 	d->av = av;
-	d->env_ex = env;
-	copy_envs(d);
+	copy_envs(env, d);
 	using_history ();
 	tmp = get_env_val(d->env, LVL);
 	if (tmp && ft_strlen(tmp))

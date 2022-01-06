@@ -24,6 +24,7 @@ int	parser(char *str, t_cmd *cmd)
 	init_fl(&fl);
 	if (str)
 	{
+		del_empty_sp(str);
 // skip spases
 		skip_sp(str, &i, &fl);
 /* 		while (*(str + i) && ft_isalsp(*(str + i)))
@@ -180,4 +181,22 @@ void	set_flags(t_fl *fl, char c)
 		fl->fl_dol = !fl->fl_dol;
 }
 
+//		******************************** parcer **********************
+/*
+int	parsing(char *str, t_cmd *cmd)
+{
+	int	r;
 
+	r = 0;
+	if (str)
+	{
+		del_empty_sp(str);
+		// redirections
+		// open f
+		// 
+
+
+	}
+	return (r);
+}
+*/

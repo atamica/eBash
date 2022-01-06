@@ -17,7 +17,7 @@ int	main(int ac, char **av, char **env)
 	while (status)
 	{
 		d.input = readline(prompt(&d));
-		del_empty_sp(d.input);
+//		del_empty_sp(d.input);
 		free(d.prompt);
 		d.fr = 1;
 		if (!d.input)
@@ -53,8 +53,8 @@ printf("$: (%s)\n", tmp);
 
 // parser(d.input, &d.cmd);
 // printf("pars: ret=%i (%s)\n", pars(d.input, &d.cmd, &d), d.input);
-// printf("cmd=(%s) dir=%i file=%i type=%i\n", d.cmd.path, is_dir(d.cmd.path), \
-// 		is_file_exist(d.cmd.path), d.cmd.type);
+/* printf("cmd=(%s) dir=%i file=%i type=%i\n", d.cmd.path, is_dir(d.cmd.path), \
+		is_file_exist(d.cmd.path), d.cmd.type);*/ 
 
 /*
 printf("args=");

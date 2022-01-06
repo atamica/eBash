@@ -148,6 +148,7 @@ t_cmds	*pa2(t_d *d)
 		while (tmp->cmds[++i])
 		{
 			init_cmd0(cm->cmd + i);
+//			del_empty_sp(tmp->cmds[i]);
 			cm->cmd[i].str = repl_d(tmp->cmds[i], d);
 			parser(cm->cmd[i].str, cm->cmd + i);
 			cm->cmd[i].env = d->env;

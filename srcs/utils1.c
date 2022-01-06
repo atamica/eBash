@@ -62,7 +62,7 @@ void	print_param(char **arg, char *prefix, char separator)
 	if (arg)
 	{
 		if (prefix && *prefix)
-			c = '"';
+			c = DQ;
 		else
 			c = 0;
 		i = 0;

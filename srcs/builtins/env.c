@@ -37,18 +37,18 @@ char	*get_env_val(char **env, char *name)
 	return (ft_strdup(is_in_env_list(env, name).val));
 }
 
-int	copy_envs(t_d *d)
+int	copy_envs(char **env_ex, t_d *d)
 {
 	int		res;
 
 	res = 0;
-	if (d->env_ex)
+	if (env_ex)
 	{
-		d->env = malloc((1 + len_env_list(d->env_ex)) * sizeof(char *));
+		d->env = malloc((1 + len_env_list(env_ex)) * sizeof(char *));
 		if_err_fatal(d->env, 2, d);
-		while (d->env_ex[res])
+		while (env_ex[res])
 		{
-			d->env[res] = ft_strdup(d->env_ex[res]);
+			d->env[res] = ft_strdup(env_ex[res]);
 			res++;
 		}
 		d->env[res] = NULL;

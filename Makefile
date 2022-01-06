@@ -44,7 +44,7 @@ CC = gcc
 INCLUD = -I $(HDIR) -I $(LIBDIR) -I gnl/ -I ~/.brew/Cellar/readline/8.1.1/include 
 LIBS = -L $(LIBDIR) $(LIBFT) -lreadline  -L ~/.brew/Cellar/readline/8.1.1/lib/
 else
-CC = clang #gcc
+CC = gcc # clang
 INCLUD = -I $(HDIR) -I $(LIBDIR) -I /usr/local/include -I ./gnl/
 LIBS = -L $(LIBDIR) -lft -lreadline
 endif
@@ -123,7 +123,8 @@ runb: bonus
 	./$(NAME)
 
 tst: $(HDR) $(LIBFT)
-	gcc -I includes -I gnl -I libft -o tst srcs/tst_del_sp.c $(addprefix $(SRC), $(CFTST)) $(LIBS); ./tst
+	gcc -I includes -I gnl -I libft -o tst srcs/tst_del_sp.c \
+	$(addprefix $(SRC), $(CFTST)) $(LIBS); ./tst
 
 tst_pipe_split: $(HDR) $(LIBFT)
 #	gcc -I includes -I libft -o tst_pipe_split srcs/get_spec_char.c tmp/test_parser_cmd_set.c srcs/signals.c libft/libft.a; ./tst_pipe_split

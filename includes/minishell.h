@@ -300,7 +300,6 @@ typedef struct s_d
 	char	*prompt;
 	int		ac;
 	char	**av;
-	char	**env_ex;
 	char	**env;
 }				t_d;
 
@@ -442,7 +441,7 @@ int			type_cmd(char *cmd);
 int			run_builtins(t_d *d);
 void		set_env_val(char *name, char *val, t_d *d);
 char		*get_env_val(char **env, char *name);
-int			copy_envs(t_d *d);
+int			copy_envs(char **env_ex, t_d *d);
 int			len_env_list(char **env);
 int			run_builtins_cmd(t_d *d, t_cmd *cmd);
 
