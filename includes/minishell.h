@@ -450,7 +450,7 @@ int			run_builtins_cmd(t_d *d, t_cmd *cmd);
 */
 
 char		*in_quotes(char *str, char type);
-char		*replace(t_replace *r);
+char		*replace_d(t_replace *r);
 char		*repl_val(char *name, t_d *d);
 char		*dollar(char *str, t_d *d);
 
@@ -525,6 +525,7 @@ char		*replace_sq(char *str);
 char  		*replace_dq(char *str, t_d *d);
 //char  		*repl_dl(char *ptr, t_d *d);
 char		*repl_d(char *ptr, t_d *d);
+char		*repl_dlr(char *ptr, t_d *d);
 t_cmds		*pa(t_d *d);
 int			pipes_count(char *str);
 char		**split_cmds(t_d *d);

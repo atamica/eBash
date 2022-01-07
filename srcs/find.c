@@ -32,7 +32,7 @@ char	*in_quotes(char *str, char type)
 	return (res);
 }
 
-char	*replace(t_replace *r)
+char	*replace_d(t_replace *r)
 {
 	char	*res;
 	size_t	len0;
@@ -48,8 +48,8 @@ char	*replace(t_replace *r)
 		{
 			ft_memcpy(res, r->src, r->st);
 			ft_memcpy(res + r->st, r->val, len1);
-			ft_memcpy(res + r->st + len1, r->src + r->st + r->len, \
-						len0 - r->st - r->len + 1);
+			ft_memcpy(res + r->st + len1, r->src + r->st + r->len + 1, \
+						len0 - r->st - r->len);
 		}
 	}
 	return (res);
@@ -89,7 +89,7 @@ char	*dollar(char *str, t_d *d)
 				free(tmp);
 				r.len++;
 				r.st--;
-				res = replace(&r);
+				res = replace_d(&r);
 			}
 		}
 	}

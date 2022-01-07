@@ -26,12 +26,46 @@ char	*replace_dq(char *str, t_d *d)
 	char	*res;
 
 	str = replace_q(str, DQ);
-	res = repl_d(str, d);
+	res = repl_dlr(str, d);
 	free (str);
 	return (res);
 }
 
-char	*repl_d(char *ptr, t_d *d)
+char	*repl_dlr(char *ptr, t_d *d)
+{
+	t_replace	r;
+	char		*res;
+	char		*pos;
+	char		*tmp;
+	char		*name;
+
+	pos = get_pos_char(ptr, DL);
+	res = ptr;
+	while (pos)
+	{
+		r.src = res; r.val = NULL; r.st = pos - res; r.len = 0;
+		while (is_in_name(pos + r.len + 1))
+			r.len++;
+		if (r.len)
+		{
+			name = ft_substr(res + r.st, 1, r.len);
+			r.val = get_env_val(d->env, name);
+			tmp = replace_d(&r);
+			if (res != ptr)
+				free (res);
+			free (name);
+			res = tmp;
+			r.st += ft_strlen(r.val) - r.len - 1;
+			free (r.val);
+		}
+		else
+			r.st++;
+		pos = get_pos_char(res + r.st, DL);
+	}
+	return (res);
+}
+
+/* char	*repl_d(char *ptr, t_d *d)
 {
 	t_replace	r;
 	char		*res;
@@ -51,7 +85,7 @@ char	*repl_d(char *ptr, t_d *d)
 			name = ft_substr(res + r.st, 1, r.len);
 			r.src = res;
 			r.val = get_env_val(d->env, name);
-			tmp = replace(&r);
+			tmp = replace_d(&r);
 			free (res);
 			res = tmp;
 			free (name);
@@ -60,7 +94,7 @@ char	*repl_d(char *ptr, t_d *d)
 		free (r.val);
 	}
 	return (res);
-}
+} */
 
 char	*skip_sps(char *ptr)
 {
@@ -119,7 +153,7 @@ t_cmds	*pa(t_d *d)
 		i = -1;
 		while (tmp[++i])
 		{
-			cm->cmd[i].str = repl_d(tmp[i], d);
+			cm->cmd[i].str = repl_dlr(tmp[i], d);
 			parser(cm->cmd[i].str, cm->cmd + i);
 			
 printf("_pa:(%s) -> {%s}\n", tmp[i], cm->cmd[i].str);
@@ -149,7 +183,7 @@ t_cmds	*pa2(t_d *d)
 		{
 			init_cmd0(cm->cmd + i);
 //			del_empty_sp(tmp->cmds[i]);
-			cm->cmd[i].str = repl_d(tmp->cmds[i], d);
+			cm->cmd[i].str = repl_dlr(tmp->cmds[i], d);
 			parser(cm->cmd[i].str, cm->cmd + i);
 			cm->cmd[i].env = d->env;
 		}
