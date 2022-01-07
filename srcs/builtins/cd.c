@@ -21,7 +21,10 @@ static char	*pth(char *ptr)
 	tmp = malloc(LEN_PATH);
 	if (!tmp)
 		return (tmp);
-	path = ft_strjoin_m(getcwd(tmp, LEN_PATH), ptr);
+	if (ptr && *ptr == '~')
+		path = ft_strjoin_m(getenv("HOME"), ptr + 1);
+	else
+		path = ft_strjoin_m(getcwd(tmp, LEN_PATH), ptr);
 	free(tmp);
 	return (path);
 }

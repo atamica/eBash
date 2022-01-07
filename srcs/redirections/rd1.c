@@ -21,7 +21,7 @@ int	rd_s_left(char *str, t_cmd *cmd, t_d *d)
 	tmp = filename(ptr);
 	if (tmp)
 	{
-		cmd->fd[0] = open(tmp, O_RDONLY, 0777);
+		cmd->fd[0] = open(tmp, O_RDONLY);
 		free(tmp);
 		if (err_open(cmd->fd[0], d))
 			return (ERROR);
@@ -35,9 +35,9 @@ int	rd_d_left(char *str, t_cmd *cmd)
 
 	ptr = get_pos_char(str, L) + 2;
 	cmd->here_stop = filename(ptr);
-	if (!ft_strlen(cmd->here_stop))
-		return (ERROR);
-	return (SUCCSESS);
+	if (ft_strlen(cmd->here_stop))
+		return (SUCCSESS);
+	return (ERROR);
 }
 
 int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
@@ -49,7 +49,7 @@ int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
 	tmp = filename(ptr);
 	if (tmp)
 	{
-		cmd->fd[1] = open(tmp, O_RDWR, 0777);
+		cmd->fd[1] = open(tmp, O_RDWR);
 		free (tmp);
 		if (err_open(cmd->fd[1], d))
 			return (ERROR);
@@ -66,7 +66,7 @@ int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 	tmp = filename(ptr);
 	if (tmp)
 	{
-		cmd->fd[1] = open(tmp, O_APPEND | O_RDWR | O_CREAT, 0777);
+		cmd->fd[1] = open(tmp, O_APPEND | O_RDWR | O_CREAT);
 		free (tmp);
 		if (err_open(cmd->fd[1], d))
 			return (ERROR);

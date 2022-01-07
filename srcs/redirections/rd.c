@@ -65,23 +65,18 @@ int	find_redir(char *str)
 char	*filename(char *ptr)
 {
 	char	*st;
-	char	*t;
 
-	if (ptr)
-	{
-		while (*ptr && ft_isalsp(*ptr))
-			ptr++;
-		st = ptr;
-		while (*ptr && !ft_isalsp(*ptr))
-			ptr++;
-		t = ft_substr(st, 0, ptr - st);
-		return (t);
-	}
-	return (NULL);
+	if (!ptr)
+		return (NULL);
+	ptr = skip_spa(ptr);
+	st = ptr;
+	while (*ptr && !ft_isalsp(*ptr))
+		ptr++;
+	return (ft_substr(st, 0, ptr - st));
 }
 
 /* 
-t_rd	redir(char *str, t_cmd *cmd, t_d *d)
+t_rd	redir(char *path, t_cmd *cmd, t_d *d)
 {
 	t_rd	r;
 
@@ -89,10 +84,10 @@ t_rd	redir(char *str, t_cmd *cmd, t_d *d)
 	clr(cmd);
 	if (cmd->redir.code_in & S_LEFT)
 	{
-		cmd->fd[0] = open(str, O_RDONLY, 0777);
+		cmd->fd[0] = open(path, O_RDONLY, 0744);
 		if (cmd->fd[0] < 0)
 		{
-			printf("%s:%s:%s\n", PRMT, MSGE12, str);
+			printf("%s:%s:%s\n", PRMT, MSGE12, path);
 			r.code_in = -1;
 			err_msg(MSGE4, 0, d);
 			// exit ?
@@ -100,15 +95,15 @@ t_rd	redir(char *str, t_cmd *cmd, t_d *d)
 	}
 	if (cmd->redir.code_in & D_LEFT)
 	{
-		// while (ft_strcmp(input, str))
+		// while (ft_strcmp(input, path))
 		// {input new line}
 	}
 	if (cmd->redir.code_out & S_RIGHT)
 	{
-		cmd->fd[1] = open(str, O_WRONLY, 0777);
+		cmd->fd[1] = open(path, O_WRONLY, 0744);
 		if (cmd->fd[1] < 0)
 		{
-			printf("%s:%s:%s\n", PRMT, MSGE4, str);
+			printf("%s:%s:%s\n", PRMT, MSGE4, path);
 			r.code_out = -1;
 			err_msg(MSGE4, 0, d);
 			// exit ? 
@@ -116,10 +111,10 @@ t_rd	redir(char *str, t_cmd *cmd, t_d *d)
 	}
 	if (cmd->redir.code_out & D_RIGHT)
 	{
-		cmd->fd[1] = open(str, O_WRONLY | O_APPEND | O_CREAT, 0777);
+		cmd->fd[1] = open(path, O_WRONLY | O_APPEND | O_CREAT, 0744);
 		if (cmd->fd[1] < 0)
 		{
-			printf("%s:%s:%s\n", PRMT, MSGE4, str);
+			printf("%s:%s:%s\n", PRMT, MSGE4, path);
 			r.code_out = -1;
 			err_msg(MSGE4, 0, d);
 			// exit ?
