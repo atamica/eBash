@@ -49,7 +49,7 @@ int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
 	tmp = filename(ptr);
 	if (tmp)
 	{
-		cmd->fd[1] = open(tmp, O_RDWR);
+		cmd->fd[1] = open(tmp, O_RDWR | O_CREAT, 0664);
 		free (tmp);
 		if (err_open(cmd->fd[1], d))
 			return (ERROR);
@@ -66,7 +66,7 @@ int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 	tmp = filename(ptr);
 	if (tmp)
 	{
-		cmd->fd[1] = open(tmp, O_APPEND | O_RDWR | O_CREAT);
+		cmd->fd[1] = open(tmp, O_APPEND | O_RDWR | O_CREAT, 0664);
 		free (tmp);
 		if (err_open(cmd->fd[1], d))
 			return (ERROR);

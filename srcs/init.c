@@ -17,6 +17,9 @@ void	init_cmd0(t_cmd *cmd)
 	cmd->env = NULL;
 	cmd->fd[0] = STDIN_FILENO;
 	cmd->fd[1] = STDOUT_FILENO;
+	cmd->fd[2] = STDERR_FILENO;
+/* 	cmd->fd[3] = STDIN_FILENO;
+	cmd->fd[4] = STDOUT_FILENO; */
 	cmd->pipe = 0;
 }
 

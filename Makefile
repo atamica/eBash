@@ -2,8 +2,6 @@ NAME = minishell
 
 SRC = srcs/
 
-all: $(NAME)
-
 OSY = $(shell uname)
 
 BUILTINS = cd.c echo.c pwd.c manager.c env.c env1.c export.c unset.c exit.c
@@ -12,16 +10,7 @@ REDIR = rd.c rd1.c
 
 CFGNL = get_next_line.c get_next_line_utils.c
 
-#get_spec_char.c
-CF1 = start.c par.c parser.c utils.c utils1.c utils2.c free.c err.c find.c \
-	init.c is.c is1.c run.c run1.c run2.c signals.c get_spec_char.c \
-	get_spec_old.c \
-	$(addprefix builtins/, $(BUILTINS)) \
-	$(addprefix redirections/, $(REDIR)) \
-	$(addprefix ../gnl/, $(CFGNL)) \
-	history.c
-
-CF2 = 
+X = start.c
 
 CFTST = par.c parser.c utils.c utils1.c utils2.c free.c err.c find.c \
 	init.c is.c is1.c run.c run1.c run2.c signals.c get_spec_char.c \
@@ -30,6 +19,10 @@ CFTST = par.c parser.c utils.c utils1.c utils2.c free.c err.c find.c \
 	$(addprefix redirections/, $(REDIR)) \
 	$(addprefix ../gnl/, $(CFGNL)) \
 	history.c
+
+CF1 = $X $(CFTST)
+
+#CFTST = $(subst $X, , $(CF1))
 
 HDIR = ./includes
 
@@ -75,6 +68,8 @@ else
 endif
 
 FL = -Wall -Wextra -Werror $(INCLUD) -g # -O2
+
+all: $(NAME)
 
 %.o: %.c $(HDR)
 	$(CC) $(FL) -c $< -o $@ $D
@@ -123,7 +118,7 @@ runb: bonus
 	./$(NAME)
 
 tst: $(HDR) $(LIBFT)
-	gcc -I includes -I gnl -I libft -o tst srcs/tst_del_sp.c \
+	gcc -I includes -I gnl -I libft -o tst srcs/tst_redir.c \
 	$(addprefix $(SRC), $(CFTST)) $(LIBS); ./tst
 
 tst_pipe_split: $(HDR) $(LIBFT)
@@ -135,8 +130,16 @@ val: $(NAME)
 valb: bonus $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
-# --track-origins=yes --leak-check=full -s ARG=$(ARG); 
+# --track-origins=yes --leak-check=full -s ARG=$(ARG);
 
-.PHONY: all bonus clean fclean norm re run runb tst val valb tst_pipe_split
+
+dd:
+	@echo $(shell clear)
+	@echo $(CFTST)
+	@echo ---
+	@echo $(CF1)
+	@echo $(MAKE_TERMOUT)
+
+.PHONY: all bonus clean dd fclean norm re run runb tst val valb tst_pipe_split
 
 # -L /Users/atamica/./brew/Cellar/readline/8.1/lib -I /Users/atamica/./brew/Cellar/readline/8.1/include

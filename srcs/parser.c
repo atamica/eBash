@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	skip_sp(char *str, int *i, t_fl *fl)
+/* static void	skip_sp(char *str, int *i, t_fl *fl)
 {
 	int	j;
 
@@ -8,7 +8,7 @@ static void	skip_sp(char *str, int *i, t_fl *fl)
 	while (ft_isalsp(*(str + j)) && !is_qu(fl))
 		j++;
 	*i = j;
-}
+} */
 
 int	parser(char *str, t_cmd *cmd)
 {
@@ -26,7 +26,7 @@ int	parser(char *str, t_cmd *cmd)
 	{
 		del_empty_sp(str);
 // skip spases
-		skip_sp(str, &i, &fl);
+//		skip_sp(str, &i, &fl);
 /* 		while (*(str + i) && ft_isalsp(*(str + i)))
 			i++; */
 // parse cmd
@@ -181,22 +181,30 @@ void	set_flags(t_fl *fl, char c)
 		fl->fl_dol = !fl->fl_dol;
 }
 
-//		******************************** parcer **********************
-/*
-int	parsing(char *str, t_cmd *cmd)
+//		******************************** parcer ********************************
+
+int	parsing_cmd(t_cmd *cmd, t_d *d)
 {
-	int	r;
+	int			r;
+	int			rd;
+	t_replace	what_del;
 
-	r = 0;
-	if (str)
+	r = SUCCSESS;
+	what_del = (t_replace){.src = cmd->str, .len = 0, .st = 0, .val = MSG0};
+	if (cmd->str)
 	{
-		del_empty_sp(str);
+		del_empty_sp(cmd->str);
 		// redirections
-		// open f
-		// 
-
-
+		if ((rd = find_redir(cmd->str)) > 0)
+		{
+			// open f's 
+			// char	*replace_d(t_replace *r)
+			// find & cut
+			r = get_fd(what_del.src, d, cmd);
+		}
+		if (rd < 0 || ((rd & S_LEFT) && (rd & D_LEFT)) || \
+						((rd & S_RIGHT) && (rd & D_RIGHT)))
+			return (ERROR);
 	}
 	return (r);
 }
-*/

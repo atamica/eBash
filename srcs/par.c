@@ -43,17 +43,17 @@ char	*repl_dlr(char *ptr, t_d *d)
 	res = ptr;
 	while (pos)
 	{
-		r.src = res; r.val = NULL; r.st = pos - res; r.len = 0;
+		r = (t_replace){.src = res, .val = NULL, .st = pos - res, .len = 0};
 		while (is_in_name(pos + r.len + 1))
 			r.len++;
 		if (r.len)
 		{
 			name = ft_substr(res + r.st, 1, r.len);
 			r.val = get_env_val(d->env, name);
-			tmp = replace_d(&r);
-			if (res != ptr)
-				free (res);
 			free (name);
+			tmp = replace_d(&r);
+ 			if (res != ptr)
+				free (res);
 			res = tmp;
 			r.st += ft_strlen(r.val) - r.len - 1;
 			free (r.val);
@@ -121,17 +121,6 @@ printf("pars_cmd: (%s)\n", d->input);
 	return (cmd);
 }
 
-/* while (*st && ft_isalsp(st))
-			st++;
-		if (!(*st))
-		{
-			if (cmd[i + 1].str)
-				cmd->pipe = 1;
-			return ;	//		empty cmd
-		}
-			
-		if (*st == L || *st == R) */
-
 t_cmds	*pa(t_d *d)
 {
 	t_cmds	*cm;
@@ -182,7 +171,6 @@ t_cmds	*pa2(t_d *d)
 		while (tmp->cmds[++i])
 		{
 			init_cmd0(cm->cmd + i);
-//			del_empty_sp(tmp->cmds[i]);
 			cm->cmd[i].str = repl_dlr(tmp->cmds[i], d);
 			parser(cm->cmd[i].str, cm->cmd + i);
 			cm->cmd[i].env = d->env;

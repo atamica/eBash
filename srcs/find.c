@@ -55,7 +55,7 @@ char	*replace_d(t_replace *r)
 	return (res);
 }
 
-char	*dollar(char *str, t_d *d)
+/* char	*dollar(char *str, t_d *d)
 {
 	char		*res;
 	char		*tmp;
@@ -94,7 +94,7 @@ char	*dollar(char *str, t_d *d)
 		}
 	}
 	return (res);
-}
+} */
 
 /* static int	toggle(int a)
 {

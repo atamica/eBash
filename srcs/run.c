@@ -62,7 +62,6 @@ int		run(char *str)
 		cmd0(&d);
 		free(d.cmd.arg[0]);
 		free(d.cmd.arg[1]);
-//		free(d.cmd.arg[2]);
 		free(d.cmd.arg);
 	}
 	return (res);

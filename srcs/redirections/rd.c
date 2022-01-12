@@ -75,6 +75,14 @@ char	*filename(char *ptr)
 	return (ft_substr(st, 0, ptr - st));
 }
 
+/* t_replace	fname(char *str)
+{
+	t_replace res;
+
+	res.src = str;
+
+} */
+
 /* 
 t_rd	redir(char *path, t_cmd *cmd, t_d *d)
 {

@@ -241,7 +241,8 @@ typedef struct s_cmd
 	char	**arg;
 	char	**env;
 	int		fds[2];
-	int		fd[2];
+	int		fd[3];
+	int		fdp[2];
 	t_type	type;
 	t_rd	redir;
 	int		code_red;
