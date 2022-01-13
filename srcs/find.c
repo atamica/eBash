@@ -96,10 +96,6 @@ char	*replace_d(t_replace *r)
 	return (res);
 } */
 
-/* static int	toggle(int a)
-{
-	return (!a);
-} */
 
 /*
 **	return, value $[NAME]

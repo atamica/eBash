@@ -45,6 +45,13 @@ void	close_f2(int *fd)
 		close(fd[OUT]);
 }
 
+void	close_f3(int *fd)
+{
+	close_f(fd[0]);
+	close_f(fd[1]);
+	close_f(fd[2]);
+}
+
 void	free_d(t_d *d)
 {
 	if (d->input)

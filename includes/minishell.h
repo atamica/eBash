@@ -156,6 +156,7 @@
 # else
 #  define LEN_PATH 4096
 # endif
+
 # define RESET "\001\033[0m\002"
 # define RED "\001\033[31m\002"
 # define GREEN "\001\033[32m\002"
@@ -172,7 +173,8 @@ int		code_event;
 typedef enum e_pipe
 {
 	IN = STDIN_FILENO,
-	OUT = STDOUT_FILENO
+	OUT = STDOUT_FILENO,
+	ER = STDERR_FILENO
 }	t_pipe;
 
 typedef enum e_type
@@ -422,6 +424,7 @@ void		free_nu(void *ptr);
 void		free2(char **ptr);
 void		close_f(int fd);
 void		close_f2(int *fd);
+void		close_f3(int *fd);
 void		free_d(t_d *d);
 void		free_cmd(t_cmd *cmd);
 void		free_cmds(t_cmds *cmds);
@@ -500,7 +503,6 @@ t_errors	ft_get_redirections(char *str, t_cmd *cmd);
 */
 
 char		*get_pos_char(char *str, char c);
-//char		*ft_get_spec_ch(char *str, char c);
 
 /*
 **		redirections/herdoc.c
