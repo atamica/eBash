@@ -49,7 +49,7 @@ int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
 	tmp = filename(ptr);
 	if (tmp)
 	{
-		cmd->fd[1] = open(tmp, O_RDWR | O_CREAT, 0664);
+		cmd->fd[1] = open(tmp, O_RDWR | O_CREAT | O_TRUNC, FILE_PERM);
 		free (tmp);
 		if (err_open(cmd->fd[1], d))
 			return (ERROR);
@@ -66,7 +66,7 @@ int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 	tmp = filename(ptr);
 	if (tmp)
 	{
-		cmd->fd[1] = open(tmp, O_APPEND | O_RDWR | O_CREAT, 0664);
+		cmd->fd[1] = open(tmp, O_APPEND | O_RDWR | O_CREAT, FILE_PERM);
 		free (tmp);
 		if (err_open(cmd->fd[1], d))
 			return (ERROR);
@@ -76,10 +76,13 @@ int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 
 int	get_fd(char *str, t_d *d, t_cmd *cmd)
 {
-	*(cmd->fd) = STDIN_FILENO;
-	*(cmd->fd + 1) = STDOUT_FILENO;
+	/* *(cmd->fd) = IN;
+	*(cmd->fd + 1) = OUT;
+	*(cmd->fd + 2) = ER; */
 	cmd->code_red = find_redir(str);
-	if (cmd->code_red < 0)
+	if ((cmd->code_red < 0) || \
+		(cmd->code_red && (S_LEFT + D_LEFT)) || \
+		(cmd->code_red && (S_RIGHT + D_RIGHT)))
 		return (ERROR);
 	if ((cmd->code_red & S_LEFT) && rd_s_left(str, cmd, d))
 		return (ERROR);

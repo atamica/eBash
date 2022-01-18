@@ -12,20 +12,6 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include <stdio.h>		// readline, printf
-						// void perror(const char *s);
-
-# if OS == 1			// Linux
-#  include <readline/readline.h>
-#  include <readline/history.h>
-# else					// MacOS -- ??
-#  include <readline/readline.h>
-#  include <readline/history.h>
-# endif
-
-//# define NDEBUG
-
-# include <assert.h>
 
 # include <unistd.h>	// int unlink(const char *pathname);
 						// ssize_t read(int fd, void *buf, size_t count);
@@ -42,6 +28,23 @@
 						// int isatty(int fd);
 						// char *ttyname(int fd);
 						// int ttyslot(void);
+						
+# include <stdio.h>		// readline, printf
+						// void perror(const char *s);
+
+# if OS == 1			// Linux
+#  include <readline/readline.h>
+#  include <readline/history.h>
+# else					// MacOS -- ??
+#  include <readline/readline.h>
+#  include <readline/history.h>
+# endif
+
+//# define NDEBUG
+
+# include <assert.h>
+
+
 
 # include <signal.h>	// typedef void (*sighandler_t)(int);
 						// sighandler_t signal(int signum,
@@ -98,23 +101,41 @@
 # include "libft.h"
 # include "get_next_line.h"
 
-#define FILE_PERM 0664
+# define FILE_PERM 0664	// S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR
 
-# define MSGE1 "\001\033[31m\002Error args!\n\001\033[0m\002"
-# define MSGE2 "\001\033[31m\002Error memory!\n\001\033[0m\002"
-# define MSGE3 "\001\033[31m\002Error create pipe!\n\001\033[0m\002"
-# define MSGE4 "\001\033[31m\002Error open file!\n\001\033[0m\002"
-# define MSGE5 "\001\033[31m\002Error create process!\n\001\033[0m\002"
-# define MSGE6 "\001\033[31m\002Error in dup2!\n\001\033[0m\002"
-# define MSGE7 "\001\033[31m\002Error waitpid!\n\001\033[0m\002"
-# define MSGE8 "\001\033[31m\002Error in cmd!\n\001\033[0m\002"
-# define MSGE9 "\001\033[31m\002Error in "
+
+# define S "\001\033"
+# define E "\002"
+
+# define RESET S "[0m" E
+# define BLACK S "[30m" E
+# define RED S "[31m" E
+# define GREEN S "[32m" E
+# define YELLOW S "[33m" E
+# define BLUE S "[34m" E
+# define MAGENTA S "[35m" E
+# define CYAN S "[36m" E
+# define WHITE S "[37m" E
+
+# define BOLD S "[1m" E
+# define UNDERLINE S "[4m" E
+# define INVERSED S "[7m" E
+
+# define MSGE1 RED "Error args!\n" RESET
+# define MSGE2 RED "Error memory!\n" RESET
+# define MSGE3 RED "Error create pipe!\n" RESET
+# define MSGE4 RED "Error open file!\n" RESET
+# define MSGE5 RED "Error create process!\n" RESET
+# define MSGE6 RED "Error in dup2!\n" RESET
+# define MSGE7 RED "Error waitpid!\n" RESET
+# define MSGE8 RED "Error in cmd!\n" RESET
+# define MSGE9 RED "Error in "
 # define MSGE10 "too many arguments"
 # define MSGE11 "numeric argument required"
 # define MSGE12 "no such file or directory"
 # define MSGE13 "syntax error near unexpected token"
 
-# define MSG "\001\033[1;36m\002\u2328\001\033[0m\033[2C\002"
+# define MSG S "[1;36m" E "\u2328" S "[0m\033[2C" E
 # define MSG0 ""
 # define ALL_SP " \t\v\n\f\r"
 # define SP ' '
@@ -157,16 +178,9 @@
 #  define LEN_PATH 4096
 # endif
 
-# define RESET "\001\033[0m\002"
-# define RED "\001\033[31m\002"
-# define GREEN "\001\033[32m\002"
-# define YELLOW "\001\033[33m\002"
-# define BLUE "\001\033[34m\002"
-# define MAGENTA "\001\033[35m\002"
-# define CYAN "\001\033[36m\002"
-
-# define CTRL_C		130
-# define CTRL_SL	131
+# define CTRL_C		130		// = /cC
+# define CTRL_SL	131		// = /c//
+# define CTRL_D		4		// = /cD
 
 int		code_event;
 
@@ -188,6 +202,18 @@ typedef enum e_type
 	OR,
 	OTHERS
 }	t_type;
+
+/*
+**	|.bit.|4|3|2|1|0|
+**	-----------------
+**		  |0|0|0|0|0| = 0 (NONE)
+**		  |0|0|0|0|1| = 1 (S_LEFT)
+**		  |0|0|0|1|0| = 2 (D_LEFT)
+**		  |0|0|1|0|0| = 4 (S_RIGHT)
+**		  |0|1|0|0|0| = 8 (D_RIGHT)
+**	if ((rd & 3) || (rd & 12)) then syntax error
+**	else	Ok
+*/
 
 typedef enum e_redir
 {
@@ -216,6 +242,13 @@ typedef enum e_errors
 	FATAL = -2
 }	t_errors;
 
+typedef struct s_bin_str
+{
+    size_t len;				/* Number of bytes */
+    char const *string;		/* Pointer to the same */
+}				t_bin_str;
+
+
 typedef struct s_rd
 {
 	int		code_in;
@@ -227,6 +260,13 @@ typedef struct s_f
 	int		pip;
 	int		io;
 }				t_f;
+
+typedef struct s_io
+{
+	int		in;
+	int		out;
+	int		err;
+}				t_io;
 
 typedef struct s_fl
 {
@@ -242,9 +282,10 @@ typedef struct s_cmd
 	char	*path;
 	char	**arg;
 	char	**env;
-	int		fds[2];
+//	int		fds[2];
 	int		fd[3];
-	int		fdp[2];
+//	int		fdp[2];
+//	t_io	std_io;
 	t_type	type;
 	t_rd	redir;
 	int		code_red;
@@ -312,6 +353,8 @@ typedef struct s_cmds
 	t_d		*d;
 	int		cod;
 	int		count;
+	int		pipes_count;
+	int		**fdp;
 }			t_cmds;
 
 typedef struct s_tk
@@ -414,6 +457,7 @@ int			out_msg(char *msg, int code);
 void		if_err_fatal(void *ptr, int code, t_d *d);
 int			syntax_err(char c);
 void		if_err_no_fatal(int er, int code, t_d *d);
+int			err_open(int fd, t_d *d);
 
 /*
 **		free.c
@@ -517,7 +561,6 @@ int			rd_s_left(char *str, t_cmd *cmd, t_d *d);
 int			rd_d_left(char *str, t_cmd *cmd);
 int			rd_s_right(char *str, t_cmd *cmd, t_d *d);
 int			rd_d_right(char *str, t_cmd *cmd, t_d *d);
-int			err_open(int fd, t_d *d);
 
 /*
 **		par.c

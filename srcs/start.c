@@ -19,21 +19,28 @@ int	main(int ac, char **av, char **env)
 			status = 0;
 			break ;
 		}
-		add_history(d.input);
+		if (!ft_isalsp(*d.input))
+			add_history(d.input);
 /* printf("###################################################\n");
 run(d.input);
-printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");	 */	
+printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");	 */
 		cmds = pa2(&d);
 		i = -1;
 		while (++i < cmds->count)
-			printf("%2i. str(%s) type(%i)\n", i, cmds->cmd[i].path,  cmds->cmd[i].type);
+			printf("%2i. str(%s) type(%i)\n", i, cmds->cmd[i].path,  \
+					cmds->cmd[i].type);
 		printf("===================================================\n");
 		i = -1;
 		d.stat = 0;
 		while ((++i < cmds->count) && !d.stat)
 		{
-			if (i < cmds->count)
-				if_err_exit(pipe(cmds->cmd[i].fd), 3, &d);
+			if (i < cmds->pipes_count)
+			{
+				if_err_exit(pipe(cmds->fdp[i]), 3, &d);
+				// check if > or >> for out
+				//			< or << for in
+			}
+				
 			if (cmds->cmd[i].type == EXTERNALS)
 				d.stat = cmd_cmd(&d, cmds->cmd + i);
 			else if (cmds->cmd[i].type == BUILTINS)

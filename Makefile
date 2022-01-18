@@ -6,7 +6,7 @@ OSY = $(shell uname)
 
 BUILTINS = cd.c echo.c pwd.c manager.c env.c env1.c export.c unset.c exit.c
 
-REDIR = rd.c rd1.c
+REDIR = rd.c rd1.c rd2.c
 
 CFGNL = get_next_line.c get_next_line_utils.c
 
@@ -118,7 +118,7 @@ runb: bonus
 	./$(NAME)
 
 tst: $(HDR) $(LIBFT)
-	gcc -I includes -I gnl -I libft -o tst srcs/tst_redir.c \
+	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_redir.c \
 	$(addprefix $(SRC), $(CFTST)) $(LIBS); ./tst
 
 tst_pipe_split: $(HDR) $(LIBFT)

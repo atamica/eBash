@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+/*
 static	void	err0(char *msg1, char *msg2, int code, t_d *d)
 {
 	write (2, msg1, ft_strlen(msg1));
@@ -14,7 +14,6 @@ static	void	err0(char *msg1, char *msg2, int code, t_d *d)
 	if (code)
 		exit(code);
 }
-
 
 static	void	ddup(int *p, int i, t_d *d)
 {
@@ -34,7 +33,7 @@ static	void	restore_io(int *t, int i, int *fl, t_d *d)
 	ddup(t, i, d);
 	*fl = i;
 }
-
+ 
 int	cycle(t_cmds *cmds, t_d *d)
 {
 	t_f	fl;
@@ -83,3 +82,4 @@ int	cycle(t_cmds *cmds, t_d *d)
 	}
 	return (0);
 }
+ */

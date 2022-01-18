@@ -7,11 +7,11 @@ void	cmd1_cmd(t_d *d, t_cmd *cmd)
 /* printf("cmd_cmd: path=%s ", cmd->path);
 print_param(cmd->arg, "_", ' ');
 printf(N); */
-	dup_io(cmd->fd, d);
+		dup_io(cmd->fd, d);
 		if (execve(cmd->path, cmd->arg, cmd->env) == -1)
 		{
 			perror(MSGE8);
-			strerror(errno);
+			//strerror(errno);
 			exit(errno);
 		}
 		exit(0);
@@ -51,7 +51,8 @@ int	exe(t_exe *cmde, t_d *d)
 	if (pid)
 	{// parent
 		if_err_exit(waitpid(pid, &cmde->code, 0), 7, d);
-		if_err_no_fatal(cmde->code, 8, d);
+		//if_err_no_fatal(cmde->code, 8, d);
+		//	perror(MSGE8);
 	}
 	else
 	{// child
@@ -59,7 +60,6 @@ int	exe(t_exe *cmde, t_d *d)
 		if (execve(cmde->path, cmde->args, cmde->env) == -1)
 		{
 			perror(MSGE8);
-			strerror(errno);
 			exit(errno);
 		}
 		exit(0);

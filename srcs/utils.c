@@ -76,7 +76,7 @@ void	dup2_check(int old_fd, int new_fd, t_d *d)
 	if (new_fd != old_fd)
 	{
 		if (dup2(old_fd, new_fd) != new_fd)
-			err(6, d);
+			err(6, d);	//err_msg(msg_error(6), 0, d);
 		close_f(old_fd);
 	}
 }
@@ -85,7 +85,8 @@ void	dup_io(int *fd, t_d *d)
 {
 	if (fd)
 	{
-		dup2_check(STDIN_FILENO, fd[0], d);
-		dup2_check(STDOUT_FILENO, fd[1], d);
+		dup2_check(fd[0], STDIN_FILENO, d);
+		dup2_check(fd[1], STDOUT_FILENO, d);
+		dup2_check(fd[2], STDERR_FILENO, d);
 	}
 }

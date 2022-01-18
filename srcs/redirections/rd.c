@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-int	err_open(int fd, t_d *d)
-{
-	if (fd < 0)
-	{
-		err_msg(MSGE4, 0, d);
-		return (ERROR);
-	}
-	return (SUCCSESS);
-}
-
 static void	s_redir(char *ptr, char c, int *r, int code_redir)
 {
 	if ((*r != -1) && ptr && *ptr && (ptr[1] != c))

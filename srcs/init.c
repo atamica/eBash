@@ -8,18 +8,19 @@ void	init_cmd0(t_cmd *cmd)
 	cmd->str = NULL;
 	cmd->here_stop = NULL;
 	cmd->type = EMPTY;
-	cmd->fds[0] = STDIN_FILENO;
-	cmd->fds[1] = STDOUT_FILENO;
+//	cmd->fds[0] = IN;
+//	cmd->fds[1] = OUT;
 	cmd->code_ret = 0;
 	cmd->code_red = 0;
 	cmd->redir.code_in = 0;
 	cmd->redir.code_out = 0;
 	cmd->env = NULL;
-	cmd->fd[0] = STDIN_FILENO;
-	cmd->fd[1] = STDOUT_FILENO;
-	cmd->fd[2] = STDERR_FILENO;
-/* 	cmd->fd[3] = STDIN_FILENO;
-	cmd->fd[4] = STDOUT_FILENO; */
+//	cmd->fd = {IN, OUT, ER};
+ 	cmd->fd[0] = IN;
+	cmd->fd[1] = OUT;
+	cmd->fd[2] = ER;
+//	cmd->std_io = (t_io){.in = dup(IN), .out = dup(OUT), .err = dup(ER)};
+	// check err in dup
 	cmd->pipe = 0;
 }
 
@@ -48,6 +49,7 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	rl_clear_history();
 # endif
 	init_cmd0(&d->cmd);
+
 	d->ac = ac;
 	d->av = av;
 	copy_envs(env, d);

@@ -166,6 +166,9 @@ t_cmds	*pa2(t_d *d)
 	if (*tmp->cmds)
 	{
 		cm->count = tmp->amount;
+		cm->pipes_count = cm->count - 1;
+		if (cm->pipes_count > 0)
+			if_err_fatal(cm->fdp = malloc(sizeof(int*) * 2 *(cm->pipes_count)), 2, d);
 		if_err_fatal(cm->cmd = malloc(sizeof(t_cmd) * (cm->count + 1)), 2, d);
 		i = -1;
 		while (tmp->cmds[++i])
@@ -221,6 +224,11 @@ char	**split_cmds(t_d *d)
 	res[t.j] = NULL;
 	return (res);
 }
+
+/*
+**	split by '|'
+**	need add also split by other: ';', "&&" "||"
+*/
 
 t_splits	*split_cmds2(t_d *d)
 {

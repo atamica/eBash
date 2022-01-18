@@ -78,3 +78,13 @@ int		syntax_err(char c)
 	printf("%s: %s «%c»\n", PRMT, MSGE13, c);
 	return (2);
 }
+
+int	err_open(int fd, t_d *d)
+{
+	if (fd < 0)
+	{
+		err_msg(MSGE4, 0, d);
+		return (ERROR);
+	}
+	return (SUCCSESS);
+}
