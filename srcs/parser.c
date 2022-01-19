@@ -25,10 +25,6 @@ int	parser(char *str, t_cmd *cmd)
 	if (str)
 	{
 		del_empty_sp(str);
-// skip spases
-//		skip_sp(str, &i, &fl);
-/* 		while (*(str + i) && ft_isalsp(*(str + i)))
-			i++; */
 // parse cmd
 		start = i;
 		while (*(str + i) && !ft_strchr(" ;\"\'$", *(str + i)))
@@ -44,7 +40,8 @@ int	parser(char *str, t_cmd *cmd)
 			cmd->path = cmdf(ptr);
 		cmd->type = type_cmd(ptr);
 //printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
-		free(ptr);
+		if (ptr && ft_strlen(ptr))
+			free(ptr);
 // parse options
 
 // parse args
@@ -53,8 +50,7 @@ print_param(cmd->arg,"parser:", ':');
 printf(N);
 		if (cmd->path)
 			r = 1;
-		
-		// parse "; | || & && >> << < >"
+// parse "; | || & && >> << < >"
 	}
 	return (r);
 }

@@ -414,8 +414,7 @@ int			run(char *str);
 int			exec_cmd(t_d *d);
 int			exec_cmds(t_cmds *cmds);
 
-void		cmd1_cmd(t_d *d, t_cmd *cmd);
-void		wait_chailds_cmd(t_d *d);
+//void		cmd1_cmd(t_d *d, t_cmd *cmd);
 int			cmd_cmd(t_d *d, t_cmd *cmd);
 int			exe(t_exe *cmde, t_d *d);
 
