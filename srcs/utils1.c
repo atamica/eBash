@@ -78,24 +78,20 @@ void	print_param(char **arg, char *prefix, char separator)
 void	print_param_fd(char **arg, char *prefix, char separator, int fd)
 {
 	char	c;
-	int		i;
+//	int		i;
 	
 	if (arg)
 	{
-		if (prefix && *prefix)
-			c = DQ;
-		else
-			c = 0;
-		i = 0;
-		while (arg[i])
+		c = (prefix && *prefix) * DQ;
+//		i = 0;
+		while (*arg)
 		{
-			if (!arg[i + 1])
-				separator = 0;
 			ft_putstr_fd(prefix, fd);
 			ft_putchar_fd(c, fd);
-			ft_putstr_fd(arg[i++], fd);
+			ft_putstr_fd(*arg, fd);
 			ft_putchar_fd(c, fd);
-			ft_putchar_fd(separator, fd);
+			if (*(++arg))
+				ft_putchar_fd(separator, fd);
 		}
 	}
 }

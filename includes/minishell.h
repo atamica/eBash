@@ -410,7 +410,7 @@ typedef struct s_pos
 void		cmd1(t_d *d);
 void		wait_chailds(t_d *d);
 int			cmd0(t_d *d);
-int			run(char *str);
+int			run(t_d *d);
 int			exec_cmd(t_d *d);
 int			exec_cmds(t_cmds *cmds);
 

@@ -168,7 +168,12 @@ t_cmds	*pa2(t_d *d)
 		cm->count = tmp->amount;
 		cm->pipes_count = cm->count - 1;
 		if (cm->pipes_count > 0)
-			if_err_fatal(cm->fdp = malloc(sizeof(int*) * 2 *(cm->pipes_count)), 2, d);
+		{
+			if_err_fatal(cm->fdp = malloc(sizeof(int*) * (cm->pipes_count)), 2, d);
+			i = -1;
+			while (++i < cm->pipes_count)
+				if_err_fatal(cm->fdp[i] = malloc(sizeof(int) * 2), 2, d);
+		}
 		if_err_fatal(cm->cmd = malloc(sizeof(t_cmd) * (cm->count + 1)), 2, d);
 		i = -1;
 		while (tmp->cmds[++i])

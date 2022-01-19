@@ -3,27 +3,22 @@
 int	main(int ac, char **av, char **env)
 {
 
-	int		status = 1;
 	t_d		d;
 	t_cmds	*cmds;
 	int		i;
 
 	init_start(&d, ac, av, env);
-	while (status)
+	while (1)
 	{
 		d.input = readline(prompt(&d));
 		free(d.prompt);
 		d.fr = 1;
 		if (!d.input)
-		{
-			status = 0;
 			break ;
-		}
 		if (!ft_isalsp(*d.input))
 			add_history(d.input);
-/* printf("###################################################\n");
-run(d.input);
-printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");	 */
+printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 		cmds = pa2(&d);
 		i = -1;
 		while (++i < cmds->count)
@@ -40,18 +35,16 @@ printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");	 */
 				// check if > or >> for out
 				//			< or << for in
 			}
-				
 			if (cmds->cmd[i].type == EXTERNALS)
 				d.stat = cmd_cmd(&d, cmds->cmd + i);
 			else if (cmds->cmd[i].type == BUILTINS)
 				d.stat = run_builtins_cmd(&d, cmds->cmd + i);
-			printf("~~~~~~~~~~~~~~~~~~~~ code_ret(%i)\n", d.stat);
+			printf("~~~~~~~~~~~~~~ code_ret(%3i) ~~~~~\n", d.stat);
 		}
 		free_cmds(cmds);
 		printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-		init_cmd_free(&d.cmd);
 		free(d.input);
-		close_f2(d.cmd.fd);
+		close_f3(d.cmd.fd);
 	}
 	printf(N);
 	free_d(&d);

@@ -17,17 +17,17 @@ void	free_null(void **ptr)
 
 void	free2(char **ptr)
 {
-	void	**tmp;
+	char	**tmp;
 
 	if (ptr)
 	{
-		tmp = (void **)ptr;
+		tmp = ptr;
 		while (*tmp)
 		{
 			free(*tmp);
 			tmp++;
 		}
-		free((void **)ptr);
+		free(ptr);
 	}
 }
 
@@ -78,6 +78,7 @@ void	free_cmd(t_cmd *cmd)
 
 void	free_cmds(t_cmds *cmds)
 {
+	int		i;
 	t_cmd	*tmp;
 
 	if (cmds)
@@ -85,6 +86,10 @@ void	free_cmds(t_cmds *cmds)
 		tmp = cmds->cmd;
 		while (cmds->count--)
 			free_cmd(tmp++);
+		i = -1;
+		while (++i < cmds->pipes_count)
+			free(cmds->fdp[i]);
+		free(cmds->fdp);
 		free(cmds->cmd);
 		free(cmds);
 	}
