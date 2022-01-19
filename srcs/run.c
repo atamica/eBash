@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	cmd1(t_d *d)
+/* void	cmd1(t_d *d)
 {
 	if (d->cmd.path)
 	{
@@ -34,7 +34,7 @@ int	cmd0(t_d *d)
 		cmd1(d);
 	return (d->cmd.code_ret);
 }
-
+ */
 
 /*
 **	run bash
@@ -55,7 +55,7 @@ int		run(t_d *d)
 		d->cmd.arg[1] = ft_strdup("-c");
 		d->cmd.arg[2] = d->input;
 		d->cmd.arg[3] = NULL;
-		res = cmd0(d);
+		res = cmd_cmd(d, &d->cmd);
 		free(d->cmd.arg[0]);
 		free(d->cmd.arg[1]);
 		free(d->cmd.arg);
@@ -63,7 +63,7 @@ int		run(t_d *d)
 	return (res);
 }
 
-int		exec_cmd(t_d *d)
+/* int		exec_cmd(t_d *d)
 {
 	int	code;
 
@@ -99,4 +99,4 @@ int		exec_cmds(t_cmds *cmds)
 		cmds++;
 	}
 	return (code);	// 0
-}
+} */

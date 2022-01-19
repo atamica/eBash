@@ -20,7 +20,7 @@ int	parser(char *str, t_cmd *cmd)
 
 	r = 0;
 	i = 0;
-	init_cmd0(cmd);
+	init_cmd(cmd);
 	init_fl(&fl);
 	if (str)
 	{
@@ -66,7 +66,7 @@ int	pars(char *str, t_cmd *cmd, t_d *d)
 
 	r = 0;
 	i = 0;
-	init_cmd0(cmd);
+	init_cmd(cmd);
 	init_fl(&fl);
 	if (str)
 	{

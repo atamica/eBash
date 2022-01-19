@@ -110,7 +110,7 @@ t_cmd	*pars_cmd(t_cmd *cmd, t_d *d)
 {
 	char	*st;
 
-	init_cmd0(cmd);
+	init_cmd(cmd);
 	st = skip_sps(cmd->str);
 	if (st && *st)
 	{
@@ -178,7 +178,7 @@ t_cmds	*pa2(t_d *d)
 		i = -1;
 		while (tmp->cmds[++i])
 		{
-			init_cmd0(cm->cmd + i);
+			init_cmd(cm->cmd + i);
 			cm->cmd[i].str = repl_dlr(tmp->cmds[i], d);
 			parser(cm->cmd[i].str, cm->cmd + i);
 			cm->cmd[i].env = d->env;

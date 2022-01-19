@@ -1,7 +1,7 @@
 #include "minishell.h"
 //extern int code_event;
 
-void	init_cmd0(t_cmd *cmd)
+void	init_cmd(t_cmd *cmd)
 {
 	cmd->arg = NULL;
 	cmd->path = NULL;
@@ -24,12 +24,6 @@ void	init_cmd0(t_cmd *cmd)
 	cmd->pipe = 0;
 }
 
-void	init_cmd_free(t_cmd *cmd)
-{
-	free_cmd(cmd);
-	init_cmd0(cmd);
-}
-
 void	init_fl(t_fl *fl)
 {
 	// *fl = (t_fl){0, 0, 0, 0, 0};
@@ -48,7 +42,7 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 # if OS == LINUX
 	rl_clear_history();
 # endif
-	init_cmd0(&d->cmd);
+	init_cmd(&d->cmd);
 
 	d->ac = ac;
 	d->av = av;

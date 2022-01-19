@@ -407,14 +407,13 @@ typedef struct s_pos
 **		run.c
 */
 
-void		cmd1(t_d *d);
-void		wait_chailds(t_d *d);
-int			cmd0(t_d *d);
+//void		cmd1(t_d *d);
+//void		wait_chailds(t_d *d);
+//int			cmd0(t_d *d);
 int			run(t_d *d);
-int			exec_cmd(t_d *d);
-int			exec_cmds(t_cmds *cmds);
+//int			exec_cmd(t_d *d);
+//int			exec_cmds(t_cmds *cmds);
 
-//void		cmd1_cmd(t_d *d, t_cmd *cmd);
 int			cmd_cmd(t_d *d, t_cmd *cmd);
 int			exe(t_exe *cmde, t_d *d);
 
@@ -505,8 +504,7 @@ char		*dollar(char *str, t_d *d);
 **		init.c
 */
 
-void		init_cmd0(t_cmd *cmd);
-void		init_cmd_free(t_cmd *cmd);
+void		init_cmd(t_cmd *cmd);
 void		init_fl(t_fl *fl);
 void		init_start(t_d *d, int ac, char **av, char **env);
 
