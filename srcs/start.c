@@ -17,8 +17,8 @@ int	main(int ac, char **av, char **env)
 			break ;
 		if (!ft_isalsp(*d.input))
 			add_history(d.input);
-printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
+//printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+//printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 		cmds = pa2(&d);
 		i = -1;
 		while (++i < cmds->count)
@@ -36,7 +36,9 @@ printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 				//			< or << for in
 			}
 			if (cmds->cmd[i].type == EXTERNALS)
-				d.stat = cmd_cmd(&d, cmds->cmd + i);
+				d.stat = cmd_cmd(&d, cmds->cmd + i, \
+				(i > 0) ? cmds->fdp[i - 1] : NULL, \
+				(i < cmds->pipes_count && cmds->pipes_count) ? cmds->fdp[i] : NULL);
 			else if (cmds->cmd[i].type == BUILTINS)
 				d.stat = run_builtins_cmd(&d, cmds->cmd + i);
 			printf("~~~~~~~~~~~~~~ code_ret(%3i) ~~~~~\n", d.stat);

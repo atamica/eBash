@@ -52,6 +52,25 @@ void	close_f3(int *fd)
 	close_f(fd[2]);
 }
 
+void	close_f3any(int *fd)
+{
+	if (fd)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		close(fd[2]);
+	}
+	
+}
+void	close_f2any(int *fd)
+{
+	if (fd)
+	{
+		close(fd[0]);
+		close(fd[1]);
+	}
+}
+
 void	free_d(t_d *d)
 {
 	if (d->input)

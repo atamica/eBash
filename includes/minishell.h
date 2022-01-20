@@ -407,15 +407,11 @@ typedef struct s_pos
 **		run.c
 */
 
-//void		cmd1(t_d *d);
-//void		wait_chailds(t_d *d);
-//int			cmd0(t_d *d);
+//int			cmd(t_d *d, t_cmd *cmd);
 int			run(t_d *d);
-//int			exec_cmd(t_d *d);
-//int			exec_cmds(t_cmds *cmds);
 
-int			cmd_cmd(t_d *d, t_cmd *cmd);
-int			exe(t_exe *cmde, t_d *d);
+int			cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out);
+//int			exe(t_exe *cmde, t_d *d);
 
 /*
 **		parser.c
@@ -433,7 +429,7 @@ char		*ft_strjoin_c(char const *s1, char const *s2, char c);
 char		*ft_strjoin_m(char const *s1, char const *s2);
 char		*cmdf(char *cmd);
 void		dup2_check(int old_fd, int new_fd, t_d *d);
-void		dup_io(int *fd, t_d *d);
+void		dup_io(int *fd, t_d *d, int *pipe_in, int *pipe_out);
 
 char		*prompt(t_d *d);
 size_t		sp_count(char *ptr);
@@ -467,6 +463,8 @@ void		free2(char **ptr);
 void		close_f(int fd);
 void		close_f2(int *fd);
 void		close_f3(int *fd);
+void		close_f2any(int *fd);
+void		close_f3any(int *fd);
 void		free_d(t_d *d);
 void		free_cmd(t_cmd *cmd);
 void		free_cmds(t_cmds *cmds);

@@ -77,16 +77,34 @@ void	dup2_check(int old_fd, int new_fd, t_d *d)
 	{
 		if (dup2(old_fd, new_fd) != new_fd)
 			err(6, d);	//err_msg(msg_error(6), 0, d);
-		close_f(old_fd);
+		close(old_fd);
 	}
 }
 
-void	dup_io(int *fd, t_d *d)
+void	dup_io(int *fd, t_d *d, int *pipe_in, int *pipe_out)
 {
 	if (fd)
 	{
-		dup2_check(fd[0], STDIN_FILENO, d);
-		dup2_check(fd[1], STDOUT_FILENO, d);
+		if ((fd[0] == STDIN_FILENO) && pipe_in)
+		{
+			dup2_check(pipe_in[0], STDIN_FILENO, d);
+			close(pipe_in[1]);
+		}
+		else
+		{
+			dup2_check(fd[0], STDIN_FILENO, d);
+			close_f2any(pipe_in);
+		}
+		if ((fd[1] == STDOUT_FILENO) && pipe_out)
+		{
+			dup2_check(pipe_out[1], STDOUT_FILENO, d);
+			close(pipe_out[0]);
+		}
+		else
+		{
+			dup2_check(fd[1], STDOUT_FILENO, d);
+			close_f2any(pipe_out);
+		}
 		dup2_check(fd[2], STDERR_FILENO, d);
 	}
 }
