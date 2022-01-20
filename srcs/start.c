@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: atamica <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/20 21:46:30 by atamica           #+#    #+#             */
+/*   Updated: 2022/01/20 21:46:35 by atamica          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	main(int ac, char **av, char **env)
 {
-
 	t_d		d;
 	t_cmds	*cmds;
 	int		i;
@@ -23,7 +34,7 @@ int	main(int ac, char **av, char **env)
 		i = -1;
 		while (++i < cmds->count)
 			printf("%2i. str(%s) type(%i)\n", i, cmds->cmd[i].path,  \
-					cmds->cmd[i].type);
+			cmds->cmd[i].type);
 		printf("===================================================\n");
 		i = -1;
 		d.stat = 0;
@@ -37,7 +48,7 @@ int	main(int ac, char **av, char **env)
 			}
 			if (cmds->cmd[i].type == EXTERNALS)
 				d.stat = cmd_cmd(&d, cmds->cmd + i, \
-				(i > 0) ? cmds->fdp[i - 1] : NULL, \
+				(i > 0  && cmds->pipes_count) ? cmds->fdp[i - 1] : NULL, \
 				(i < cmds->pipes_count && cmds->pipes_count) ? cmds->fdp[i] : NULL);
 			else if (cmds->cmd[i].type == BUILTINS)
 				d.stat = run_builtins_cmd(&d, cmds->cmd + i);

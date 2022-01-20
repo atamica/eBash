@@ -39,7 +39,7 @@ FL = -Wall -Wextra -Werror -I.
 
 CC = gcc
 
-.PHONY: all bonus clean fclean re dd so sobonus
+.PHONY: all bonus clean fclean re dd so sobonus norm
 
 all: $(NAME)
 
@@ -63,3 +63,6 @@ re: fclean all
 dd:
 	echo $(CF)
 	echo $(BCF)
+
+norm:
+	norminette $(CF) $(HDR)

@@ -14,12 +14,12 @@ X = start.c
 
 CFTST = par.c parser.c utils.c utils1.c utils2.c free.c err.c find.c \
 	init.c is.c is1.c run.c run1.c run2.c signals.c get_spec_char.c \
-	get_spec_old.c \
+	get_spec_old.c history.c \
 	$(addprefix builtins/, $(BUILTINS)) \
-	$(addprefix redirections/, $(REDIR)) \
-	$(addprefix ../gnl/, $(CFGNL)) \
-	history.c
+	$(addprefix redirections/, $(REDIR))
 
+GNL = 	$(addprefix gnl/, $(CFGNL))
+	
 CF1 = $X $(CFTST)
 
 #CFTST = $(subst $X, , $(CF1))
@@ -43,10 +43,10 @@ LIBS = -L $(LIBDIR) -lft -lreadline
 endif
 
 ifeq ($(BON), 1)
-	CF=$(addprefix $(SRC)bonus/, $(CF2))
+	CF=$(addprefix $(SRC)bonus/, $(CF2)) $(GNL)
 	D = -D BONUS=1
 else
-	CF=$(addprefix $(SRC), $(CF1))
+	CF=$(addprefix $(SRC), $(CF1)) $(GNL)
 	D = -D BONUS=0
 endif
 
@@ -98,10 +98,9 @@ re: fclean all
 
 norm:
 	norminette -v
-	norminette -o $(addprefix $(SRC), $(CF1)) \
-	$(addprefix $(SRC)bonus/, $(CF2)) \
-	$(HDIR)/*.h \
-	$(LIBDIR)
+	norminette --cfile $(CF)
+	norminette --hfile $(HDR) $(HDIR)/get_next_line.h
+	$(MAKE) norm -C $(LIBDIR)	
 
 CMD1="cat -e"
 CMD2="grep f"

@@ -96,7 +96,6 @@ char	*replace_d(t_replace *r)
 	return (res);
 } */
 
-
 /*
 **	return, value $[NAME]
 */
@@ -115,7 +114,7 @@ char	*repl_val(char *name, t_d *d)
 		if (*name == '$')
 			return (ft_itoa(getpid()));	// getpid ?
 		if (ft_isdigit(*name))
-			return (ft_strdup(d->av[*name - '0']));	// $0..9 = agrv[*name -'0']
+			return (ft_strdup(d->av[*name - '0'])); // $0..9 = agrv[*name -'0']
 		if (*name == '#')
 			return (ft_itoa(d->ac));		// $#, agrvc
 		if (*name == '_')
@@ -127,7 +126,7 @@ char	*repl_val(char *name, t_d *d)
 				len++;
 			tmp = ft_substr(name, 0, len);
 			res = getenv(tmp);
-printf("repl_val:(%s)->(%s) len=%i\n", name, res, len);
+//printf("repl_val:(%s)->(%s) len=%i\n", name, res, len);
 			free(tmp);
 		}			
 	}
