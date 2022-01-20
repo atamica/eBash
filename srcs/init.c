@@ -1,5 +1,5 @@
 #include "minishell.h"
-//extern int code_event;
+//extern int g_code_event;
 
 void	init_cmd(t_cmd *cmd)
 {

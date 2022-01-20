@@ -72,7 +72,7 @@ void	recive(int signo, siginfo_t *siginfo, void *contex)
 	{	
 		
 		//printf("CTRL+C pressed\n");
-		//code_event = CTRL_C;
+		//g_code_event = CTRL_C;
 		//ft_putchar_fd('\b', 1);
 		printf(N);
 		rl_replace_line("", 0);
@@ -83,7 +83,7 @@ void	recive(int signo, siginfo_t *siginfo, void *contex)
 	else if (signo == SIGQUIT)
 	{
 		//printf("CTRL+\\ pressed\n");
-		//code_event = CTRL_SL;
+		//g_code_event = CTRL_SL;
 		//if (read(1, buf, 1) != 1)
 		//exit(ENOTRECOVERABLE);
 		
