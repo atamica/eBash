@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+static size_t	add_str(char *ptr, char *str, size_t offset)
+{
+	size_t	len;
+
+	len = ft_strlen(str);
+	ft_memcpy(ptr + offset, str, len);
+	return (len);
+}
+
 char	*prompt(t_d *d)
 {
 	char	*user;
@@ -11,23 +20,16 @@ char	*prompt(t_d *d)
 	path = getcwd(p, LEN_PATH);
 	len = ft_strlen(GREEN) + ft_strlen(user) + ft_strlen(RESET) + \
 			ft_strlen(BLUE) + ft_strlen(path) + ft_strlen(RESET) + 3;
-	d->prompt = (char *)malloc(len);
-	if_err_fatal(d->prompt, 2, d);
-	len = ft_strlen(GREEN);
-	ft_memcpy(d->prompt, GREEN, ft_strlen(GREEN));
-	ft_memcpy(d->prompt + len, user, ft_strlen(user));
-	len += ft_strlen(user);
-	ft_memcpy(d->prompt + len, RESET, ft_strlen(RESET));
-	len += ft_strlen(RESET);
-	*(d->prompt + len++) = ':';
-	ft_memcpy(d->prompt + len, BLUE, ft_strlen(BLUE));
-	len += ft_strlen(BLUE);
-	ft_memcpy(d->prompt + len, path, ft_strlen(path));
-	len += ft_strlen(path);
-	ft_memcpy(d->prompt + len, RESET, ft_strlen(RESET));
-	len += ft_strlen(RESET);
-	ft_memcpy(d->prompt + len, "$", 2);
+	if_err_fatal(d->prompt = (char *)malloc(len), 2, d);
+	len = add_str(d->prompt, GREEN, 0);
+	len += add_str(d->prompt, user, len);
 	free(user);
+	len += add_str(d->prompt, RESET, len);
+	*(d->prompt + len++) = ':';
+	len += add_str(d->prompt, BLUE, len);
+	len += add_str(d->prompt, path, len);
+	len += add_str(d->prompt, RESET, len);
+	ft_memcpy(d->prompt + len, "$", 2);
 	return (d->prompt);
 }
 
