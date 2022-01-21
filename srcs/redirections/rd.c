@@ -55,12 +55,24 @@ int	find_redir(char *str)
 char	*filename(char *ptr)
 {
 	char	*st;
+	char	*st_del;
+	char	*res;
+	size_t	len_file_name;
 
-	if (!ptr)
-		return (NULL);
-	ptr = skip_spa(ptr);
-	st = ptr;
-	while (*ptr && !ft_isalsp(*ptr))
-		ptr++;
-	return (ft_substr(st, 0, ptr - st));
+	res = NULL;
+	if (ptr)
+	{
+		st_del = ptr;
+		ptr = skip_spa(ptr);
+		st = ptr;
+		while (*ptr && !ft_isalsp(*ptr))
+			ptr++;
+		len_file_name = ptr - st;
+		if (len_file_name)
+		{
+			res = ft_substr(st, 0, len_file_name);
+			del_substring(st_del, ptr - st_del);
+		}
+	}
+	return (res);
 }

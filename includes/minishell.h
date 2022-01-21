@@ -410,7 +410,7 @@ int			cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out);
 **		parser.c
 */
 
-int			parser(char *str, t_cmd *cmd);
+int			parser(char *str, t_cmd *cmd, t_d *d);
 int			pars(char *str, t_cmd *cmd, t_d *d);
 void		set_flags(t_fl *fl, char c);
 
@@ -431,6 +431,7 @@ void		print_param(char **arg, char *prefix, char separator);
 void		print_param_fd(char **arg, char *prefix, char separator, int fd);
 
 void		del_empty_sp(char *str);
+void		del_substring(char *start, size_t len);
 
 /*
 **		err.c

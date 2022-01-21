@@ -143,7 +143,7 @@ t_cmds	*pa(t_d *d)
 		while (tmp[++i])
 		{
 			cm->cmd[i].str = repl_dlr(tmp[i], d);
-			parser(cm->cmd[i].str, cm->cmd + i);
+			parser(cm->cmd[i].str, cm->cmd + i, d);
 			
 printf("_pa:(%s) -> {%s}\n", tmp[i], cm->cmd[i].str);
 //		cm->cmd[i] = pars_cmd();
@@ -180,7 +180,7 @@ t_cmds	*pa2(t_d *d)
 		{
 			init_cmd(cm->cmd + i);
 			cm->cmd[i].str = repl_dlr(tmp->cmds[i], d);
-			parser(cm->cmd[i].str, cm->cmd + i);
+			parser(cm->cmd[i].str, cm->cmd + i, d);
 			cm->cmd[i].env = d->env;
 		}
 		cm->cmd[i].type = EMPTY;

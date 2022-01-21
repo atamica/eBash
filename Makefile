@@ -118,7 +118,7 @@ runb: bonus
 
 tst: $(HDR) $(LIBFT)
 	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_redir.c \
-	$(addprefix $(SRC), $(CFTST)) $(LIBS); ./tst
+	$(addprefix $(SRC), $(CFTST))  $(GNL) $(LIBS); ./tst
 
 tst_pipe_split: $(HDR) $(LIBFT)
 #	gcc -I includes -I libft -o tst_pipe_split srcs/get_spec_char.c tmp/test_parser_cmd_set.c srcs/signals.c libft/libft.a; ./tst_pipe_split

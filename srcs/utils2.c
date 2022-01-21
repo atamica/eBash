@@ -57,3 +57,17 @@ void	del_empty_sp(char *str)
 		}
 	}
 }
+
+void	del_substring(char *start, size_t len)
+{
+	int		delta;
+	
+	if (start && len)
+	{
+		delta = ft_strlen(start) - len;
+		if (delta > 0)
+			ft_memmove(start, start + len, delta + 1);	// ft_bzero((void *)(start + delta), len);
+		else
+			*start = '\0';	// ft_bzero((void *)start, l_str);
+	}
+}

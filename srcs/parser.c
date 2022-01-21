@@ -10,7 +10,7 @@
 	*i = j;
 } */
 
-int	parser(char *str, t_cmd *cmd)
+int	parser(char *str, t_cmd *cmd, t_d *d)
 {
 	int		r;
 	int		start;
@@ -18,13 +18,17 @@ int	parser(char *str, t_cmd *cmd)
 	char	*ptr;
 	t_fl	fl;
 
-	r = 0;
+	r = SUCCSESS;
 	i = 0;
 	init_cmd(cmd);
 	init_fl(&fl);
 	if (str)
 	{
 		del_empty_sp(str);
+// parse redir
+		if_err_no_fatal(r = get_fd(str, d, cmd), 8, d);
+		if (r)
+			return (ERROR);
 // parse cmd
 		start = i;
 		while (*(str + i) && !ft_strchr(" ;\"\'$", *(str + i)))
