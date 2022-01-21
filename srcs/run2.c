@@ -6,8 +6,8 @@ int	cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out)
 	if (d->cmd_pid)
 	{
 		close_f2any(pipe_in);
-		close_f2any(pipe_out);
 		if_err_exit(waitpid(d->cmd_pid, &d->stat, 0), 7, d);
+		
 	}
 	else if (cmd->path)
 	{
