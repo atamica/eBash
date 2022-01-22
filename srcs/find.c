@@ -35,21 +35,21 @@ char	*in_quotes(char *str, char type)
 char	*replace_d(t_replace *r)
 {
 	char	*res;
-	size_t	len0;
-	size_t	len1;
+	size_t	len_src;
+	size_t	len_val;
 
 	res = NULL;
-	if (r->len > -1)
+	if (r->len >= 0)
 	{
-		len0 = ft_strlen(r->src);
-		len1 = ft_strlen(r->val);
-		res = malloc(len0 - r->len + len1 + 1);
+		len_src = ft_strlen(r->src);
+		len_val = ft_strlen(r->val);
+		res = malloc(len_src - r->len + len_val + 1);
 		if (res)
 		{
 			ft_memcpy(res, r->src, r->st);
-			ft_memcpy(res + r->st, r->val, len1);
-			ft_memcpy(res + r->st + len1, r->src + r->st + r->len + 1, \
-						len0 - r->st - r->len);
+			ft_memcpy(res + r->st, r->val, len_val);
+			ft_memcpy(res + r->st + len_val, r->src + r->st + r->len, \
+						len_src - r->st - r->len + 1);
 		}
 	}
 	return (res);

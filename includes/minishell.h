@@ -138,7 +138,7 @@
 # define MSGE2 RED "Error memory!" N RESET
 # define MSGE3 RED "Error create pipe!" N RESET
 # define MSGE4 RED "Error open file!" N RESET
-# define MSGE5 RED "Error create process!\n" RESET
+# define MSGE5 RED "Error create process!" N RESET
 # define MSGE6 RED "Error in dup2!" N RESET
 # define MSGE7 RED "Error waitpid!" N RESET
 # define MSGE8 RED "Error in cmd!" N RESET

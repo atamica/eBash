@@ -45,10 +45,9 @@ int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
 	if (tmp)
 	{
 		cmd->fd[1] = open(tmp, O_RDWR | O_CREAT | O_TRUNC, FILE_PERM);
-printf("rd_s_r %i\n", cmd->fd[1]);
 		free (tmp);
 	}
-	return (!tmp || err_open(cmd->fd[1], d));//(cmd->fd[1] < 0)
+	return (!tmp || err_open(cmd->fd[1], d));
 }
 
 int	rd_d_right(char *str, t_cmd *cmd, t_d *d)

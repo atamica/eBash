@@ -80,12 +80,10 @@ void	print_param(char **arg, char *prefix, char separator)
 void	print_param_fd(char **arg, char *prefix, char separator, int fd)
 {
 	char	c;
-//	int		i;
 	
 	if (arg)
 	{
 		c = (prefix && *prefix) * DQ;
-//		i = 0;
 		while (*arg)
 		{
 			ft_putstr_fd(prefix, fd);

@@ -48,7 +48,7 @@ char	*repl_dlr(char *ptr, t_d *d)
 			r.len++;
 		if (r.len)
 		{
-			name = ft_substr(res + r.st, 1, r.len);
+			name = ft_substr(res + r.st, 1, r.len++);
 			r.val = get_env_val(d->env, name);
 			free (name);
 			tmp = replace_d(&r);
@@ -169,7 +169,8 @@ t_cmds	*pa2(t_d *d)
 		cm->pipes_count = cm->count - 1;
 		if (cm->pipes_count > 0)
 		{
-			if_err_fatal(cm->fdp = malloc(sizeof(int*) * (cm->pipes_count)), 2, d);
+			if_err_fatal(cm->fdp = malloc(sizeof(int*) * (cm->pipes_count)), \
+																		2, d);
 			i = -1;
 			while (++i < cm->pipes_count)
 				if_err_fatal(cm->fdp[i] = malloc(sizeof(int) * 2), 2, d);
