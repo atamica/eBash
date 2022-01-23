@@ -7,7 +7,7 @@ char	*replace_q(char *str, char c)
 	res = str;
 	if (str)
 	{
-		if ((*str == c) && (str[ft_strlen(str)] == c))
+		if ((*str == c) && (str[ft_strlen(str) - 1] == c))
 		{
 			res = ft_substr(str, 1, ft_strlen(str) - 2);
 			free (str);
@@ -23,12 +23,27 @@ char	*replace_sq(char *str)
 
 char	*replace_dq(char *str, t_d *d)
 {
-	char	*res;
+	return (replace_q(repl_dlr(str, d), DQ));
+}
 
-	str = replace_q(str, DQ);
-	res = repl_dlr(str, d);
-	free (str);
-	return (res);
+void	del_quotes(char **arg, t_d *d)
+{
+	char **st = arg;
+print_param(arg, "del_q_before", '\n');
+printf("\n--------\n");
+	while (*arg)
+	{
+		del_empty_sp(*arg);
+		if (**arg == SQ)
+			*arg = replace_sq(*arg);
+		else if (**arg == DQ)
+			*arg = replace_dq(*arg, d);
+		else
+			*arg = repl_dlr(*arg, d);
+		arg++;
+	}
+print_param(st, "del_q_after", '\n');
+printf(N);
 }
 
 char	*repl_dlr(char *ptr, t_d *d)
@@ -143,10 +158,10 @@ t_cmds	*pa(t_d *d)
 		while (tmp[++i])
 		{
 			cm->cmd[i].str = repl_dlr(tmp[i], d);
-			parser(cm->cmd[i].str, cm->cmd + i, d);
+			if_err_no_fatal(parser(cm->cmd[i].str, cm->cmd + i, d), 8, d);
+			del_quotes(cm->cmd[i].arg, d);
 			
-printf("_pa:(%s) -> {%s}\n", tmp[i], cm->cmd[i].str);
-//		cm->cmd[i] = pars_cmd();
+//printf("_pa:(%s) -> {%s}\n", tmp[i], cm->cmd[i].str);
 		}
 		cm->cmd[i].type = EMPTY;
 		free2(tmp);
@@ -180,8 +195,10 @@ t_cmds	*pa2(t_d *d)
 		while (tmp->cmds[++i])
 		{
 			init_cmd(cm->cmd + i);
-			cm->cmd[i].str = repl_dlr(tmp->cmds[i], d);
-			parser(cm->cmd[i].str, cm->cmd + i, d);
+//			cm->cmd[i].str = repl_dlr(tmp->cmds[i], d);
+			cm->cmd[i].str = tmp->cmds[i];
+			parser0(cm->cmd[i].str, cm->cmd + i, d);
+//			del_quotes(cm->cmd[i].arg, d);
 			cm->cmd[i].env = d->env;
 		}
 		cm->cmd[i].type = EMPTY;

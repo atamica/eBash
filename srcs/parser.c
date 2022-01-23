@@ -10,6 +10,98 @@
 	*i = j;
 } */
 
+int	parser0(char *str, t_cmd *cmd, t_d *d)
+{
+	int		r;
+	int		start;
+	int		i;
+	int		args_count;
+	char	*ptr;
+	char	quo;
+	size_t	len;
+
+	r = SUCCSESS;
+	i = 0;
+	init_cmd(cmd);
+	if (str)
+	{
+		del_empty_sp(str);
+// parse redir
+		if_err_no_fatal(r = get_fd(str, d, cmd), 8, d);
+		if (r)
+			return (ERROR);
+// parse cmd
+		del_empty_sp(str);
+		start = i;
+		while (*(str + i) && !ft_strchr(" \t;\"\'$", *(str + i)))
+			i++;
+		if (i == start)
+			return (ERROR);
+		else
+			ptr = ft_substr(str, start, i - start);
+// try add path
+		if (is_builtins(ptr)) // || (is_file_exist(ptr) == 1) 
+			cmd->path = ft_strdup(ptr);
+		else
+			cmd->path = cmdf(ptr);
+		cmd->type = type_cmd(ptr);
+//printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
+		if (ptr && ft_strlen(ptr))
+			free(ptr);
+		del_substring(str, i);
+		del_empty_sp(str);
+// parse options args
+		args_count = 0;
+		ptr = str;
+		while (*ptr)
+		{
+			while (*ptr && !ft_strchr(" \t;\"\'$", *ptr))
+				ptr++;
+			args_count++;
+//			del_empty_sp(ptr);
+			ptr = skip_spa(ptr);
+		}
+		cmd->arg = malloc(sizeof(char *) * (args_count + 2));
+		if_err_fatal(cmd->arg = malloc(sizeof(char *) * (args_count + 1)), \
+																		2, d);
+		cmd->arg[0] = ft_strdup(cmd->path);
+		i = 1;
+		while (i < args_count)
+		{
+			len = 0;
+			while (str[len])
+			{
+				if (str[len] == SQ || str[len] == DQ)
+				{
+					quo = str[len];
+					while (str[len] && \
+						((str[len] != quo) || (len && (str[len - 1] != SL))))
+						len++;
+					if (!str[len])
+						return(ERROR);
+				}
+				else
+				{
+					while (str[len] && !ft_strchr(" \t;\"\'$", str[len]))
+						len++;
+				}
+			}
+			cmd->arg[i] = ft_substr(str, 0, len);
+			del_substring(str, len);
+			del_empty_sp(str);
+			i++;
+		}
+		cmd->arg[i] = NULL;
+		del_quotes(cmd->arg, d);
+// print_param(cmd->arg,"parser:", ':');
+// printf(N);
+		// if (cmd->path)
+		// 	r = 1;
+// parse "; | || & && >> << < >"
+	}
+	return (r);
+}
+
 int	parser(char *str, t_cmd *cmd, t_d *d)
 {
 	int		r;
@@ -30,8 +122,9 @@ int	parser(char *str, t_cmd *cmd, t_d *d)
 		if (r)
 			return (ERROR);
 // parse cmd
+		del_empty_sp(str);
 		start = i;
-		while (*(str + i) && !ft_strchr(" ;\"\'$", *(str + i)))
+		while (*(str + i) && !ft_strchr(" \t;\"\'$", *(str + i)))
 			i++;
 		if (i == start)
 			ptr = MSG0;
