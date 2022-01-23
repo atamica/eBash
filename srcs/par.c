@@ -28,9 +28,12 @@ char	*replace_dq(char *str, t_d *d)
 
 void	del_quotes(char **arg, t_d *d)
 {
+#ifdef NDEBUG	
 	char **st = arg;
-print_param(arg, "del_q_before", '\n');
-printf("\n--------\n");
+
+	print_param(arg, "del_q_before", '\n');
+	printf("\n--------\n");
+#endif
 	while (*arg)
 	{
 		del_empty_sp(*arg);
@@ -42,8 +45,10 @@ printf("\n--------\n");
 			*arg = repl_dlr(*arg, d);
 		arg++;
 	}
-print_param(st, "del_q_after", '\n');
-printf(N);
+#ifdef NDEBUG
+	print_param(st, "del_q_after", '\n');
+	printf(N);
+#endif
 }
 
 char	*repl_dlr(char *ptr, t_d *d)

@@ -18,19 +18,22 @@ CFTST = par.c parser.c utils.c utils1.c utils2.c free.c err.c find.c \
 	$(addprefix builtins/, $(BUILTINS)) \
 	$(addprefix redirections/, $(REDIR))
 
-GNL = 	$(addprefix gnl/, $(CFGNL))
+GNL = $(addprefix gnl/, $(CFGNL))
 	
 CF1 = $X $(CFTST)
 
 #CFTST = $(subst $X, , $(CF1))
 
-HDIR = ./includes
-
-HDR = $(HDIR)/$(NAME).h
-
 LIBDIR = libft/
 
 LIBFT = $(LIBDIR)libft.a
+
+HDIR = ./includes
+
+HDF = $(NAME).h $(NAME)_std_lib.h $(NAME)_consts.h $(NAME)_structs.h \
+		get_next_line.h
+
+HDRS = $(addprefix $(HDIR)/, $(HDF)) $(LIBDIR)libft.h 
 
 ifneq ($(OSY), Linux)
 CC = gcc
@@ -71,10 +74,10 @@ FL = -Wall -Wextra -Werror $(INCLUD) -g # -O2
 
 all: $(NAME)
 
-%.o: %.c $(HDR)
+%.o: %.c $(HDRS)
 	$(CC) $(FL) -c $< -o $@ $D
 
-$(NAME): $(OF) $(HDR) $(LIBFT)
+$(NAME): $(OF) $(HDRS) $(LIBFT)
 	$(CC) -o $@ $(FL) $(OF) $(LIBS) $(DEPFL) $D
 
 # $? 
@@ -99,7 +102,7 @@ re: fclean all
 norm:
 	norminette -v
 	norminette --cfile $(CF)
-	norminette --hfile $(HDR) $(HDIR)/get_next_line.h
+	norminette --hfile $(HDRS)
 	$(MAKE) norm -C $(LIBDIR)	
 
 CMD1="cat -e"
@@ -116,11 +119,11 @@ run: $(NAME)
 runb: bonus
 	./$(NAME)
 
-tst: $(HDR) $(LIBFT)
+tst: $(HDRS) $(LIBFT)
 	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_del_quo.c \
-	$(addprefix $(SRC), $(CFTST))  $(GNL) $(LIBS); ./tst
+	$(addprefix $(SRC), $(CFTST)) $(GNL) $(LIBS); ./tst
 
-tst_pipe_split: $(HDR) $(LIBFT)
+tst_pipe_split: $(HDRS) $(LIBFT)
 #	gcc -I includes -I libft -o tst_pipe_split srcs/get_spec_char.c tmp/test_parser_cmd_set.c srcs/signals.c libft/libft.a; ./tst_pipe_split
 
 val: $(NAME)
