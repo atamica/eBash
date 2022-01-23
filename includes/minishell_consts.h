@@ -1,7 +1,7 @@
 #ifndef MINISHELL_CONSTS_H
 # define MINISHELL_CONSTS_H
 
-//# define NDEBUG
+# define NDEBUG
 
 # define FILE_PERM 0664	// S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR
 

@@ -62,17 +62,21 @@ void		if_err_no_fatal(int er, int code, t_d *d);
 int			err_open(int fd, t_d *d);
 
 /*
-**		free.c
+**		close.c
 */
 
-void		free_null(void **ptr);
-void		free_nu(void *ptr);
-void		free2(char **ptr);
 void		close_f(int fd);
 void		close_f2(int *fd);
 void		close_f3(int *fd);
 void		close_f2any(int *fd);
 void		close_f3any(int *fd);
+
+/*
+**		free.c
+*/
+
+void		free_null(void **ptr);
+void		free2(char **ptr);
 void		free_d(t_d *d);
 void		free_cmd(t_cmd *cmd);
 void		free_cmds(t_cmds *cmds);
