@@ -30,6 +30,11 @@ static t_pos	fill_no_sp(char *ptr)
 	return ((t_pos){.st = ptr, .end = ptr + min, .len = min});
 }
 
+/*
+**	function removes non-significant characters {' ', '\t',...  } = ALL_SP
+**	spaces enclosed in quotation marks are preserved.
+*/
+
 void	del_empty_sp(char *str)
 {
 	t_pos	r;

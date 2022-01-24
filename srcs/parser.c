@@ -10,105 +10,133 @@
 	*i = j;
 } */
 
-int	parser0(char *str, t_cmd *cmd, t_d *d)
-{
-	int		r;
-	int		start;
-	int		i;
-	int		args_count;
-	char	*ptr;
-	char	quo;
-	size_t	len;
+/*
+**	funtion calculate args count
+**	return: argc, -1 if syntax error (unpaires quotes)
+*/
 
-	r = SUCCSESS;
-	i = 0;
-	init_cmd(cmd);
-	if (str)
+static int arg_count(char *str)
+{
+	int argc;
+	char flq;
+
+	argc = 0;
+	while (*str)
 	{
-		del_empty_sp(str);
-// parse redir
-		if_err_no_fatal(r = get_fd(str, d, cmd), 8, d);
-		if (r)
-			return (ERROR);
-// parse cmd
-		del_empty_sp(str);
-		start = i;
-		while (*(str + i) && !ft_strchr(" \t;\"\'$", *(str + i)))
-			i++;
-		if (i == start)
-			return (ERROR);
-		else
-			ptr = ft_substr(str, start, i - start);
-// try add path
-		if (is_builtins(ptr)) // || (is_file_exist(ptr) == 1) 
-			cmd->path = ft_strdup(ptr);
-		else
-			cmd->path = cmdf(ptr);
-		cmd->type = type_cmd(ptr);
-//printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
-		if (ptr && ft_strlen(ptr))
-			free(ptr);
-		del_substring(str, i);
-		del_empty_sp(str);
-// parse options args
-		args_count = 0;
-		ptr = str;
-		while (*ptr)
+		str = skip_spa(str);
+		if (*str == SQ || *str == DQ)
 		{
-			while (*ptr && !ft_strchr(" \t;\"\'$", *ptr))
-				ptr++;
-			args_count++;
-//			del_empty_sp(ptr);
-			ptr = skip_spa(ptr);
+			flq = *str++;
+			while (*str && *str != flq)
+				str++;
+			if (*str++ != flq)
+				return (ERROR);
+			argc++;
 		}
-		cmd->arg = malloc(sizeof(char *) * (args_count + 2));
-		if_err_fatal(cmd->arg = malloc(sizeof(char *) * (args_count + 1)), \
-																		2, d);
-		cmd->arg[0] = ft_strdup(cmd->path);
-		i = 1;
-		while (i < args_count)
+		else
 		{
-			len = 0;
-			while (str[len])
-			{
-				if (str[len] == SQ || str[len] == DQ)
-				{
-					quo = str[len];
-					while (str[len] && \
-						((str[len] != quo) || (len && (str[len - 1] != SL))))
-						len++;
-					if (!str[len])
-						return(ERROR);
-				}
-				else
-				{
-					while (str[len] && !ft_strchr(" \t;\"\'$", str[len]))
-						len++;
-				}
-			}
-			cmd->arg[i] = ft_substr(str, 0, len);
-			del_substring(str, len);
-			del_empty_sp(str);
-			i++;
+			argc += (*str != '\0');
+			while (*str && !ft_strchr(ALL_SP, *str))
+				str++;
 		}
-		cmd->arg[i] = NULL;
-		del_quotes(cmd->arg, d);
-// print_param(cmd->arg,"parser:", ':');
-// printf(N);
-		// if (cmd->path)
-		// 	r = 1;
-// parse "; | || & && >> << < >"
 	}
-	return (r);
+	return (argc);
 }
 
-int	parser(char *str, t_cmd *cmd, t_d *d)
+static int argv_fill(char *str, int ac, char **av, t_d *d)
 {
-	int		r;
-	int		start;
-	int		i;
-	char	*ptr;
-	t_fl	fl;
+	int i;
+	char flq;
+	char *ptr;
+	size_t len;
+
+	i = 0;
+	av[ac] = NULL;
+	while (i < ac && *str)
+	{
+		str = skip_spa(str);
+		if (*str == SQ || *str == DQ)
+		{
+			ptr = str;
+			flq = *str++;
+			while (*str && *str != flq)
+				str++;
+			if (*str++ != flq)
+				return (ERROR);
+			len = str - ptr;
+			if_err_fatal(av[i] = ft_substr(ptr, 0, len), 2, d);
+			i++;
+		}
+		else if (*str)
+		{
+			ptr = str;
+			while (*str && !ft_strchr(ALL_SP, *str))
+				str++;
+			len = str - ptr;
+			if_err_fatal(av[i] = ft_substr(ptr, 0, len), 2, d);
+			i++;
+		}
+	}
+	if (*str)
+		return (ERROR);
+	return (SUCCSESS);
+}
+
+static char **argc_handler(char *str, t_d *d, int *ac)
+{
+	char **av;
+
+	*ac = arg_count(str);
+	if (*ac == ERROR)
+		return (NULL);
+	if_err_fatal(av = malloc(sizeof(char *) * (*ac + 1)), 2, d);
+	if (argv_fill(str, *ac, av, d) == ERROR)
+	{
+		free2(av);
+		return (NULL);
+	}
+	return (av);
+}
+
+int parser0(char *str, t_cmd *cmd, t_d *d)
+{
+	if (str)
+	{
+		printf("1.(%s)\n", str);
+		del_empty_sp(str);
+		if (get_fd(str, d, cmd))
+			return (ERROR);
+		printf("2. after fd(%s)\n", str);
+		// parse cmd
+		del_empty_sp(str);
+		cmd->arg = argc_handler(str, d, &cmd->ac);
+		if (!cmd->arg)
+			return (ERROR);
+		// try add path
+		if (is_builtins(cmd->arg[0])) // || (is_file_exist(ptr) == 1)
+			cmd->path = ft_strdup(cmd->arg[0]);
+		else
+			cmd->path = cmdf(cmd->arg[0]);
+		cmd->type = type_cmd(cmd->arg[0]);
+#ifdef NDEBUG
+		printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
+#endif
+		del_quotes(cmd->arg, d);
+#ifdef NDEBUG
+		print_param(cmd->arg, "parser:", ':');
+		printf(N);
+#endif
+	}
+	return (SUCCSESS);
+}
+
+int parser(char *str, t_cmd *cmd, t_d *d)
+{
+	int r;
+	int start;
+	int i;
+	char *ptr;
+	t_fl fl;
 
 	r = SUCCSESS;
 	i = 0;
@@ -117,11 +145,11 @@ int	parser(char *str, t_cmd *cmd, t_d *d)
 	if (str)
 	{
 		del_empty_sp(str);
-// parse redir
+		// parse redir
 		if_err_no_fatal(r = get_fd(str, d, cmd), 8, d);
 		if (r)
 			return (ERROR);
-// parse cmd
+		// parse cmd
 		del_empty_sp(str);
 		start = i;
 		while (*(str + i) && !ft_strchr(" \t;\"\'$", *(str + i)))
@@ -130,36 +158,36 @@ int	parser(char *str, t_cmd *cmd, t_d *d)
 			ptr = MSG0;
 		else
 			ptr = ft_substr(str, start, i - start);
-// try add path
-		if (is_builtins(ptr)) // || (is_file_exist(ptr) == 1) 
+		// try add path
+		if (is_builtins(ptr)) // || (is_file_exist(ptr) == 1)
 			cmd->path = ft_strdup(ptr);
 		else
 			cmd->path = cmdf(ptr);
 		cmd->type = type_cmd(ptr);
-//printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
+		// printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
 		if (ptr && ft_strlen(ptr))
 			free(ptr);
-// parse options
+		// parse options
 
-// parse args
+		// parse args
 		cmd->arg = ft_split(str, ' ');
-print_param(cmd->arg,"parser:", ':');
-printf(N);
+		print_param(cmd->arg, "parser:", ':');
+		printf(N);
 		if (cmd->path)
 			r = 1;
-// parse "; | || & && >> << < >"
+		// parse "; | || & && >> << < >"
 	}
 	return (r);
 }
 
-int	pars(char *str, t_cmd *cmd, t_d *d)
+int pars(char *str, t_cmd *cmd, t_d *d)
 
 {
-	int		r;
-	int		start;
-	int		i;
-	char	*ptr;
-	t_fl	fl;
+	int r;
+	int start;
+	int i;
+	char *ptr;
+	t_fl fl;
 
 	r = 0;
 	i = 0;
@@ -167,10 +195,10 @@ int	pars(char *str, t_cmd *cmd, t_d *d)
 	init_fl(&fl);
 	if (str)
 	{
-// skip spases
+		// skip spases
 		while (*(str + i) && ft_isalsp(*(str + i)))
 			i++;
-// parse cmd
+		// parse cmd
 		start = i;
 		while (*(str + i) && !ft_strchr(" ;\"\'$", *(str + i)))
 			i++;
@@ -179,20 +207,20 @@ int	pars(char *str, t_cmd *cmd, t_d *d)
 		// try add path
 		cmd->path = cmdf(ptr);
 
-printf("path=%s\n", cmd->path);
+		printf("path=%s\n", cmd->path);
 
 		free_null((void **)&ptr);
-		//cmd->arg = ft_split(str, ' ');
+		// cmd->arg = ft_split(str, ' ');
 		while (str[i] && ft_strchr(";&|<>", str[i]))
 			i++;
 		ptr = ft_substr(str, start, i - start);
 		cmd->arg = ft_split(ptr, ' ');
 		free_null((void **)&ptr);
-/* 		if (i)
-			i--; */
+		/* 		if (i)
+					i--; */
 		if (cmd->path)
 			r = 1;
-//		clear_pipes(d);
+		//		clear_pipes(d);
 		while (str[i] && !ft_strchr(" ;&|<>", str[i]))
 		{
 			if (str[i] == '>')
@@ -202,7 +230,8 @@ printf("path=%s\n", cmd->path);
 					d->out2redir = 1;
 					i++;
 				}
-				else d->outredir = 1;
+				else
+					d->outredir = 1;
 			}
 			else if (str[i] == '<')
 			{
@@ -211,7 +240,8 @@ printf("path=%s\n", cmd->path);
 					d->in2redir = 1;
 					i++;
 				}
-				else d->inredir = 1;
+				else
+					d->inredir = 1;
 			}
 			else if (str[i] == '|')
 			{
@@ -220,7 +250,8 @@ printf("path=%s\n", cmd->path);
 					d->double_pipe = 1;
 					i++;
 				}
-				else d->pipe = 1;
+				else
+					d->pipe = 1;
 			}
 			else if (str[i] == '&')
 			{
@@ -236,35 +267,35 @@ printf("path=%s\n", cmd->path);
 		// parse options
 		// parse args
 		// parse "; | || & && >> << < >"
-    
-/*		if (i == start)
-			ptr = MSG0;
-		else
-			ptr = ft_substr(str, start, i - start);
-//printf("pars: ptr=(%s)\n", ptr);
-// try add path
-		if (is_builtins(ptr)) // || (is_file_exist(ptr) == 1) 
-			cmd->path = ft_strdup(ptr);
-		else
-			cmd->path = cmdf(ptr);
-		cmd->type = type_cmd(ptr);
-//printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
-		free(ptr);
-// parse options
 
-// parse args
-		cmd->arg = ft_split(str, ' ');
+		/*		if (i == start)
+					ptr = MSG0;
+				else
+					ptr = ft_substr(str, start, i - start);
+		//printf("pars: ptr=(%s)\n", ptr);
+		// try add path
+				if (is_builtins(ptr)) // || (is_file_exist(ptr) == 1)
+					cmd->path = ft_strdup(ptr);
+				else
+					cmd->path = cmdf(ptr);
+				cmd->type = type_cmd(ptr);
+		//printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
+				free(ptr);
+		// parse options
 
-		if (cmd->path)
-			r = 1;
-		
-// parse "; | || & && >> << < >"
-*/
+		// parse args
+				cmd->arg = ft_split(str, ' ');
+
+				if (cmd->path)
+					r = 1;
+
+		// parse "; | || & && >> << < >"
+		*/
 	}
 	return (r);
 }
 
-void	set_flags(t_fl *fl, char c)
+void set_flags(t_fl *fl, char c)
 {
 	if (c == SQ && !fl->fl_d_qu)
 		fl->fl_s_qu = !fl->fl_s_qu;
@@ -276,11 +307,11 @@ void	set_flags(t_fl *fl, char c)
 
 //		******************************** parcer ********************************
 
-int	parsing_cmd(t_cmd *cmd, t_d *d)
+int parsing_cmd(t_cmd *cmd, t_d *d)
 {
-	int			r;
-	int			rd;
-	t_replace	what_del;
+	int r;
+	int rd;
+	t_replace what_del;
 
 	r = SUCCSESS;
 	what_del = (t_replace){.src = cmd->str, .len = 0, .st = 0, .val = MSG0};
@@ -290,13 +321,13 @@ int	parsing_cmd(t_cmd *cmd, t_d *d)
 		// redirections
 		if ((rd = find_redir(cmd->str)) > 0)
 		{
-			// open f's 
+			// open f's
 			// char	*replace_d(t_replace *r)
 			// find & cut
 			r = get_fd(what_del.src, d, cmd);
 		}
-		if (rd < 0 || ((rd & S_LEFT) && (rd & D_LEFT)) || \
-						((rd & S_RIGHT) && (rd & D_RIGHT)))
+		if (rd < 0 || ((rd & S_LEFT) && (rd & D_LEFT)) ||
+			((rd & S_RIGHT) && (rd & D_RIGHT)))
 			return (ERROR);
 	}
 	return (r);

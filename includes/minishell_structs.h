@@ -98,6 +98,7 @@ typedef struct s_cmd
 	char	*path;
 	char	**arg;
 	char	**env;
+	int		ac;
 	int		fd[3];
 	t_type	type;
 	t_rd	redir;

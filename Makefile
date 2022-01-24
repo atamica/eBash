@@ -31,9 +31,9 @@ LIBFT = $(LIBDIR)libft.a
 HDIR = ./includes
 
 HDF = $(NAME).h $(NAME)_std_lib.h $(NAME)_consts.h $(NAME)_structs.h \
-		get_next_line.h
+		
+HDRS = $(addprefix $(HDIR)/, $(HDF)) $(LIBDIR)libft.h gnl/get_next_line.h
 
-HDRS = $(addprefix $(HDIR)/, $(HDF)) $(LIBDIR)libft.h 
 
 ifneq ($(OSY), Linux)
 CC = gcc
@@ -120,7 +120,7 @@ runb: bonus
 	./$(NAME)
 
 tst: $(HDRS) $(LIBFT)
-	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_del_quo.c \
+	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_parser.c \
 	$(addprefix $(SRC), $(CFTST)) $(GNL) $(LIBS); ./tst
 
 tst_pipe_split: $(HDRS) $(LIBFT)

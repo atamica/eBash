@@ -15,6 +15,8 @@ int	cmd(t_d *d, t_cmd *cmd)
 }
 */
 
+#ifdef NDEBUG_RUN
+
 /*
 **	run bash
 */
@@ -43,6 +45,8 @@ int	run(t_d *d)
 	}
 	return (d->stat);
 }
+
+#endif
 
 /* 
 int		exec_cmd(t_d *d)

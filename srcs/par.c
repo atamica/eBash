@@ -200,10 +200,8 @@ t_cmds	*pa2(t_d *d)
 		while (tmp->cmds[++i])
 		{
 			init_cmd(cm->cmd + i);
-//			cm->cmd[i].str = repl_dlr(tmp->cmds[i], d);
 			cm->cmd[i].str = tmp->cmds[i];
-			parser0(cm->cmd[i].str, cm->cmd + i, d);
-//			del_quotes(cm->cmd[i].arg, d);
+			cm->cod = parser0(cm->cmd[i].str, cm->cmd + i, d);
 			cm->cmd[i].env = d->env;
 		}
 		cm->cmd[i].type = EMPTY;

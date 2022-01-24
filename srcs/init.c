@@ -6,6 +6,7 @@ void	init_cmd(t_cmd *cmd)
 	cmd->arg = NULL;
 	cmd->path = NULL;
 	cmd->str = NULL;
+	cmd->ac = 0;
 	cmd->here_stop = NULL;
 	cmd->type = EMPTY;
 //	cmd->fds[0] = IN;

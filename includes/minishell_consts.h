@@ -2,6 +2,7 @@
 # define MINISHELL_CONSTS_H
 
 # define NDEBUG
+//# define NDEBUG_RUN
 
 # define FILE_PERM 0664	// S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR
 
