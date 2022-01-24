@@ -24,7 +24,7 @@ int			cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out);
 */
 
 int			parser(char *str, t_cmd *cmd, t_d *d);
-int			parser0(char *str, t_cmd *cmd, t_d *d);
+int			parser(char *str, t_cmd *cmd, t_d *d);
 int			pars(char *str, t_cmd *cmd, t_d *d);
 void		set_flags(t_fl *fl, char c);
 

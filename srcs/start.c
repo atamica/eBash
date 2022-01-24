@@ -26,8 +26,8 @@ printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 #ifdef NDEBUG
 		i = -1;
 		while (++i < cmds->count)
-			printf("%2i. str(%s) type(%i)\n", i, cmds->cmd[i].path,  \
-			cmds->cmd[i].type);
+			printf("%2i. str(%s) type(%i) syntax(%i)\n", i, cmds->cmd[i].path,  \
+			cmds->cmd[i].type, cmds->cod);
 		printf("===================================================\n");
 #endif
 		if (cmds->cod == SUCCSESS)
