@@ -13,11 +13,8 @@ int		g_code_event;
 **		run.c
 */
 
-//int			cmd(t_d *d, t_cmd *cmd);
 int			run(t_d *d);
-
 int			cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out);
-//int			exe(t_exe *cmde, t_d *d);
 
 /*
 **		parser.c
@@ -87,9 +84,9 @@ void		free_cmds(t_cmds *cmds);
 
 int			ft_cd(t_cmd *cmd);
 int			ft_echo(t_cmd *cmd);
-int			ft_pwd(void);
-int			ft_env(t_d *d);
-int			ft_export(t_d *d);
+int			ft_pwd(t_cmd *cmd);
+int			ft_env(t_d *d, t_cmd *cmd);
+int			ft_export(t_d *d, t_cmd *cmd);
 int			ft_exit(t_cmd *cmd);
 int			ft_unset(char *name, t_d *d);
 
@@ -115,7 +112,6 @@ char		*dollar(char *str, t_d *d);
 */
 
 void		init_cmd(t_cmd *cmd);
-void		init_fl(t_fl *fl);
 void		init_start(t_d *d, int ac, char **av, char **env);
 
 /*
@@ -127,7 +123,6 @@ int			is_ext_cmd(char *cmd);
 int			is_dir(char *path);
 int			is_file_exist(char *path);
 t_val		is_in_env_list(char **env, char *name);
-// int		is_inside(char *arg);
 int			is_qu(t_fl *fl);
 int			is_fl(t_fl *fl);
 int			is_only_digits(char *str);
@@ -162,7 +157,6 @@ char		*get_pos_char(char *str, char c);
 int			err_open(int fd, t_d *d);
 char		*filename(char *ptr);
 int			find_redir(char *str);
-//t_rd		redir(char *str, t_cmd *cmd, t_d *d);
 int			get_fd(char *str, t_d *d, t_cmd *cmd);
 int			rd_s_left(char *str, t_cmd *cmd, t_d *d);
 int			rd_d_left(char *str, t_cmd *cmd);
@@ -177,7 +171,6 @@ char		*replace_q(char *str, char c);
 char		*replace_sq(char *str);
 char		*replace_dq(char *str, t_d *d);
 void		del_quotes(char **arg, t_d *d);
-//char  		*repl_dl(char *ptr, t_d *d);
 char		*repl_d(char *ptr, t_d *d);
 char		*repl_dlr(char *ptr, t_d *d);
 t_cmds		*pa(t_d *d);

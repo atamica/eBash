@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(t_cmd *cmd)
 {
 	char	*tmp;
 
 	tmp = malloc(LEN_PATH);
 	if (tmp)
 	{
-		printf("%s\n", getcwd(tmp, LEN_PATH));
+		ft_putendl_fd(getcwd(tmp, LEN_PATH), cmd->fd[1]);
 		free(tmp);
 		return (0);
 	}
