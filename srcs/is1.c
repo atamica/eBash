@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-/* int	is_inside(char *arg)
-{
-	return (arg && strcmp(arg, P) && strcmp(arg, T));
-} */
-
 int	is_qu(t_fl *fl)
 {
 	return (fl->fl_s_qu || fl->fl_d_qu);

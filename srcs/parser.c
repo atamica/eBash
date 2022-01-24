@@ -33,6 +33,11 @@ static int arg_count(char *str)
 	return (argc);
 }
 
+/*
+**	funtion filling args[0..ac-1] from str, split by ALL_SP
+**	return: SUCCSESS (0) if succsess, else ERROR (-1): error
+*/
+
 static int argv_fill(char *str, int ac, char **av, t_d *d)
 {
 	int i;
@@ -71,6 +76,12 @@ static int argv_fill(char *str, int ac, char **av, t_d *d)
 		return (ERROR);
 	return (SUCCSESS);
 }
+
+/*
+**	funtion filling args[0..ac-1] from str, split by ALL_SP
+**	return: char **,  if succsess, else NULL: no fatal error
+**	exit if malloc return NULL 
+*/
 
 static char **argc_handler(char *str, t_d *d, int *ac)
 {

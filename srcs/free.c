@@ -45,7 +45,7 @@ void	free_cmd(t_cmd *cmd)
 		free2(cmd->arg);
 		free (cmd->path);
 		free (cmd->here_stop);
-		free (cmd->str);
+//		free (cmd->str);
 	}
 }
 
