@@ -56,3 +56,9 @@ void	close_files_rd(t_cmd *cmd)
 			close(cmd->fd[1]);
 	}
 }
+
+void	close_if(t_fout fout)
+{
+	if (fout.fl_close)
+		close_f(fout.fd);
+}

@@ -68,6 +68,7 @@ void		close_f3(int *fd);
 void		close_f2any(int *fd);
 void		close_f3any(int *fd);
 void		close_files_rd(t_cmd *cmd);
+void		close_if(t_fout fout);
 
 /*
 **		free.c

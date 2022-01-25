@@ -17,8 +17,7 @@ int	ft_env(t_d *d, t_fout fout)
 {
 	print_param_fd(d->env, "", '\n', fout.fd);
 	ft_putstr_fd(N, fout.fd);
-	if (fout.fl_close)
-		close_f(fout.fd);
+	close_if(fout);
 	return (0);
 }
 

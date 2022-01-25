@@ -25,7 +25,7 @@ int	ft_cd(t_cmd *cmd)
 	path = NULL;
 	if (cmd->arg && cmd->arg[1] && cmd->arg[2])
 	{
-		ft_putendl_fd(TOO_MANY_ARGS, cmd->fd[2]);
+		ft_putendl_fd(TOO_MANY_ARGS, cmd->fd[3]);
 		return (1);
 	}
 	if (cmd->arg && cmd->arg[1])
@@ -42,9 +42,9 @@ int	ft_cd(t_cmd *cmd)
 	res = chdir(path);
 	if (res < 0)
 	{
-		ft_putstr_fd(CD, cmd->fd[2]);
-		ft_putstr_fd(path, cmd->fd[2]);
-		ft_putendl_fd(": Нет такого файла или каталога", cmd->fd[2]);
+		ft_putstr_fd(CD, cmd->fd[3]);
+		ft_putstr_fd(path, cmd->fd[3]);
+		ft_putendl_fd(": Нет такого файла или каталога", cmd->fd[3]);
 	}
 	free(path);
 	return (-res);
