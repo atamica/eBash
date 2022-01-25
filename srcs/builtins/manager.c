@@ -23,24 +23,27 @@ static	t_fout	fd_out(t_cmd *cmd, int *pipe_out)
 int	run_builtins_cmd(t_d *d, t_cmd *cmd, int *pipe_out)
 {
 	int		res;
+	t_fout	fout;
 
 	res = 0;
+	fout = fd_out(cmd, pipe_out);
 	if (cmd->type == BUILTINS)
 	{
 		if (!ft_strncmp(cmd->path, "cd", 3))
-			return (ft_cd(cmd));
-		if (!ft_strncmp(cmd->path, "echo", 5))
-			return (ft_echo(cmd, fd_out(cmd, pipe_out)));
-		if (!ft_strncmp(cmd->path, "pwd", 4))
-			return (ft_pwd(cmd));
-		if (!ft_strncmp(cmd->path, "env", 4))
-			return (ft_env(d, fd_out(cmd, pipe_out)));
-		if (!ft_strncmp(cmd->path, "export", 7))
-			return (ft_export(d, fd_out(cmd, pipe_out)));
-		if (!ft_strncmp(cmd->path, "exit", 5))
-			return (ft_exit(cmd));
-		if (!ft_strncmp(cmd->path, "unset", 6))
-			return (ft_unset(cmd->arg[1], d));
+			res = ft_cd(cmd);
+		else if (!ft_strncmp(cmd->path, "echo", 5))
+			res = ft_echo(cmd, fout.fd);
+		else if (!ft_strncmp(cmd->path, "pwd", 4))
+			res = ft_pwd(cmd);
+		else if (!ft_strncmp(cmd->path, "env", 4))
+			res = ft_env(d, fout.fd);
+		else if (!ft_strncmp(cmd->path, "export", 7))
+			res = ft_export(d, fout.fd);
+		else if (!ft_strncmp(cmd->path, "exit", 5))
+			res = ft_exit(cmd);
+		else if (!ft_strncmp(cmd->path, "unset", 6))
+			res = ft_unset(cmd->arg[1], d);
+		close_if(fout);
 	}
 	return (res);
 }

@@ -85,10 +85,10 @@ void		free_cmds(t_cmds *cmds);
 */
 
 int			ft_cd(t_cmd *cmd);
-int			ft_echo(t_cmd *cmd, t_fout fout);
+int			ft_echo(t_cmd *cmd, int fd);
 int			ft_pwd(t_cmd *cmd);
-int			ft_env(t_d *d, t_fout fout);
-int			ft_export(t_d *d, t_fout fout);
+int			ft_env(t_d *d, int fd);
+int			ft_export(t_d *d, int fd);
 int			ft_exit(t_cmd *cmd);
 int			ft_unset(char *name, t_d *d);
 
