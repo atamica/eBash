@@ -15,7 +15,8 @@ char	*get_pos_char(char *str, char c)
 				fl_sq = !fl_sq;
 			else if ((*str == DQ) && fl_sq)
 				fl_dq = !fl_dq;
-			else if ((*str == c) && fl_sq && (c == DL || fl_dq))
+			else if (((*str == c) && fl_sq && fl_dq) || \
+						((*str == c) && (c == DL) && fl_sq))
 				return (str);
 			str++;
 		}

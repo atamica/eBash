@@ -106,7 +106,7 @@ int			run_builtins_cmd(t_d *d, t_cmd *cmd, int *pipe_out);
 char		*in_quotes(char *str, char type);
 char		*replace_d(t_replace *r);
 char		*repl_val(char *name, t_d *d);
-char		*dollar(char *str, t_d *d);
+//char		*dollar(char *str, t_d *d);
 
 /*
 **		init.c
