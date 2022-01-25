@@ -45,3 +45,14 @@ void	close_f2any(int *fd)
 		close(fd[1]);
 	}
 }
+
+void	close_files_rd(t_cmd *cmd)
+{
+	if (cmd->code_red > 0)
+	{
+		if ((cmd->code_red & S_LEFT) || (cmd->code_red & D_LEFT))
+			close(cmd->fd[0]);
+		if ((cmd->code_red & S_RIGHT) || (cmd->code_red & D_RIGHT))
+			close(cmd->fd[1]);
+	}
+}

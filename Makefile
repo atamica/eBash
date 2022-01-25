@@ -6,7 +6,7 @@ OSY = $(shell uname)
 
 BUILTINS = cd.c echo.c pwd.c manager.c env.c env1.c export.c unset.c exit.c
 
-REDIR = rd.c rd1.c rd2.c
+REDIR = rd.c rd1.c
 
 CFGNL = get_next_line.c get_next_line_utils.c
 
@@ -18,7 +18,8 @@ CFTST = par.c parser.c utils.c utils1.c utils2.c free.c err.c find.c \
 	$(addprefix builtins/, $(BUILTINS)) \
 	$(addprefix redirections/, $(REDIR))
 
-GNL = $(addprefix gnl/, $(CFGNL))
+GNLPH = gnl/
+GNL = $(addprefix $(GNLPH), $(CFGNL))
 	
 CF1 = $X $(CFTST)
 
@@ -32,16 +33,16 @@ HDIR = ./includes
 
 HDF = $(NAME).h $(NAME)_std_lib.h $(NAME)_consts.h $(NAME)_structs.h \
 		
-HDRS = $(addprefix $(HDIR)/, $(HDF)) $(LIBDIR)libft.h gnl/get_next_line.h
+HDRS = $(addprefix $(HDIR)/, $(HDF)) $(LIBDIR)libft.h $(GNLPH)get_next_line.h
 
 
 ifneq ($(OSY), Linux)
 CC = gcc
-INCLUD = -I $(HDIR) -I $(LIBDIR) -I gnl/ -I ~/.brew/Cellar/readline/8.1.1/include 
+INCLUD = -I $(HDIR) -I $(LIBDIR) -I $(GNLPH) -I ~/.brew/Cellar/readline/8.1.1/include 
 LIBS = -L $(LIBDIR) $(LIBFT) -lreadline  -L ~/.brew/Cellar/readline/8.1.1/lib/
 else
 CC = gcc # clang
-INCLUD = -I $(HDIR) -I $(LIBDIR) -I /usr/local/include -I ./gnl/
+INCLUD = -I $(HDIR) -I $(LIBDIR) -I /usr/local/include -I $(GNLPH)
 LIBS = -L $(LIBDIR) -lft -lreadline
 endif
 
@@ -79,8 +80,6 @@ all: $(NAME)
 
 $(NAME): $(OF) $(HDRS) $(LIBFT)
 	$(CC) -o $@ $(FL) $(OF) $(LIBS) $(DEPFL) $D
-
-# $? 
 
 $(LIBFT):
 	$(MAKE) -C $(LIBDIR) bonus

@@ -30,7 +30,6 @@ void	free_d(t_d *d)
 	if (d->input)
 	{
 		free_null((void **)&d->input);
-//		free(d->prompt);
 		free(d->path);
 		free(d->input);
 		free2(d->env);
@@ -45,7 +44,6 @@ void	free_cmd(t_cmd *cmd)
 		free2(cmd->arg);
 		free (cmd->path);
 		free (cmd->here_stop);
-//		free (cmd->str);
 	}
 }
 

@@ -13,10 +13,12 @@ int	len_env_list(char **env)
 	return (r);
 }
 
-int	ft_env(t_d *d, t_cmd *cmd)
+int	ft_env(t_d *d, t_fout fout)
 {
-	print_param_fd(d->env, "", '\n', cmd->fd[1]);
-	ft_putstr_fd(N, cmd->fd[1]);
+	print_param_fd(d->env, "", '\n', fout.fd);
+	ft_putstr_fd(N, fout.fd);
+	if (fout.fl_close)
+		close_f(fout.fd);
 	return (0);
 }
 

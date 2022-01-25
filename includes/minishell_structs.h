@@ -217,4 +217,9 @@ typedef struct s_pos
 	size_t	len;
 }			t_pos;
 
+typedef struct s_fout
+{
+	int		fl_close;
+	int		fd;
+}			t_fout;
 #endif

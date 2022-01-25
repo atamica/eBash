@@ -67,6 +67,7 @@ void		close_f2(int *fd);
 void		close_f3(int *fd);
 void		close_f2any(int *fd);
 void		close_f3any(int *fd);
+void		close_files_rd(t_cmd *cmd);
 
 /*
 **		free.c
@@ -83,20 +84,19 @@ void		free_cmds(t_cmds *cmds);
 */
 
 int			ft_cd(t_cmd *cmd);
-int			ft_echo(t_cmd *cmd);
+int			ft_echo(t_cmd *cmd, t_fout fout);
 int			ft_pwd(t_cmd *cmd);
-int			ft_env(t_d *d, t_cmd *cmd);
-int			ft_export(t_d *d, t_cmd *cmd);
+int			ft_env(t_d *d, t_fout fout);
+int			ft_export(t_d *d, t_fout fout);
 int			ft_exit(t_cmd *cmd);
 int			ft_unset(char *name, t_d *d);
 
 int			type_cmd(char *cmd);
-int			run_builtins(t_d *d);
 void		set_env_val(char *name, char *val, t_d *d);
 char		*get_env_val(char **env, char *name);
 int			copy_envs(char **env_ex, t_d *d);
 int			len_env_list(char **env);
-int			run_builtins_cmd(t_d *d, t_cmd *cmd);
+int			run_builtins_cmd(t_d *d, t_cmd *cmd, int *pipe_out);
 
 /*
 **		find.c

@@ -39,6 +39,9 @@
 # define UNDERLINE S "[4m" E
 # define INVERSED S "[7m" E
 
+# define PRMT "minishell"
+# define LVL "MINISHELL_LVL"
+
 # define MSGE1 RED "Error args!" N RESET
 # define MSGE2 RED "Error memory!" N RESET
 # define MSGE3 RED "Error create pipe!" N RESET
@@ -56,12 +59,11 @@
 # define MSG S "[1;36m" E "\u2328" S "[0m\033[2C" E
 
 # define ERR_FATAL "error: fatal"
+# define CD PRMT ": cd: "
 # define ERR_CD_BAD_ARGS "error: cd: bad arguments"
 # define ERR_CD "error: cd: cannot change directory to"
+# define TOO_MANY_ARGS CD "слишком много аргументов"
 # define ERR_EXE "error: cannot execute"
-
-# define PRMT "minishell"
-# define LVL "MINISHELL_LVL"
 
 # define LINUX 1
 # define OFF 0

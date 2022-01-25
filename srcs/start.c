@@ -23,13 +23,6 @@ printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 #endif
 		cmds = pa2(&d);
-#ifdef NDEBUG
-		i = -1;
-		while (++i < cmds->count)
-			printf("%2i. str(%s) type(%i) syntax(%i)\n", i, cmds->cmd[i].path,  \
-			cmds->cmd[i].type, cmds->cod);
-		printf("===================================================\n");
-#endif
 		if (cmds->cod == SUCCSESS)
 		{
 			i = -1;
@@ -37,31 +30,27 @@ printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 			while ((++i < cmds->count) && !d.stat)
 			{
 				if (i < cmds->pipes_count)
-					if_err_exit(pipe(cmds->fdp[i]), 3, &d);
-				if (cmds->cmd[i].type == EXTERNALS)
-				{
-					if (cmds->pipes_count && i > 0)
-						pip_in = cmds->fdp[i - 1];	
-					else
-						pip_in = NULL;
-					if (cmds->pipes_count && i < cmds->pipes_count)
-						pip_out = cmds->fdp[i];
-					else
-						pip_out = NULL;
-					d.stat = cmd_cmd(&d, cmds->cmd + i, pip_in, pip_out);
-				}
+					if_err_exit(pipe(cmds->fdp[i]), 3, &d);					
+				if (cmds->pipes_count && i > 0)
+					pip_in = cmds->fdp[i - 1];	
+				else
+					pip_in = NULL;
+				if (cmds->pipes_count && i < cmds->pipes_count)
+					pip_out = cmds->fdp[i];
+				else
+					pip_out = NULL;
+				if (cmds->cmd[i].type == EXTERNALS)		
+					d.stat = cmd_cmd(&d, cmds->cmd + i, pip_in, pip_out) % 256;
 				else if (cmds->cmd[i].type == BUILTINS)
-					d.stat = run_builtins_cmd(&d, cmds->cmd + i);
-#ifdef NDEBUG
-				printf("~~~~~~~~~~~~~~ code_ret(%3i) ~~~~~\n", d.stat);
-#endif
+				{
+					d.stat = run_builtins_cmd(&d, cmds->cmd + i, pip_out) % 256;
+					close_files_rd(cmds->cmd + i);
+				}
 			}
+/* 			if (i > 2)
+				close_f2(cmds->fdp[i]); */
 			free_cmds(cmds);
-#ifdef NDEBUG
-			printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
-#endif
 			free(d.input);
-			close_f3(d.cmd.fd);
 		}
 		else
 			err_msg(msg_error(8), 0, &d);
