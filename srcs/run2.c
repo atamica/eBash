@@ -7,6 +7,8 @@ int	cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out)
 	{
 		close_f2any(pipe_in);
 		close_files_rd(cmd);
+/* 		if (cmd->code_red & D_LEFT)
+			h_doc(cmd->fd[1], cmd, d); */
 		if_err_exit(waitpid(d->cmd_pid, &d->stat, 0), 7, d);
 	}
 	else if (cmd->path)

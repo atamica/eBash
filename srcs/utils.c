@@ -105,6 +105,6 @@ void	dup_io(int *fd, t_d *d, int *pipe_in, int *pipe_out)
 			dup2_check(fd[1], OUT, d);
 			close_f2any(pipe_out);
 		}
-		dup2_check(fd[2], ERR, d);
+		dup2_check(fd[2], ER, d);
 	}
 }

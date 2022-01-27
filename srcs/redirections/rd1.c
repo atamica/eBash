@@ -20,6 +20,7 @@ int	rd_d_left(char *str, t_cmd *cmd)
 	char	*ptr;
 
 	del_substring(ptr = get_pos_char(str, L), 2);
+	// cmd->fd[0] = IN;
 	return (!(cmd->here_stop = filename(ptr)));
 }
 
@@ -47,7 +48,7 @@ int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 	tmp = filename(ptr);
 	if (tmp)
 	{
-		cmd->fd[1] = open(tmp, O_APPEND | O_RDWR | O_CREAT, FILE_PERM);
+		cmd->fd[1] = open(tmp, O_RDWR | O_CREAT | O_APPEND, FILE_PERM);
 		free (tmp);
 	}
 	return (!tmp || err_open(cmd->fd[1], d));

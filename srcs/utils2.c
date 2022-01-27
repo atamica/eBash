@@ -76,3 +76,18 @@ void	del_substring(char *start, size_t len)
 			*start = '\0';	// ft_bzero((void *)start, l_str);
 	}
 }
+
+void	check_opened_fd(void)
+{
+	int		fd;
+
+	fd = 3;
+	while(fd < 20) {
+		if (fcntl(fd, F_GETFL) != -1 || errno != EBADF)	{
+			ft_putstr_fd("*** fd(", ER);
+			ft_putnbr_fd(fd, ER);
+			ft_putendl_fd(") is open ***", ER);
+		}
+		fd++;
+	}
+}

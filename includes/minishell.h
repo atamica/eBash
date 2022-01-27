@@ -43,6 +43,7 @@ void		print_param_fd(char **arg, char *prefix, char separator, int fd);
 
 void		del_empty_sp(char *str);
 void		del_substring(char *start, size_t len);
+void		check_opened_fd(void);
 
 /*
 **		err.c
@@ -150,6 +151,12 @@ t_errors	ft_get_redirections(char *str, t_cmd *cmd);
 */
 
 char		*get_pos_char(char *str, char c);
+
+/*
+**		heredoc.c
+*/
+
+void		h_doc(int fd, t_cmd *cmd, t_d *d);
 
 /*
 **		redirections/herdoc.c

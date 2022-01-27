@@ -1,7 +1,7 @@
 #ifndef MINISHELL_CONSTS_H
 # define MINISHELL_CONSTS_H
 
-//# define NDEBUG
+# define NDEBUG
 //# define NDEBUG_RUN
 
 # define FILE_PERM 0664	// S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR
@@ -24,6 +24,13 @@
 # define R '>'
 # define LL "<<"
 # define RR ">>"
+
+# define BOLD S "[1m" E
+# define DIM S "[2m" E
+# define UNDERLINE S "[4m" E
+# define BLINK S "[5m" E
+# define INVERTED S "[7m" E
+# define HIDDEN S "[8m" E
 
 # define RESET S "[0m" E
 # define BLACK S "[30m" E
@@ -64,6 +71,7 @@
 # define ERR_CD "error: cd: cannot change directory to"
 # define TOO_MANY_ARGS CD "слишком много аргументов"
 # define ERR_EXE "error: cannot execute"
+# define ERR_READ "error: read from STDIN"
 
 # define LINUX 1
 # define OFF 0

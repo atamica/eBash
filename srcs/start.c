@@ -31,7 +31,7 @@ printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 			{
 				if (i < cmds->pipes_count)
 					if_err_exit(pipe(cmds->fdp[i]), 3, &d);					
-				if (cmds->pipes_count && i > 0)
+				if (cmds->pipes_count && (i > 0))
 					pip_in = cmds->fdp[i - 1];	
 				else
 					pip_in = NULL;
@@ -46,6 +46,9 @@ printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 					d.stat = run_builtins_cmd(&d, cmds->cmd + i, pip_out) % 256;
 					close_files_rd(cmds->cmd + i);
 				}
+#ifdef NDEBUG
+				check_opened_fd();
+#endif
 			}
 /* 			if (i > 2)
 				close_f2(cmds->fdp[i]); */
@@ -54,6 +57,9 @@ printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 		}
 		else
 			err_msg(msg_error(8), 0, &d);
+#ifdef NDEBUG
+		check_opened_fd();
+#endif
 	}
 	printf(N);
 	free_d(&d);

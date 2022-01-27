@@ -3,110 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sshavonn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: atamica <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/20 17:59:31 by sshavonn          #+#    #+#             */
-/*   Updated: 2020/12/20 17:59:38 by sshavonn         ###   ########.fr       */
+/*   Created: 2020/11/24 22:47:09 by atamica           #+#    #+#             */
+/*   Updated: 2020/11/24 22:52:47 by atamica          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strdup(const char *s1)
+static int	findn(const char *s)
 {
-	size_t	slen;
-	char	*pdup;
+	int				i;
 
-	pdup = NULL;
-	slen = ft_strlen(s1) + 1;
-	if ((pdup = malloc(slen * sizeof(char))))
-		ft_strlcpy(pdup, s1, slen);
-	return (pdup);
-}
-
-int		ft_sizeof_line(char *buf)
-{
-	int i;
-
-	i = 0;
-	while ((buf[i] != '\n') && buf[i] && i < BUFFER_SIZE)
-		i++;
-	return (i);
-}
-
-int		ft_getline(char **line, char **line1, int fd)
-{
-	int		size;
-	char	*line2;
-
-	if (((size = ft_sizeof_line(*line1)) < BUFFER_SIZE) && (*line1)[size])
+	i = -1;
+	if (s)
 	{
-		if ((*line = ft_substr(*line1, 0, size)))
-		{
-			ft_strlcpy(*line1, *line1 + size + 1, BUFFER_SIZE - size);
-			return (1);
-		}
-		free(*line1);
-		*line1 = NULL;
-		return (-1);
+		while (s[++i])
+			if (s[i] == C)
+				return (i);
 	}
-	if ((*line = ft_strdup(*line1)))
-	{
-		(*line1)[0] = '\0';
-		if (((size = get_next_line(fd, &line2)) != -1))
-			return (((*line = ft_strjoin_free(*line, line2))) ? size : -1);
-	}
-	free(*line1);
-	*line1 = NULL;
 	return (-1);
 }
 
-int		ft_fillbuff(char **line, char **line1, int fd)
+static int	fre(int result, char **buf, char **remain, char **line)
 {
-	int size;
-
-	size = 1;
-	if (!(*line1)[0])
+	if (buf && *buf)
 	{
-		if ((size = read(fd, *line1, BUFFER_SIZE)) < 0)
-		{
-			free(*line1);
-			*line1 = NULL;
-			return (-1);
-		}
-		if (!size)
-		{
-			if (!(*line = malloc(1 * sizeof(char))))
-				return (-1);
-			(*line)[0] = '\0';
-			return (0);
-		}
-		(*line1)[size] = '\0';
+		free(*buf);
+		*buf = NULL;
 	}
-	return (size);
+	if (remain && *remain)
+	{
+		free(*remain);
+		*remain = NULL;
+	}
+	if (line && *line)
+	{
+/* 		free(*line);
+		*line = NULL;*/
+	} 
+	return (result);
 }
 
-int		get_next_line(int fd, char **line)
+static int	divider(char *src, char **line, char **remain, int cc)
 {
-	static char	*line1;
-	int			size;
+	int			i;
+	char		*tmp;
 
-	if (!line || BUFFER_SIZE < 1 || fd < 0)
-		return (-1);
-	*line = NULL;
-	if (!(line1))
+	if ((i = findn(src)) > -1)
 	{
-		if (!(line1 = malloc((BUFFER_SIZE + 1) * sizeof(char))))
-			return (-1);
-		line1[0] = '\0';
+		tmp = ft_substr(src, 0, i);
+		*line = ft_strjoin_mod(line, tmp);
+		fre(1, &tmp, NULL, NULL);
+		tmp = *remain;
+		*remain = ft_substr(src, i + 1, cc - i);
+		return (fre(1, &tmp, NULL, NULL));
 	}
-	if ((size = ft_fillbuff(line, &line1, fd)) < 0)
-		return (-1);
-	if (!size)
+	*line = ft_strjoin_mod(line, src);
+	return (0);
+}
+
+int			get_next_line(int fd, char **line)
+{
+	static char *remain = NULL;
+	ssize_t		count_char;
+	char		*buf;
+
+	if ((fd >= 0) && (BUFFER_SIZE > 0) && (BUFFER_SIZE <= MAX_BUF_SIZE) &&\
+line && (buf = (char*)malloc(BUFFER_SIZE + 1)) && (read(fd, buf, 0) != -1))
 	{
-		free(line1);
-		line1 = NULL;
-		return (0);
+		*line = ft_substr("", 0, 0);
+		if (remain && divider(remain, line, &remain, ft_strlen(remain)))
+			return (fre(1, &buf, NULL, NULL));
+		while (((count_char = read(fd, buf, BUFFER_SIZE)) > 0))
+		{
+			buf[count_char] = 0;
+			if (divider(buf, line, &remain, count_char))
+				return (fre(1, &buf, NULL, NULL));
+		}
+		if (count_char == 0)
+			return (fre(0, &buf, &remain, NULL));
 	}
-	return (ft_getline(line, &line1, fd));
+	return (fre(-1, &buf, &remain, line));
 }

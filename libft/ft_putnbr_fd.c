@@ -8,7 +8,7 @@ void	ft_putnbr_fd(int n, int fd)
 
 	a = 1;
 	z = 1;
-	tmp = n;
+	tmp = n / 10;
 	while (tmp)
 	{
 		tmp /= 10;
