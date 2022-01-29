@@ -12,12 +12,13 @@ static int	set_code_msg(t_cmd *cmd, char *msg, int code)
 	return (code);
 }
 
-int	ft_exit(t_cmd *cmd)
+int	ft_exit(t_cmd *cmd, t_d *d)
 {
 	int	code_exit;
 
 	code_exit = 0;
-	ft_putendl_fd("exit", cmd->fd[3]);
+	restore_std_io(d);
+	ft_putendl_fd("exit", ER);
 	if (cmd->arg[1])
 	{
 		if (is_only_digits(cmd->arg[1]))

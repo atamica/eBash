@@ -90,7 +90,7 @@ int			ft_echo(t_cmd *cmd, int fd);
 int			ft_pwd(t_cmd *cmd);
 int			ft_env(t_d *d, int fd);
 int			ft_export(t_d *d, int fd);
-int			ft_exit(t_cmd *cmd);
+int			ft_exit(t_cmd *cmd, t_d *d);
 int			ft_unset(char *name, t_d *d);
 
 int			type_cmd(char *cmd);
@@ -157,6 +157,7 @@ char		*get_pos_char(char *str, char c);
 */
 
 void		h_doc(int fd, t_cmd *cmd, t_d *d);
+void		prepare_hdoc_pipe(t_cmd *cmd, t_d *d, int *pipe_in);
 
 /*
 **		redirections/herdoc.c

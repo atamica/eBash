@@ -40,7 +40,7 @@ int	run_builtins_cmd(t_d *d, t_cmd *cmd, int *pipe_out)
 		else if (!ft_strncmp(cmd->path, "export", 7))
 			res = ft_export(d, fout.fd);
 		else if (!ft_strncmp(cmd->path, "exit", 5))
-			res = ft_exit(cmd);
+			res = ft_exit(cmd, d);
 		else if (!ft_strncmp(cmd->path, "unset", 6))
 			res = ft_unset(cmd->arg[1], d);
 		close_if(fout);
