@@ -74,7 +74,7 @@ void	recive(int signo, siginfo_t *siginfo, void *contex)
 		//printf("CTRL+C pressed\n");
 		//g_code_event = CTRL_C;
 		//ft_putchar_fd('\b', 1);
-		printf(N);
+		ft_putendl_fd(CC, ER);	// OUT ?
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
@@ -107,12 +107,12 @@ void	init_signals(void)
 	sigset_t			set;
 	struct sigaction	act_kill;
 	struct sigaction	act_quit;
-	struct sigaction	act_eof;
+//	struct sigaction	act_eof;
 
 	sigfillset(&set);
 	ft_memset(&act_kill, 0, sizeof(act_kill));
-	act_kill.sa_sigaction = recive;
-	act_kill.sa_flags = SA_SIGINFO;
+	act_kill.sa_handler = (void *)recive;
+//	act_kill.sa_flags = SA_SIGINFO;
 	act_kill.sa_mask = set;
 	sigaction(SIGINT, &act_kill, NULL);
 	ft_memset(&act_quit, 0, sizeof(act_quit));
@@ -120,9 +120,9 @@ void	init_signals(void)
 	act_quit.sa_flags = SA_SIGINFO;
 	act_quit.sa_mask = set;
 	sigaction(SIGQUIT, &act_quit, NULL);
-	ft_memset(&act_eof, 0, sizeof(act_eof));
+/* 	ft_memset(&act_eof, 0, sizeof(act_eof));
 	act_eof.sa_sigaction = recive;
 	act_eof.sa_flags = SA_SIGINFO;
 	act_eof.sa_mask = set;
-	sigaction(SIGUSR1, &act_eof, NULL);
+	sigaction(SIGUSR1, &act_eof, NULL); */
 }

@@ -100,8 +100,10 @@ typedef struct s_cmd
 	char	**env;
 	int		ac;
 	int		fd[3];
+	int		std_fd[3];
 	t_type	type;
 	t_rd	redir;
+	int		fl_replace_dl;
 	int		code_red;
 	int		pipe;
 	int		code_ret;
@@ -144,16 +146,17 @@ typedef struct s_d
 	char	*input;
 	t_cmd	cmd;
 	pid_t	cmd_pid;
+	int		std_fd[3];
 	int		*pipe_fd;
 	int		stat;
 	int		fr;
-	int		pipe;
+/* 	int		pipe;
 	int		inredir;
 	int		outredir;
 	int		in2redir;
 	int		out2redir;
 	int		double_pipe;
-	int		double_and;
+	int		double_and; */
 	char	*path;
 	char	*prompt;
 	int		ac;

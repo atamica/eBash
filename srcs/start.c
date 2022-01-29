@@ -29,6 +29,9 @@ printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 			d.stat = 0;
 			while ((++i < cmds->count) && !d.stat)
 			{
+#ifdef NDEBUG
+printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+#endif
 				if (i < cmds->pipes_count)
 					if_err_exit(pipe(cmds->fdp[i]), 3, &d);					
 				if (cmds->pipes_count && (i > 0))
@@ -48,12 +51,14 @@ printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 				}
 #ifdef NDEBUG
 				check_opened_fd();
+printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", d.stat);			
 #endif
 			}
 /* 			if (i > 2)
 				close_f2(cmds->fdp[i]); */
 			free_cmds(cmds);
 			free(d.input);
+			restore_std_io(&d);
 		}
 		else
 			err_msg(msg_error(8), 0, &d);
@@ -61,6 +66,7 @@ printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", run(&d));
 		check_opened_fd();
 #endif
 	}
+	restore_std_io(&d);
 	printf(N);
 	free_d(&d);
 	return (0);

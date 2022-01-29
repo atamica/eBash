@@ -14,6 +14,6 @@ int	ft_echo(t_cmd *cmd, int fd)
 			ft_putchar_fd(SP, fd);
 	}
 	if (!fl)
-		ft_putchar_fd('\n', fd);
+		ft_putchar_fd(*N, fd);
 	return (0);
 }

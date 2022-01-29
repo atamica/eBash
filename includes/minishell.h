@@ -170,6 +170,7 @@ int			rd_s_left(char *str, t_cmd *cmd, t_d *d);
 int			rd_d_left(char *str, t_cmd *cmd);
 int			rd_s_right(char *str, t_cmd *cmd, t_d *d);
 int			rd_d_right(char *str, t_cmd *cmd, t_d *d);
+void		restore_std_io(t_d *d);
 
 /*
 **		par.c

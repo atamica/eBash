@@ -64,3 +64,10 @@ char	*filename(char *ptr)
 	}
 	return (res);
 }
+
+void	restore_std_io(t_d *d)
+{
+	if_err_exit(dup2(d->std_fd[0], IN), 3, d);
+	if_err_exit(dup2(d->std_fd[1], OUT), 3, d);
+	if_err_exit(dup2(d->std_fd[2], ER), 3, d);
+}

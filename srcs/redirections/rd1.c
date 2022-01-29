@@ -20,8 +20,13 @@ int	rd_d_left(char *str, t_cmd *cmd)
 	char	*ptr;
 
 	del_substring(ptr = get_pos_char(str, L), 2);
-	// cmd->fd[0] = IN;
-	return (!(cmd->here_stop = filename(ptr)));
+	cmd->here_stop = filename(ptr);
+	if (cmd->here_stop && (*cmd->here_stop == SQ || *cmd->here_stop == DQ))
+	{
+		cmd->here_stop = replace_q(cmd->here_stop, *cmd->here_stop);
+		cmd->fl_replace_dl = 1;
+	}
+	return (!cmd->here_stop);
 }
 
 int	rd_s_right(char *str, t_cmd *cmd, t_d *d)

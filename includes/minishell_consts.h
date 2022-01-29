@@ -4,7 +4,7 @@
 # define NDEBUG
 //# define NDEBUG_RUN
 
-# define FILE_PERM 0664	// S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR | S_IRUSR
+# define FILE_PERM S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH	// 0664
 
 # define S "\001\033"
 # define E "\002"
@@ -24,6 +24,7 @@
 # define R '>'
 # define LL "<<"
 # define RR ">>"
+# define CC "^C"
 
 # define BOLD S "[1m" E
 # define DIM S "[2m" E
