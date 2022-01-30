@@ -102,16 +102,9 @@ int parser(char *str, t_cmd *cmd, t_d *d)
 		if (is_builtins(cmd->arg[0]))
 			cmd->path = ft_strdup(cmd->arg[0]);
 		else
-			cmd->path = cmdf(cmd->arg[0]);
+			cmd->path = add_path(cmd->arg[0]);
 		cmd->type = type_cmd(cmd->arg[0]);
-#ifdef NDEBUG
-		printf("pars: path=%s type=%i\n", cmd->path, cmd->type);
-#endif
-		del_quotes(cmd->arg, d);
-#ifdef NDEBUG
-		print_param(cmd->arg, "parser:", ':');
-		printf(N);
-#endif
+		del_quotes(cmd->arg, d->env);
 	}
 	return (SUCCSESS);
 }

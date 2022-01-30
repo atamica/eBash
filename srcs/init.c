@@ -43,7 +43,7 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	tmp = ft_itoa(lvl);
 	set_env_val(LVL, tmp, d);
 	free(tmp);
-	g_code_event = 0;
+//	g_code_event = 0;
 	rl_catch_signals = 0;
 	init_signals(d);
 	d->std_fd[0] = dup(IN);

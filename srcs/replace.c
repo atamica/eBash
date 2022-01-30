@@ -21,42 +21,42 @@ char	*replace_sq(char *str)
 	return (replace_q(str, SQ));
 }
 
-char	*replace_dq(char *str, t_d *d)
+char	*replace_dq(char *str, char **env)
 {
-	return (replace_q(repl_dlr(str, d), DQ));
+	return (replace_q(repl_dlr(str, env), DQ));
 }
 
-void	del_quotes(char **arg, t_d *d)
+void	del_quotes(char **arg, char **env)
 {
-#ifdef NDEBUG	
-	char **st = arg;
+	char	*tmp;
 
-	print_param(arg, "del_q_before", '\n');
-	printf("\n--------\n");
-#endif
 	while (*arg)
 	{
 		del_empty_sp(*arg);
-		if (**arg == SQ)
-			*arg = replace_sq(*arg);
-		else if (**arg == DQ)
-			*arg = replace_dq(*arg, d);
+		tmp = *arg;
+		if (*tmp == SQ)
+			tmp = replace_sq(*arg);
+		else if (*tmp == DQ)
+		{
+			*arg = replace_dq(*arg, env);
+			if (tmp != *arg)
+				free(tmp);
+		}
 		else
-			*arg = repl_dlr(*arg, d);
+		{
+			*arg = repl_dlr(*arg, env);
+			if (tmp != *arg)
+				free(tmp);
+		}
 		arg++;
 	}
-#ifdef NDEBUG
-	print_param(st, "del_q_after", '\n');
-	printf(N);
-#endif
 }
 
-char	*repl_dlr(char *ptr, t_d *d)
+char	*repl_dlr(char *ptr, char **env)
 {
 	t_replace	r;
 	char		*res;
 	char		*pos;
-	char		*tmp;
 	char		*name;
 
 	pos = get_pos_char(ptr, DL);
@@ -69,12 +69,11 @@ char	*repl_dlr(char *ptr, t_d *d)
 		if (r.len)
 		{
 			name = ft_substr(res + r.st, 1, r.len++);
-			r.val = get_env_val(d->env, name);
+			r.val = get_env_val(env, name);
 			free (name);
-			tmp = replace_d(&r);
  			if (res != ptr)
 				free (res);
-			res = tmp;
+			res = replace_d(&r);
 			r.st += ft_strlen(r.val) - r.len - 1;
 			free (r.val);
 		}

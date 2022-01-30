@@ -12,7 +12,7 @@ int	is_ext_cmd(char *cmd)
 {
 	char	*tmp;
 
-	tmp = cmdf(cmd);
+	tmp = add_path(cmd);
 	if (tmp)
 	{
 		free(tmp);

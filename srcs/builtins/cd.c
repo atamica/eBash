@@ -10,9 +10,9 @@ static char	*pth(char *ptr)
 	if (!tmp)
 		return (tmp);
 	if (ptr && *ptr == '~')
-		path = ft_strjoin_m(getenv("HOME"), ptr + 1);
+		path = ft_strjoin_c(getenv("HOME"), ptr + 1, SL);
 	else
-		path = ft_strjoin_m(getcwd(tmp, LEN_PATH), ptr);
+		path = ft_strjoin_c(getcwd(tmp, LEN_PATH), ptr, SL);
 	free(tmp);
 	return (path);
 }

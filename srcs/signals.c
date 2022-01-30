@@ -13,8 +13,8 @@ void	my_handler(int signo)
 
 void	init_signals(t_d *d)
 {
-	if(signal(SIGINT, my_handler) == SIG_ERR)
+	if (signal(SIGINT, my_handler) == SIG_ERR)
 		err(14, d);
-	if(signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		err(14, d);
 }

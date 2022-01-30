@@ -7,7 +7,7 @@
 # include "libft.h"
 # include "get_next_line.h"
 
-int		g_code_event;
+//int		g_code_event;
 
 /*
 **		run.c
@@ -32,8 +32,7 @@ void		set_flags(t_fl *fl, char c);
 */
 
 char		*ft_strjoin_c(char const *s1, char const *s2, char c);
-char		*ft_strjoin_m(char const *s1, char const *s2);
-char		*cmdf(char *cmd);
+char		*add_path(char *cmd);
 void		dup2_check(int old_fd, int new_fd, t_d *d);
 void		dup_io(int *fd, t_d *d, int *pipe_in, int *pipe_out);
 
@@ -177,9 +176,9 @@ t_cmds		*pa2(t_d *d);
 
 char		*replace_q(char *str, char c);
 char		*replace_sq(char *str);
-char		*replace_dq(char *str, t_d *d);
-void		del_quotes(char **arg, t_d *d);
-char		*repl_dlr(char *ptr, t_d *d);
+char		*replace_dq(char *str, char **env);
+void		del_quotes(char **arg, char **env);
+char		*repl_dlr(char *ptr, char **env);
 
 /*
 **		srcs/signals.c

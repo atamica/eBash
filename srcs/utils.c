@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+/*
+**	function insert char between s1 and s2
+**	retunrn new str or NULL
+*/
+
 char	*ft_strjoin_c(char const *s1, char const *s2, char c)
 {
 	char	*r;
@@ -24,29 +29,7 @@ char	*ft_strjoin_c(char const *s1, char const *s2, char c)
 	return (r);
 }
 
-char	*ft_strjoin_m(char const *s1, char const *s2)
-{
-	char	*r;
-	size_t	l1;
-	size_t	l2;
-
-	r = NULL;
-	if (s1 && s2)
-	{
-		l1 = ft_strlen(s1);
-		l2 = ft_strlen(s2);
-		r = (char *)malloc((l1 + l2 + 2) * sizeof(char));
-		if (r)
-		{
-			ft_strlcpy(r, s1, l1 + 1);
-			*(r + l1) = '/';
-			ft_strlcpy(r + l1 + 1, s2, l2 + 1);
-		}
-	}
-	return (r);
-}
-
-char	*cmdf(char *cmd)
+char	*add_path(char *cmd)
 {
 	char	*cmd_path;
 	char	**paths;
@@ -59,8 +42,7 @@ char	*cmdf(char *cmd)
 		tmp = paths;
 		while (*tmp && !cmd_path)
 		{
-
-			cmd_path = ft_strjoin_m(*tmp++, cmd);
+			cmd_path = ft_strjoin_c(*tmp++, cmd, SL);
 			if (is_file_exist(cmd_path) != 1)
 				free_null((void **)&cmd_path);
 		}
