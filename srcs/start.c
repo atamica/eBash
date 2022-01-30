@@ -12,7 +12,6 @@ int	main(int ac, char **av, char **env)
 	while ((d.input = readline(prompt(&d))))
 	{
 		free(d.prompt);
-//		d.fr = 1;
 		if (!d.input)
 			break ;
 		if (!ft_isalsp(*d.input))

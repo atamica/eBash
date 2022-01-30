@@ -11,7 +11,7 @@
 				count++;
 	return (!(count % 2));
 } */
-
+/* 
 char	*in_quotes(char *str, char type)
 {
 	char	*res;
@@ -30,8 +30,8 @@ char	*in_quotes(char *str, char type)
 	if ((st > -1) && (end > -1))
 		res = ft_substr(str, st, end - st);
 	return (res);
-}
-
+} */
+/* 
 char	*replace_d(t_replace *r)
 {
 	char	*res;
@@ -53,7 +53,7 @@ char	*replace_d(t_replace *r)
 		}
 	}
 	return (res);
-}
+} */
 
 /* char	*dollar(char *str, t_d *d)
 {
@@ -100,7 +100,7 @@ char	*replace_d(t_replace *r)
 **	return, value $[NAME]
 */
 
-char	*repl_val(char *name, t_d *d)
+/* char	*repl_val(char *name, t_d *d)
 {
 	int		len;
 	char	*res;
@@ -132,3 +132,4 @@ char	*repl_val(char *name, t_d *d)
 	}
 	return (res);
 }
+ */

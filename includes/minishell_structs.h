@@ -149,14 +149,6 @@ typedef struct s_d
 	int		std_fd[3];
 	int		*pipe_fd;
 	int		stat;
-//	int		fr;
-/* 	int		pipe;
-	int		inredir;
-	int		outredir;
-	int		in2redir;
-	int		out2redir;
-	int		double_pipe;
-	int		double_and; */
 	char	*path;
 	char	*prompt;
 	int		ac;

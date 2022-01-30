@@ -36,7 +36,7 @@ char		*add_path(char *cmd);
 void		dup2_check(int old_fd, int new_fd, t_d *d);
 void		dup_io(int *fd, t_d *d, int *pipe_in, int *pipe_out);
 
-char		*prompt(t_d *d);
+
 size_t		sp_count(char *ptr);
 char		*skip_spaces(char *ptr);
 char		*skip_not_spaces(char *ptr);
@@ -46,7 +46,9 @@ void		print_param_fd(char **arg, char *prefix, char separator, int fd);
 void		del_empty_sp(char *str);
 void		del_substring(char *start, size_t len);
 void		check_opened_fd(void);
+
 char		*get_pos_char(char *str, char c);
+char		*prompt(t_d *d);
 
 /*
 **		err.c
@@ -107,9 +109,9 @@ int			run_builtins_cmd(t_d *d, t_cmd *cmd, int *pipe_out);
 **		find.c
 */
 
-char		*in_quotes(char *str, char type);
-char		*replace_d(t_replace *r);
-char		*repl_val(char *name, t_d *d);
+//char		*in_quotes(char *str, char type);
+//char		*replace_d(t_replace *r);
+//char		*repl_val(char *name, t_d *d);
 //char		*dollar(char *str, t_d *d);
 
 /*
@@ -179,7 +181,7 @@ char		*replace_sq(char *str);
 char		*replace_dq(char *str, char **env);
 void		del_quotes(char **arg, char **env);
 char		*repl_dlr(char *ptr, char **env);
-
+char		*replace_d(t_replace *r);
 /*
 **		srcs/signals.c
 */

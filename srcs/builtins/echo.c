@@ -5,9 +5,11 @@ int	ft_echo(t_cmd *cmd, int fd)
 	int		fl;
 	char	**ptr;
 
-	fl = (cmd->arg && !ft_strncmp(*(cmd->arg + 1), "-n", 3));
+print_param(cmd->arg, ">-<", '|');
+	fl = (cmd->arg[1] && !ft_strncmp(cmd->arg[1], "-n", 3));
+printf("| fl=%i\n", fl);	
 	ptr = cmd->arg + fl + 1;
-	while (*ptr)
+	while (ptr && *ptr)
 	{
 		ft_putstr_fd(*ptr, fd);
 		if (*++ptr)
