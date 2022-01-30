@@ -81,7 +81,7 @@ void	check_opened_fd(void)
 {
 	int		fd;
 
-	fd = 3;
+	fd = 6;
 	while(fd < 20) {
 		if (fcntl(fd, F_GETFL) != -1 || errno != EBADF)	{
 			ft_putstr_fd("*** fd(", ER);

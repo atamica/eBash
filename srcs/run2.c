@@ -12,10 +12,7 @@ int	cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out)
 	else if (cmd->path)
 	{
 		if (cmd->code_red & D_LEFT)
-		{
-			//prepare_hdoc(cmd, d);
 			prepare_hdoc_pipe(cmd, d, pipe_in);
-		}
 		dup_io(cmd->fd, d, pipe_in, pipe_out);
 		if_err_exit(execve(cmd->path, cmd->arg, cmd->env), errno, d);
 		exit(SUCCSESS);

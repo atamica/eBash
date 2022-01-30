@@ -13,10 +13,5 @@ int add_to_hist_file(const char *f_name)
 		free(cmd_line);
 		cmd_line = NULL;
 	}
-/* 	if (cmd_line)
-	{
-		printf("line isn't empty");
-		add_history(cmd_line);
-	} */
 	return (fd);
 }

@@ -1,38 +1,5 @@
 #include "minishell.h"
 
-static size_t	add_str(char *ptr, char *str, size_t offset)
-{
-	size_t	len;
-
-	len = ft_strlen(str);
-	ft_memcpy(ptr + offset, str, len);
-	return (len);
-}
-
-char	*prompt(t_d *d)
-{
-	char	*user;
-	char	*path;
-	char	p[LEN_PATH];
-	size_t	len;
-
-	user = get_env_val(d->env, "USER");
-	path = getcwd(p, LEN_PATH);
-	len = ft_strlen(GREEN) + ft_strlen(user) + ft_strlen(RESET) + \
-			ft_strlen(BLUE) + ft_strlen(path) + ft_strlen(RESET) + 3;
-	if_err_fatal(d->prompt = (char *)malloc(len), 2, d);
-	len = add_str(d->prompt, GREEN, 0);
-	len += add_str(d->prompt, user, len);
-	free(user);
-	len += add_str(d->prompt, RESET, len);
-	*(d->prompt + len++) = ':';
-	len += add_str(d->prompt, BLUE, len);
-	len += add_str(d->prompt, path, len);
-	len += add_str(d->prompt, RESET, len);
-	ft_memcpy(d->prompt + len, "$", 2);
-	return (d->prompt);
-}
-
 size_t	sp_count(char *ptr)
 {
 	size_t	l;
@@ -46,11 +13,21 @@ size_t	sp_count(char *ptr)
 	return (l);
 }
 
-char	*skip_spa(char *ptr)
+char	*skip_spaces(char *ptr)
 {
 	if (ptr)
 	{
 		while (*ptr && ft_isalsp(*ptr))
+			ptr++;
+	}
+	return (ptr);
+}
+
+char	*skip_not_spaces(char *ptr)
+{
+	if (ptr)
+	{
+		while (*ptr && !ft_isalsp(*ptr))
 			ptr++;
 	}
 	return (ptr);

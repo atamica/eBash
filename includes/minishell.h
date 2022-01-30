@@ -13,7 +13,9 @@ int		g_code_event;
 **		run.c
 */
 
+# ifdef NDEBUG_RUN
 int			run(t_d *d);
+# endif
 int			cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out);
 
 /*
@@ -37,13 +39,15 @@ void		dup_io(int *fd, t_d *d, int *pipe_in, int *pipe_out);
 
 char		*prompt(t_d *d);
 size_t		sp_count(char *ptr);
-char		*skip_spa(char *ptr);
+char		*skip_spaces(char *ptr);
+char		*skip_not_spaces(char *ptr);
 void		print_param(char **arg, char *prefix, char separator);
 void		print_param_fd(char **arg, char *prefix, char separator, int fd);
 
 void		del_empty_sp(char *str);
 void		del_substring(char *start, size_t len);
 void		check_opened_fd(void);
+char		*get_pos_char(char *str, char c);
 
 /*
 **		err.c
@@ -138,21 +142,6 @@ int			is_in_fname(char c);
 int			add_to_hist_file(const char *f_name);
 
 /*
-**		get_spec_char.c
-*/
-
-char		*ft_get_spec_char(char *str, char c, t_esc_chars escapes);
-char		**ft_get_cmd_set_m(char *str, char c);
-char		**ft_get_tokens(char *str);
-t_errors	ft_get_redirections(char *str, t_cmd *cmd);
-
-/*
-**		get_spec_old.c
-*/
-
-char		*get_pos_char(char *str, char c);
-
-/*
 **		heredoc.c
 */
 
@@ -160,7 +149,7 @@ void		h_doc(int fd, t_cmd *cmd, t_d *d);
 void		prepare_hdoc_pipe(t_cmd *cmd, t_d *d, int *pipe_in);
 
 /*
-**		redirections/herdoc.c
+**		redirections/ *
 */
 
 int			err_open(int fd, t_d *d);
@@ -177,25 +166,26 @@ void		restore_std_io(t_d *d);
 **		par.c
 */
 
-char		*replace_q(char *str, char c);
-char		*replace_sq(char *str);
-char		*replace_dq(char *str, t_d *d);
-void		del_quotes(char **arg, t_d *d);
-char		*repl_d(char *ptr, t_d *d);
-char		*repl_dlr(char *ptr, t_d *d);
-t_cmds		*pa(t_d *d);
 int			pipes_count(char *str);
-char		**split_cmds(t_d *d);
 char		*skip_sps(char *ptr);
 t_splits	*split_cmds2(t_d *d);
 t_cmds		*pa2(t_d *d);
 
 /*
+**		replace.c
+*/
+
+char		*replace_q(char *str, char c);
+char		*replace_sq(char *str);
+char		*replace_dq(char *str, t_d *d);
+void		del_quotes(char **arg, t_d *d);
+char		*repl_dlr(char *ptr, t_d *d);
+
+/*
 **		srcs/signals.c
 */
 
-void		init_signals(void);
-void		recive(int signo, siginfo_t *siginfo, void *contex);
-//void		recive(int signo, void *contex);
+void		my_handler(int signo);
+void		init_signals(t_d *d);
 
 #endif

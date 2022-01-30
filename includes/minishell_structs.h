@@ -149,7 +149,7 @@ typedef struct s_d
 	int		std_fd[3];
 	int		*pipe_fd;
 	int		stat;
-	int		fr;
+//	int		fr;
 /* 	int		pipe;
 	int		inredir;
 	int		outredir;

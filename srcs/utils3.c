@@ -1,0 +1,58 @@
+#include "minishell.h"
+
+char	*get_pos_char(char *str, char c)
+{
+	int	fl_sq;
+	int	fl_dq;
+
+	fl_dq = 1;
+	fl_sq = 1;
+	if (str)
+	{
+		while (*str)
+		{
+			if ((*str == SQ) && fl_dq)
+				fl_sq = !fl_sq;
+			else if ((*str == DQ) && fl_sq)
+				fl_dq = !fl_dq;
+			else if (((*str == c) && fl_sq && fl_dq) || \
+						((*str == c) && (c == DL) && fl_sq))
+				return (str);
+			str++;
+		}
+	}
+	return (NULL);
+}
+
+static size_t	add_str(char *ptr, char *str, size_t offset)
+{
+	size_t	len;
+
+	len = ft_strlen(str);
+	ft_memcpy(ptr + offset, str, len);
+	return (len);
+}
+
+char	*prompt(t_d *d)
+{
+	char	*user;
+	char	*path;
+	char	p[LEN_PATH];
+	size_t	len;
+
+	user = get_env_val(d->env, "USER");
+	path = getcwd(p, LEN_PATH);
+	len = ft_strlen(GREEN) + ft_strlen(user) + ft_strlen(RESET) + \
+			ft_strlen(BLUE) + ft_strlen(path) + ft_strlen(RESET) + 3;
+	if_err_fatal(d->prompt = (char *)malloc(len), 2, d);
+	len = add_str(d->prompt, GREEN, 0);
+	len += add_str(d->prompt, user, len);
+	free(user);
+	len += add_str(d->prompt, RESET, len);
+	*(d->prompt + len++) = ':';
+	len += add_str(d->prompt, BLUE, len);
+	len += add_str(d->prompt, path, len);
+	len += add_str(d->prompt, RESET, len);
+	ft_memcpy(d->prompt + len, "$", 2);
+	return (d->prompt);
+}

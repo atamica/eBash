@@ -9,11 +9,10 @@ int	main(int ac, char **av, char **env)
 	int		*pip_out;
 
 	init_start(&d, ac, av, env);
-	while (1)
+	while ((d.input = readline(prompt(&d))))
 	{
-		d.input = readline(prompt(&d));
 		free(d.prompt);
-		d.fr = 1;
+//		d.fr = 1;
 		if (!d.input)
 			break ;
 		if (!ft_isalsp(*d.input))
@@ -54,8 +53,6 @@ printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 printf("~~~~~~~~cod ret (%3d)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", d.stat);			
 #endif
 			}
-/* 			if (i > 2)
-				close_f2(cmds->fdp[i]); */
 			free_cmds(cmds);
 			free(d.input);
 			restore_std_io(&d);

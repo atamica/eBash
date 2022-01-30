@@ -33,7 +33,7 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	d->ac = ac;
 	d->av = av;
 	copy_envs(env, d);
-	using_history ();
+	using_history ();		// check this needed?
 	tmp = get_env_val(d->env, LVL);
 	if (tmp && ft_strlen(tmp))
 		lvl = ft_atoi(tmp) + 1;
@@ -45,7 +45,7 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	free(tmp);
 	g_code_event = 0;
 	rl_catch_signals = 0;
-	init_signals();
+	init_signals(d);
 	d->std_fd[0] = dup(IN);
 	d->std_fd[1] = dup(OUT);
 	d->std_fd[2] = dup(ER);

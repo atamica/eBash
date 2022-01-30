@@ -41,6 +41,8 @@ char	*msg_error(int code)
 		return (MSGE8);
 	if (code == 9)
 		return (MSGE9);
+	if (code == 14)
+		return (MSGE14);
 	return (MSG0);
 }
 

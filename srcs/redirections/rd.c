@@ -51,7 +51,7 @@ char	*filename(char *ptr)
 	if (ptr)
 	{
 		st_del = ptr;
-		ptr = skip_spa(ptr);
+		ptr = skip_spaces(ptr);
 		st = ptr;
 		while (*ptr && !ft_isalsp(*ptr))
 			ptr++;

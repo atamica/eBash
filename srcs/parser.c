@@ -13,7 +13,7 @@ static int arg_count(char *str)
 	argc = 0;
 	while (*str)
 	{
-		str = skip_spa(str);
+		str = skip_spaces(str);
 		if (*str == SQ || *str == DQ)
 		{
 			flq = *str++;
@@ -26,8 +26,7 @@ static int arg_count(char *str)
 		else
 		{
 			argc += (*str != '\0');
-			while (*str && !ft_strchr(ALL_SP, *str))
-				str++;
+			str = skip_not_spaces(str);
 		}
 	}
 	return (argc);
@@ -40,37 +39,27 @@ static int arg_count(char *str)
 
 static int argv_fill(char *str, int ac, char **av, t_d *d)
 {
-	int i;
 	char flq;
 	char *ptr;
 	size_t len;
 
-	i = 0;
 	av[ac] = NULL;
-	while (i < ac && *str)
+	while (ac-- && *str)
 	{
-		str = skip_spa(str);
+		str = skip_spaces(str);
+		ptr = str;
 		if (*str == SQ || *str == DQ)
 		{
-			ptr = str;
 			flq = *str++;
 			while (*str && *str != flq)
 				str++;
 			if (*str++ != flq)
 				return (ERROR);
-			len = str - ptr;
-			if_err_fatal(av[i] = ft_substr(ptr, 0, len), 2, d);
-			i++;
 		}
 		else if (*str)
-		{
-			ptr = str;
-			while (*str && !ft_strchr(ALL_SP, *str))
-				str++;
-			len = str - ptr;
-			if_err_fatal(av[i] = ft_substr(ptr, 0, len), 2, d);
-			i++;
-		}
+			str = skip_not_spaces(str);
+		len = str - ptr;
+		if_err_fatal(*av++ = ft_substr(ptr, 0, len), 2, d);
 	}
 	if (*str)
 		return (ERROR);

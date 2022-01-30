@@ -30,10 +30,9 @@ void	free_d(t_d *d)
 	if (d->input)
 	{
 		free_null((void **)&d->input);
-//		free(d->path);
 		free(d->input);
 		free2(d->env);
-		d->fr = 0;
+//		d->fr = 0;
 	}
 }
 

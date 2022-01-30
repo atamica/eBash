@@ -12,9 +12,9 @@ CFGNL = get_next_line.c get_next_line_utils.c
 
 X = start.c
 
-CFTST = par.c parser.c utils.c utils1.c utils2.c free.c err.c find.c \
-	init.c is.c is1.c run.c run1.c run2.c signals.c get_spec_char.c \
-	get_spec_old.c history.c close.c heredoc.c \
+CFTST = parser.c parser1.c utils.c utils1.c utils2.c utils3.c free.c err.c \
+	find.c 	init.c is.c is1.c run.c run1.c run2.c replace.c signals.c \
+	history.c close.c heredoc.c \
 	$(addprefix builtins/, $(BUILTINS)) \
 	$(addprefix redirections/, $(REDIR))
 
@@ -133,7 +133,6 @@ valb: bonus $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 # --track-origins=yes --leak-check=full -s ARG=$(ARG);
-
 
 dd:
 	@echo $(shell clear)

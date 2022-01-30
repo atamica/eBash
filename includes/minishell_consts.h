@@ -1,7 +1,7 @@
 #ifndef MINISHELL_CONSTS_H
 # define MINISHELL_CONSTS_H
 
-# define NDEBUG
+//# define NDEBUG
 //# define NDEBUG_RUN
 
 # define FILE_PERM S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH	// 0664
@@ -63,7 +63,7 @@
 # define MSGE11 "numeric argument required"
 # define MSGE12 "no such file or directory"
 # define MSGE13 "syntax error near unexpected token"
-
+# define MSGE14 MSGE9 "signal handler" N RESET
 # define MSG S "[1;36m" E "\u2328" S "[0m\033[2C" E
 
 # define ERR_FATAL "error: fatal"
@@ -91,8 +91,8 @@
 #  define LEN_PATH 4096
 # endif
 
-# define CTRL_C		130		// = /cC
-# define CTRL_SL	131		// = /c//
-# define CTRL_D		4		// = /cD
+# define CTRL_C		130
+# define CTRL_SL	131
+# define CTRL_D		4
 
 #endif
