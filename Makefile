@@ -119,7 +119,7 @@ runb: bonus
 	./$(NAME)
 
 tst: $(HDRS) $(LIBFT)
-	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_parser.c \
+	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_dlr.c \
 	$(addprefix $(SRC), $(CFTST)) $(GNL) $(LIBS); ./tst
 
 tst_pipe_split: $(HDRS) $(LIBFT)

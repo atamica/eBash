@@ -38,21 +38,23 @@ char	*replace_dq(char *str, char **env)
 
 char	*strip_quo(char *str, char **env, int fl_free)
 {
-	char	*tmp;
+	char	*ptr;
 
-	tmp = str;
+	ptr = str;
 	if (str)
 	{
-		if (*tmp == SQ)
-			tmp = replace_sq(str);
-		else if (*tmp == DQ)
-			tmp = replace_dq(str, env);
+		if (*ptr == SQ)
+			ptr = replace_sq(str);
+		else if (*ptr == DQ)
+			ptr = replace_dq(str, env);
 		else
-			tmp = repl_dlr(str, env, (tmp != str));
-		if (fl_free && (tmp != str))
-			free(str);
+		{
+			ptr = repl_dlr(str, env, (ptr != str));
+			if (fl_free && (ptr != str))
+				free(str);
+		}
 }
-	return (tmp);
+	return (ptr);
 }
 
 void	del_quotes(char **arg, char **env)
@@ -64,7 +66,7 @@ void	del_quotes(char **arg, char **env)
 		{
 			tmp = *arg;
 			del_empty_sp(*arg);
-			*arg = strip_quo(*arg, env, (tmp != *arg));
+			*arg = strip_quo(tmp, env, 1);
 			arg++;
 		}
 }
@@ -77,7 +79,7 @@ char	*repl_dlr(char *ptr, char **env, int fl_free)
 	char		*pos;
 	char		*name;
 
-	pos = get_pos_after(ptr, 0, DL);
+	pos = get_pos_char(ptr, DL);
 	res = ptr;
 	tmp = NULL;
 	while (pos)

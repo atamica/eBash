@@ -13,7 +13,6 @@ void	init_cmd(t_cmd *cmd)
   	cmd->fd[0] = IN;
 	cmd->fd[1] = OUT;
 	cmd->fd[2] = ER;
-	cmd->pipe = 0;
 	cmd->fl_replace = 0;
 }
 

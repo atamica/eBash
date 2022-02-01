@@ -23,7 +23,6 @@ int			cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out);
 int			parser(char *str, t_cmd *cmd, t_d *d);
 int			parser(char *str, t_cmd *cmd, t_d *d);
 int			pars(char *str, t_cmd *cmd, t_d *d);
-//void		set_flags(t_fl *fl, char c);
 
 /*
 **		utils.c
@@ -45,6 +44,7 @@ void		del_empty_sp(char *str);
 void		del_substring(char *start, size_t len);
 void		check_opened_fd(void);
 
+char		*get_pos_char(char *str, char c);
 char		*get_pos_after(char *str, int offset, char c);
 char		*prompt(t_d *d);
 
@@ -104,15 +104,6 @@ int			len_env_list(char **env);
 int			run_builtins_cmd(t_d *d, t_cmd *cmd, int *pipe_out);
 
 /*
-**		find.c
-*/
-
-//char		*in_quotes(char *str, char type);
-//char		*replace(t_replace *r);
-//char		*repl_val(char *name, t_d *d);
-//char		*dollar(char *str, t_d *d);
-
-/*
 **		init.c
 */
 
@@ -128,11 +119,10 @@ int			is_ext_cmd(char *cmd);
 int			is_dir(char *path);
 int			is_file_exist(char *path);
 t_val		is_in_env_list(char **env, char *name);
-//int			is_qu(t_fl *fl);
-//int			is_fl(t_fl *fl);
 int			is_only_digits(char *str);
 int			is_in_name(char *str);
 int			is_in_fname(char c);
+int			is_in_quo(char *str);
 
 /*
 **		history.c
@@ -175,13 +165,13 @@ t_cmds		*pa2(t_d *d);
 */
 
 void		del_quo(char *str, char c);
-//char		*replace_q(char *str, char c);
 char		*replace_sq(char *str);
 char		*replace_dq(char *str, char **env);
 void		del_quotes(char **arg, char **env);
 char		*repl_dlr(char *ptr, char **env, int fl_free);
 char		*replace(t_replace *r);
 char		*strip_quo(char *str, char **env, int fl_free);
+
 /*
 **		srcs/signals.c
 */

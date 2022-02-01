@@ -4,6 +4,7 @@ void	h_doc(int fd, t_cmd *cmd, t_d *d)
 {
 	int		i;
 	char	*line;
+	char	*tmp;
 	size_t	len;
 
 	if (cmd->here_stop)
@@ -16,7 +17,12 @@ void	h_doc(int fd, t_cmd *cmd, t_d *d)
 			if (!ft_strncmp(cmd->here_stop, line, len))
 				break ;
 			if (cmd->fl_replace)
+			{
+				tmp = line;
 				line = repl_dlr(line, d->env, 0);
+				if (tmp != line)
+					free (tmp);
+			}
 			ft_putendl_fd(line, fd);
 			free(line);
 			i = get_next_line(cmd->fd[0], &line);

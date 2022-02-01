@@ -3,57 +3,60 @@
 int	rd_s_left(char *str, t_cmd *cmd, t_d *d)
 {
 	char	*ptr;
-	char	*tmp;
+	char	*fname;
 
-	del_substring(ptr = get_pos_after(str, 0, L), 1);
-	tmp = strip_quo(filename(ptr), cmd->env, (ptr != str));
-	if (tmp)
-	{
-		cmd->fd[0] = open(tmp, O_RDONLY);
-		free(tmp);
-	}
-	return (!tmp || err_open(cmd->fd[0], d));
+	ptr = get_pos_char(str, L);
+	del_substring(ptr, 1);
+	fname = filename(ptr);
+	ptr = strip_quo(fname, cmd->env, (fname != ptr));
+	if (ptr)
+		cmd->fd[0] = open(ptr, O_RDONLY);
+	free(ptr);
+	return (!ptr || err_open(cmd->fd[0], d));
 }
 
 int	rd_d_left(char *str, t_cmd *cmd)
 {
 	char	*ptr;
+	char	*hstop;
 
-	del_substring(ptr = get_pos_after(str, 0, L), 2);
-	cmd->here_stop = strip_quo(filename(ptr), cmd->env, (ptr != str));
-	if (cmd->here_stop && (*cmd->here_stop == SQ || *cmd->here_stop == DQ))
+	del_substring(ptr = get_pos_char(str, L), 2);
+	hstop = filename(ptr);
+	if (hstop && is_in_quo(hstop))
+	{
 		cmd->fl_replace = 1;
+		del_quo(hstop, *hstop);
+	}
+	cmd->here_stop = hstop;
 	return (!cmd->here_stop);
 }
 
 int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
 {
 	char	*ptr;
-	char	*tmp;
+	char	*fname;
 
-	del_substring(ptr = get_pos_after(str, 0, R), 1);
-	tmp = strip_quo(filename(ptr), cmd->env, (ptr != str));
-	if (tmp)
-	{
-		cmd->fd[1] = open(tmp, O_RDWR | O_CREAT | O_TRUNC, FILE_PERM);
-		free (tmp);
-	}
-	return (!tmp || err_open(cmd->fd[1], d));
+	del_substring(ptr = get_pos_char(str, R), 1);
+	fname = filename(ptr);
+	ptr = strip_quo(fname, cmd->env, (ptr != fname));
+	if (ptr)
+		cmd->fd[1] = open(ptr, O_RDWR | O_CREAT | O_TRUNC, FILE_PERM);
+	free(ptr);
+	return (!ptr || err_open(cmd->fd[1], d));
 }
 
 int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 {
 	char	*ptr;
-	char	*tmp;
+	char	*fname;
 
-	del_substring(ptr = get_pos_after(str, 0, R), 2);
-	tmp = strip_quo(filename(ptr), cmd->env, (ptr != str));
-	if (tmp)
-	{
-		cmd->fd[1] = open(tmp, O_RDWR | O_CREAT | O_APPEND, FILE_PERM);
-		free (tmp);
-	}
-	return (!tmp || err_open(cmd->fd[1], d));
+	del_substring(ptr = get_pos_char(str, R), 2);
+	fname = filename(ptr);
+	ptr = strip_quo(fname, cmd->env, (ptr != fname));
+	if (ptr)
+		cmd->fd[1] = open(ptr, O_RDWR | O_CREAT | O_APPEND, FILE_PERM);
+	free(ptr);
+	return (!ptr || err_open(cmd->fd[1], d));
 }
 
 int	get_fd(char *str, t_d *d, t_cmd *cmd)

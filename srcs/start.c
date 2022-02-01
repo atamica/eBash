@@ -40,6 +40,10 @@ printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 					pip_out = cmds->fdp[i];
 				else
 					pip_out = NULL;
+#ifdef NDEBUG
+printf("path(%s) type(%i) red(%i) stp(%s) hrepl(%i)\n", cmds->cmd[i].path, cmds->cmd[i].type, \
+	cmds->cmd[i].code_red, cmds->cmd[i].here_stop, cmds->cmd[i].fl_replace);			
+#endif
 				if (cmds->cmd[i].type == EXTERNALS)		
 					d.stat = cmd_cmd(&d, cmds->cmd + i, pip_in, pip_out) % 256;
 				else if (cmds->cmd[i].type == BUILTINS)

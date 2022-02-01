@@ -19,7 +19,7 @@ static t_pos	fill_no_sp(char *ptr)
 	sp = ALL_SP;
 	while (*sp)
 	{
-		s = get_pos_after(ptr, 0, *sp++);
+		s = get_pos_char(ptr, *sp++);
 		if (s)
 		{
 			len = s - ptr;
@@ -71,9 +71,9 @@ void	del_substring(char *start, size_t len)
 	{
 		delta = ft_strlen(start) - len;
 		if (delta > 0)
-			ft_memmove(start, start + len, delta + 1);	// ft_bzero((void *)(start + delta), len);
+			ft_memmove(start, start + len, delta + 1);
 		else
-			*start = '\0';	// ft_bzero((void *)start, l_str);
+			*start = '\0';
 	}
 }
 

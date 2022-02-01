@@ -29,3 +29,21 @@ int	is_in_fname(char c)
 {
 	return((c == '.') || (c == '_') || (c == SL) || ft_isalnum(c));
 }
+int	is_in_quo(char *str)
+{
+	size_t len;
+	char	st;
+	char	end;
+
+	if (str)
+	{
+		len = ft_strlen(str);
+		if (len > 1) 
+		{
+			st = *str;
+			end = str[len - 1];
+			return ((st == end) && (st == SQ || st == DQ));
+		}
+	}
+	return (0);
+}
