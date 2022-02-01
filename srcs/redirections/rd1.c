@@ -5,8 +5,8 @@ int	rd_s_left(char *str, t_cmd *cmd, t_d *d)
 	char	*ptr;
 	char	*tmp;
 
-	del_substring(ptr = get_pos_char(str, L), 1);
-	tmp = filename(ptr);
+	del_substring(ptr = get_pos_after(str, 0, L), 1);
+	tmp = strip_quo(filename(ptr), cmd->env, (ptr != str));
 	if (tmp)
 	{
 		cmd->fd[0] = open(tmp, O_RDONLY);
@@ -19,13 +19,10 @@ int	rd_d_left(char *str, t_cmd *cmd)
 {
 	char	*ptr;
 
-	del_substring(ptr = get_pos_char(str, L), 2);
-	cmd->here_stop = filename(ptr);
+	del_substring(ptr = get_pos_after(str, 0, L), 2);
+	cmd->here_stop = strip_quo(filename(ptr), cmd->env, (ptr != str));
 	if (cmd->here_stop && (*cmd->here_stop == SQ || *cmd->here_stop == DQ))
-	{
-		cmd->here_stop = replace_q(cmd->here_stop, *cmd->here_stop);
-		cmd->fl_replace_dl = 1;
-	}
+		cmd->fl_replace = 1;
 	return (!cmd->here_stop);
 }
 
@@ -34,8 +31,8 @@ int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
 	char	*ptr;
 	char	*tmp;
 
-	del_substring(ptr = get_pos_char(str, R), 1);
-	tmp = filename(ptr);
+	del_substring(ptr = get_pos_after(str, 0, R), 1);
+	tmp = strip_quo(filename(ptr), cmd->env, (ptr != str));
 	if (tmp)
 	{
 		cmd->fd[1] = open(tmp, O_RDWR | O_CREAT | O_TRUNC, FILE_PERM);
@@ -49,8 +46,8 @@ int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 	char	*ptr;
 	char	*tmp;
 
-	del_substring(ptr = get_pos_char(str, R), 2);
-	tmp = filename(ptr);
+	del_substring(ptr = get_pos_after(str, 0, R), 2);
+	tmp = strip_quo(filename(ptr), cmd->env, (ptr != str));
 	if (tmp)
 	{
 		cmd->fd[1] = open(tmp, O_RDWR | O_CREAT | O_APPEND, FILE_PERM);

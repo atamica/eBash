@@ -4,7 +4,7 @@ static void	s_redir(char *ptr, char c, int *r, int code_redir)
 {
 	if ((*r != -1) && ptr && *ptr && (ptr[1] != c))
 	{
-		if (get_pos_char(ptr + 1, c))
+		if (get_pos_after(ptr + 1, 0, c))
 			*r = ERROR;
 		else
 			*r |= code_redir;
@@ -15,7 +15,7 @@ static void	d_redir(char *ptr, char c, int *r, int code_redir)
 {
 	if ((*r != -1) && ptr && *ptr && (ptr[1] == c))
 	{
-		if (get_pos_char(ptr + 2, c))
+		if (get_pos_after(ptr + 2, 0, c))
 			*r = ERROR;
 		else
 			*r |= code_redir;
@@ -30,10 +30,10 @@ int	find_redir(char *str)
 	res = NONE;
 	if (str)
 	{
-		tmp = get_pos_char(str, L);
+		tmp = get_pos_after(str, 0, L);
 		s_redir(tmp, L, &res, S_LEFT);
 		d_redir(tmp, L, &res, D_LEFT);
-		tmp = get_pos_char(str, R);
+		tmp = get_pos_after(str, 0, R);
 		s_redir(tmp, R, &res, S_RIGHT);
 		d_redir(tmp, R, &res, D_RIGHT);
 	}

@@ -2,6 +2,8 @@
 
 int	type_cmd(char *cmd)
 {
+	if (!cmd)
+		return (EMPTY);
 	if (is_builtins(cmd))
 		return (BUILTINS);
 	if (is_ext_cmd(cmd))

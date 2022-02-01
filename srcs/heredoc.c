@@ -15,8 +15,8 @@ void	h_doc(int fd, t_cmd *cmd, t_d *d)
 			if_err_exit(i, 9, d);
 			if (!ft_strncmp(cmd->here_stop, line, len))
 				break ;
-			if (cmd->fl_replace_dl)
-				line = repl_dlr(line, d->env);
+			if (cmd->fl_replace)
+				line = repl_dlr(line, d->env, 0);
 			ft_putendl_fd(line, fd);
 			free(line);
 			i = get_next_line(cmd->fd[0], &line);

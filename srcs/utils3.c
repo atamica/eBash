@@ -1,12 +1,19 @@
 #include "minishell.h"
 
-char	*get_pos_char(char *str, char c)
+/*
+**	find non sreened char c in string str after offset bytes
+**	return first position c in str, or NULL if result find == 0, or str == NULL.
+*/
+
+char	*get_pos_after(char *str, int offset, char c)
 {
-	int	fl_sq;
-	int	fl_dq;
+	int		fl_sq;
+	int		fl_dq;
+	char	*st;
 
 	fl_dq = 1;
 	fl_sq = 1;
+	st = str;
 	if (str)
 	{
 		while (*str)
@@ -15,8 +22,9 @@ char	*get_pos_char(char *str, char c)
 				fl_sq = !fl_sq;
 			else if ((*str == DQ) && fl_sq)
 				fl_dq = !fl_dq;
-			else if (((*str == c) && fl_sq && fl_dq) || \
-						((*str == c) && (c == DL) && fl_sq))
+			else if ((((*str == c) && fl_sq && fl_dq) || \
+						((*str == c) && (c == DL) && fl_sq)) && \
+						((str - st) > offset))
 				return (str);
 			str++;
 		}

@@ -26,9 +26,8 @@ t_cmds	*pa2(t_d *d)
 		while (tmp->cmds[++i])
 		{
 			init_cmd(cm->cmd + i);
-			cm->cmd[i].str = tmp->cmds[i];
-			cm->cod = parser(cm->cmd[i].str, cm->cmd + i, d);
 			cm->cmd[i].env = d->env;
+			cm->cod = parser(tmp->cmds[i], cm->cmd + i, d);
 		}
 		cm->cmd[i].type = EMPTY;
 		free2(tmp->cmds);
@@ -45,10 +44,10 @@ int	pipes_count(char *str)
 	l = 0;
 	if (str && *str)
 	{
-		ptr = get_pos_char(str, P);
+		ptr = get_pos_after(str, 0, P);
 		while (ptr++)
 		{
-			ptr = get_pos_char(ptr, P);
+			ptr = get_pos_after(ptr, 0, P);
 			l++;
 		}
 	}
@@ -74,7 +73,7 @@ t_splits	*split_cmds2(t_d *d)
 		if_err_fatal(res->cmds = malloc(sizeof(char *) * (t.pips + 2)), 2, d);
 		while (t.pips--)
 		{
-			t.end = get_pos_char(t.st, P);
+			t.end = get_pos_after(t.st, 0, P);
 			res->cmds[t.j++] = ft_substr(t.st, 0, t.end - t.st);
 			t.st = t.end + 1;
 		}

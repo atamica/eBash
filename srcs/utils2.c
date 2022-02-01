@@ -19,7 +19,7 @@ static t_pos	fill_no_sp(char *ptr)
 	sp = ALL_SP;
 	while (*sp)
 	{
-		s = get_pos_char(ptr, *sp++);
+		s = get_pos_after(ptr, 0, *sp++);
 		if (s)
 		{
 			len = s - ptr;

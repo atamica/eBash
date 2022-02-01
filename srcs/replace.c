@@ -1,43 +1,58 @@
 #include "minishell.h"
 
 /*
-**	delite quotes c = {", '} from begin and end of str
-**	free old str, 
-**	return new str if old str was stripped, else ptr on old str
+**	delite char c from begin and end of str
 */
 
-char	*replace_q(char *str, char c)
+void	del_quo(char *str, char c)
 {
-	char	*res;
+	size_t	len;
 
-	res = str;
 	if (str)
 	{
-		if ((*str == c) && (str[ft_strlen(str) - 1] == c))
+		len = ft_strlen(str);
+		if ((len > 1) && (*str == c) && (str[len - 1] == c))
 		{
-			res = ft_substr(str, 1, ft_strlen(str) - 2);
-			free (str);
+			ft_memmove(str, str + 1, len - 2);
+			str[len - 2] = '\0';
 		}
 	}
-	return (res);
 }
 
 char	*replace_sq(char *str)
 {
-	return (replace_q(str, SQ));
+	del_quo(str, SQ);
+	return (str);
 }
 
 char	*replace_dq(char *str, char **env)
 {
+	char	*res;
+
+	res = repl_dlr(str, env, 0);
+	if (res != str)
+		free (str);
+	del_quo(res, DQ);
+	return (res);
+}
+
+char	*strip_quo(char *str, char **env, int fl_free)
+{
 	char	*tmp;
 
 	tmp = str;
-	str = repl_dlr(str, env);
-	if (tmp != str)
-		free(tmp);
-	tmp = str;
-	str = replace_q(str, DQ);
-	return (str);
+	if (str)
+	{
+		if (*tmp == SQ)
+			tmp = replace_sq(str);
+		else if (*tmp == DQ)
+			tmp = replace_dq(str, env);
+		else
+			tmp = repl_dlr(str, env, (tmp != str));
+		if (fl_free && (tmp != str))
+			free(str);
+}
+	return (tmp);
 }
 
 void	del_quotes(char **arg, char **env)
@@ -47,31 +62,24 @@ void	del_quotes(char **arg, char **env)
 	if (arg)
 		while (*arg)
 		{
-			del_empty_sp(*arg);
 			tmp = *arg;
-			if (*tmp == SQ)
-				*arg = replace_sq(*arg);
-			else if (*tmp == DQ)
-				*arg = replace_dq(*arg, env);
-			else
-			{
-				*arg = repl_dlr(*arg, env);
-				if (tmp != *arg)
-					free(tmp);
-			}
+			del_empty_sp(*arg);
+			*arg = strip_quo(*arg, env, (tmp != *arg));
 			arg++;
 		}
 }
 
-char	*repl_dlr(char *ptr, char **env)
+char	*repl_dlr(char *ptr, char **env, int fl_free)
 {
 	t_replace	r;
 	char		*res;
+	char		*tmp;
 	char		*pos;
 	char		*name;
 
-	pos = get_pos_char(ptr, DL);
+	pos = get_pos_after(ptr, 0, DL);
 	res = ptr;
+	tmp = NULL;
 	while (pos)
 	{
 		r = (t_replace){.src = res, .val = NULL, .st = pos - res, .len = 0};
@@ -82,38 +90,60 @@ char	*repl_dlr(char *ptr, char **env)
 			name = ft_substr(res + r.st, 1, r.len++);
 			r.val = get_env_val(env, name);
 			free (name);
- 			if (res != ptr)
-				free (res);
-			res = replace_d(&r);
-			r.st += ft_strlen(r.val) - r.len - 1;
+			if (res != ptr)
+			 	tmp = res;
+			res = replace(&r);
+			free (tmp);
+			r.st += ft_strlen(r.val) - 1;
 			free (r.val);
 		}
 		else
 			r.st++;
-		pos = get_pos_char(res + r.st, DL);
+		pos = get_pos_after(res, r.st, DL);
 	}
+	if (fl_free && (res != ptr))
+		free(ptr);
 	return (res);
 }
 
-char	*replace_d(t_replace *r)
+/*
+**	replace substr, values from struct r
+**	--------------------------------------------
+**	| * |...|   | * |   |...|   | * |   |...|\0|
+**	  |			  |				  |
+**	r.src	r.src + r.st	r.src + r.st + r.len
+**				  \				  /
+**					-------------
+**			      replaced by r.val
+*/
+
+char	*replace(t_replace *r)
 {
 	char	*res;
 	size_t	len_src;
 	size_t	len_val;
 
-	res = NULL;
-	if (r->len >= 0)
+	res = r->src;
+	if (r->len >= 0 && r->val)
 	{
 		len_src = ft_strlen(r->src);
 		len_val = ft_strlen(r->val);
-		res = malloc(len_src - r->len + len_val + 1);
-		if (res)
+		if ((r->st >= 0) && (r->st < (int)len_src) && \
+					(r->len <= ((int)len_src - r->st)))
 		{
-			ft_memcpy(res, r->src, r->st);
-			ft_memcpy(res + r->st, r->val, len_val);
-			ft_memcpy(res + r->st + len_val, r->src + r->st + r->len, \
-						len_src - r->st - r->len + 1);
+			res = malloc(len_src - r->len + len_val + 1);
+			if (res)
+			{
+				ft_strlcpy(res, r->src, r->st);
+				ft_strlcpy(res + r->st, r->val, len_val);
+				ft_strlcpy(res + r->st + len_val, r->src + r->st + r->len, \
+							len_src - r->st - r->len);
+			}
 		}
 	}
+#ifdef NDEBUG
+printf("repl: src("REDS") + val(%s) from(%i), len(%i) =[%i]=> res(%s)\n",  \
+			r->src, r->val, r->st, r->len, (r->src == res), res);
+#endif
 	return (res);
 }

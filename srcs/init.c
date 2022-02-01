@@ -4,20 +4,17 @@ void	init_cmd(t_cmd *cmd)
 {
 	cmd->arg = NULL;
 	cmd->path = NULL;
-	cmd->str = NULL;
 	cmd->ac = 0;
 	cmd->here_stop = NULL;
 	cmd->type = EMPTY;
 	cmd->code_ret = 0;
 	cmd->code_red = 0;
-	cmd->redir.code_in = 0;
-	cmd->redir.code_out = 0;
 	cmd->env = NULL;
   	cmd->fd[0] = IN;
 	cmd->fd[1] = OUT;
 	cmd->fd[2] = ER;
 	cmd->pipe = 0;
-	cmd->fl_replace_dl = 0;
+	cmd->fl_replace = 0;
 }
 
 void	init_start(t_d *d, int ac, char **av, char **env)
