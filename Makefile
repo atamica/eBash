@@ -13,8 +13,8 @@ CFGNL = get_next_line.c get_next_line_utils.c
 X = start.c
 
 CFTST = parser.c parser1.c utils.c utils1.c utils2.c utils3.c free.c err.c \
-	init.c is.c is1.c run.c run1.c replace.c signals.c history.c close.c \
-	heredoc.c \
+	err1.c init.c is.c is1.c run.c replace.c replace1.c signals.c \
+	history.c close.c heredoc.c \
 	$(addprefix builtins/, $(BUILTINS)) \
 	$(addprefix redirections/, $(REDIR))
 

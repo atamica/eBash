@@ -5,10 +5,10 @@
 **	return: argc, -1 if syntax error (unpaires quotes)
 */
 
-static int arg_count(char *str)
+static int	arg_count(char *str)
 {
-	int argc;
-	char flq;
+	int		argc;
+	char	flq;
 
 	argc = 0;
 	while (*str)
@@ -37,11 +37,11 @@ static int arg_count(char *str)
 **	return: SUCCSESS (0) if succsess, else ERROR (-1): error
 */
 
-static int argv_fill(char *str, int ac, char **av, t_d *d)
+static int	argv_fill(char *str, int ac, char **av, t_d *d)
 {
-	char flq;
-	char *ptr;
-	size_t len;
+	char	flq;
+	char	*ptr;
+	size_t	len;
 
 	av[ac] = NULL;
 	while (ac-- && *str)
@@ -72,9 +72,9 @@ static int argv_fill(char *str, int ac, char **av, t_d *d)
 **	exit if malloc return NULL 
 */
 
-static char **argc_handler(char *str, t_d *d, int *ac)
+static char	**argc_handler(char *str, t_d *d, int *ac)
 {
-	char **av;
+	char	**av;
 
 	*ac = arg_count(str);
 	if (*ac == ERROR)
@@ -88,7 +88,7 @@ static char **argc_handler(char *str, t_d *d, int *ac)
 	return (av);
 }
 
-int parser(char *str, t_cmd *cmd, t_d *d)
+int	parser(char *str, t_cmd *cmd, t_d *d)
 {
 	if (str)
 	{

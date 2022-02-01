@@ -12,8 +12,11 @@
 */
 
 # ifdef NDEBUG_RUN
+
 int			run(t_d *d);
+
 # endif
+
 int			cmd_cmd(t_d *d, t_cmd *cmd, int *pipe_in, int *pipe_out);
 
 /*
@@ -32,7 +35,6 @@ char		*ft_strjoin_c(char const *s1, char const *s2, char c);
 char		*add_path(char *cmd);
 void		dup2_check(int old_fd, int new_fd, t_d *d);
 void		dup_io(int *fd, t_d *d, int *pipe_in, int *pipe_out);
-
 
 size_t		sp_count(char *ptr);
 char		*skip_spaces(char *ptr);
@@ -61,6 +63,7 @@ void		if_err_fatal(void *ptr, int code, t_d *d);
 int			syntax_err(char c);
 void		if_err_no_fatal(int er, int code, t_d *d);
 int			err_open(int fd, t_d *d);
+void		if_err_cd(int er, int fd, char *path);
 
 /*
 **		close.c

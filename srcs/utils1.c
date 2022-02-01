@@ -7,7 +7,7 @@ size_t	sp_count(char *ptr)
 	l = 0;
 	if (ptr)
 	{
-		while(ptr[l] && ft_isalsp(ptr[l]))
+		while (ptr[l] && ft_isalsp(ptr[l]))
 			l++;
 	}
 	return (l);
@@ -37,7 +37,7 @@ void	print_param(char **arg, char *prefix, char separator)
 {
 	char	c;
 	int		i;
-	
+
 	if (arg)
 	{
 		if (prefix && *prefix)
@@ -57,7 +57,7 @@ void	print_param(char **arg, char *prefix, char separator)
 void	print_param_fd(char **arg, char *prefix, char separator, int fd)
 {
 	char	c;
-	
+
 	if (arg)
 	{
 		c = (prefix && *prefix) * DQ;

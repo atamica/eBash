@@ -40,9 +40,9 @@ static int	fre(int result, char **buf, char **remain, char **line)
 	}
 	if (line && *line)
 	{
-/* 		free(*line);
+		/* 		free(*line);
 		*line = NULL;*/
-	} 
+	}
 	return (result);
 }
 
@@ -64,14 +64,14 @@ static int	divider(char *src, char **line, char **remain, int cc)
 	return (0);
 }
 
-int			get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
-	static char *remain = NULL;
+	static char	*remain = NULL;
 	ssize_t		count_char;
 	char		*buf;
 
-	if ((fd >= 0) && (BUFFER_SIZE > 0) && (BUFFER_SIZE <= MAX_BUF_SIZE) &&\
-line && (buf = (char*)malloc(BUFFER_SIZE + 1)) && (read(fd, buf, 0) != -1))
+	if ((fd >= 0) && (BUFFER_SIZE > 0) && (BUFFER_SIZE <= MAX_BUF_SIZE) && \
+line && (buf = (char *)malloc(BUFFER_SIZE + 1)) && (read(fd, buf, 0) != -1))
 	{
 		*line = ft_substr("", 0, 0);
 		if (remain && divider(remain, line, &remain, ft_strlen(remain)))

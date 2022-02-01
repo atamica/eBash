@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+static void	cmd_fill(t_splits *tmp, t_cmds *cm, t_d *d)
+{
+	int	i;
+
+	i = -1;
+	while (tmp->cmds[++i])
+	{
+		init_cmd(cm->cmd + i);
+		cm->cmd[i].env = d->env;
+		cm->cod += parser(tmp->cmds[i], cm->cmd + i, d);
+	}
+	cm->cmd[i].type = EMPTY;
+}
+
 t_cmds	*pa2(t_d *d)
 {
 	t_cmds		*cm;
@@ -15,21 +29,14 @@ t_cmds	*pa2(t_d *d)
 		cm->pipes_count = cm->count - 1;
 		if (cm->pipes_count > 0)
 		{
-			if_err_fatal(cm->fdp = malloc(sizeof(int*) * (cm->pipes_count)), \
+			if_err_fatal(cm->fdp = malloc(sizeof(int *) * (cm->pipes_count)), \
 																		2, d);
 			i = -1;
 			while (++i < cm->pipes_count)
 				if_err_fatal(cm->fdp[i] = malloc(sizeof(int) * 2), 2, d);
 		}
 		if_err_fatal(cm->cmd = malloc(sizeof(t_cmd) * (cm->count + 1)), 2, d);
-		i = -1;
-		while (tmp->cmds[++i])
-		{
-			init_cmd(cm->cmd + i);
-			cm->cmd[i].env = d->env;
-			cm->cod += parser(tmp->cmds[i], cm->cmd + i, d);
-		}
-		cm->cmd[i].type = EMPTY;
+		cmd_fill(tmp, cm, d);
 		free2(tmp->cmds);
 		free(tmp);
 	}

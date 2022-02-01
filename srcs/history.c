@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-int add_to_hist_file(const char *f_name)
+int	add_to_hist_file(const char *f_name)
 {	
-	int fd;
-	char *cmd_line;
+	int		fd;
+	char	*cmd_line;
 
 	cmd_line = NULL;
 	fd = open(f_name, O_RDWR | O_CREAT | O_APPEND, FILE_PERM);

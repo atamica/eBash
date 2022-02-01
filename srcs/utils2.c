@@ -66,7 +66,7 @@ void	del_empty_sp(char *str)
 void	del_substring(char *start, size_t len)
 {
 	int		delta;
-	
+
 	if (start && len)
 	{
 		delta = ft_strlen(start) - len;
@@ -82,8 +82,10 @@ void	check_opened_fd(void)
 	int		fd;
 
 	fd = 6;
-	while(fd < 20) {
-		if (fcntl(fd, F_GETFL) != -1 || errno != EBADF)	{
+	while (fd < 20)
+	{
+		if (fcntl(fd, F_GETFL) != -1 || errno != EBADF)
+		{
 			ft_putstr_fd("*** fd(", ER);
 			ft_putnbr_fd(fd, ER);
 			ft_putendl_fd(") is open ***", ER);

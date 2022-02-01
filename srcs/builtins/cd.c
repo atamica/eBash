@@ -39,13 +39,7 @@ int	ft_cd(t_cmd *cmd)
 	}
 	if (cmd->arg && !cmd->arg[1])
 		path = ft_strdup(getenv("HOME"));
-	res = chdir(path);
-	if (res < 0)
-	{
-		ft_putstr_fd(CD, cmd->fd[3]);
-		ft_putstr_fd(path, cmd->fd[3]);
-		ft_putendl_fd(": Нет такого файла или каталога", cmd->fd[3]);
-	}
+	if_err_cd(res = chdir(path), cmd->fd[3], path);
 	free(path);
 	return (-res);
 }

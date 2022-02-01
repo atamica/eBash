@@ -32,7 +32,6 @@ void	free_d(t_d *d)
 		free_null((void **)&d->input);
 		free(d->input);
 		free2(d->env);
-//		d->fr = 0;
 	}
 }
 

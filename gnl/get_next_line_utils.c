@@ -6,7 +6,7 @@ char	*ft_strdup_mod(char **s, int del)
 	size_t	l;
 
 	l = ft_strlen(*s) + 1;
-	r = (char*)malloc(l * sizeof(char));
+	r = (char *)malloc(l * sizeof(char));
 	if (r)
 	{
 		ft_strlcpy(r, *s, l);
@@ -30,7 +30,7 @@ char	*ft_strjoin_mod(char **s1, char *s2)
 	{
 		l1 = ft_strlen(*s1);
 		l2 = ft_strlen(s2) + 1;
-		if ((r = (char*)malloc((l1 + l2) * sizeof(char))))
+		if ((r = (char *)malloc((l1 + l2) * sizeof(char))))
 		{
 			ft_strlcpy(r, *s1, l1 + 1);
 			ft_strlcpy(r + l1, s2, l2);

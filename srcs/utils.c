@@ -58,7 +58,7 @@ void	dup2_check(int old_fd, int new_fd, t_d *d)
 	if (new_fd != old_fd)
 	{
 		if (dup2(old_fd, new_fd) != new_fd)
-			err(6, d);	//err_msg(msg_error(6), 0, d);
+			err(6, d);
 		close(old_fd);
 	}
 }

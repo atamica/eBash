@@ -2,7 +2,7 @@
 
 void	my_handler(int signo)
 {
-	if (signo == SIGINT)	// Ctrl+C
+	if (signo == SIGINT)
 	{
 		ft_putendl_fd(CC, ER);
 		rl_replace_line("", 0);

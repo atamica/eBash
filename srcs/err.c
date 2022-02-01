@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   err.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: atamica <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/07 09:53:41 by atamica           #+#    #+#             */
-/*   Updated: 2021/11/07 09:53:50 by atamica          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	err_msg(char *msg, int code, t_d *d)
@@ -61,32 +49,4 @@ void	if_err_no_fatal(int er, int code, t_d *d)
 {
 	if (er)
 		err_msg(msg_error(code), 0, d);
-}
-
-int	out_msg(char *msg, int code)
-{
-	perror(msg);
-	return (code);
-}
-
-void	if_err_fatal(void *ptr, int code, t_d *d)
-{
-	if (!ptr)
-		err(code, d);
-}
-
-int		syntax_err(char c)
-{
-	printf("%s: %s «%c»\n", PRMT, MSGE13, c);
-	return (2);
-}
-
-int	err_open(int fd, t_d *d)
-{
-	if (fd < 0)
-	{
-		err_msg(MSGE4, 0, d);
-		return (ERROR);
-	}
-	return (SUCCSESS);
 }
