@@ -38,17 +38,15 @@ static void	paste_env(char *name, char *val, t_d *d)
 
 static void	cut_env(t_d *d, t_val *r)
 {
-	char	**tmp;
-	char	**cpy;
+	char	**ptr;
 
-	tmp = d->env;
-	cpy = tmp + r->position;
-	while (*cpy)
+	ptr =  d->env + r->position;
+	free(*ptr);
+	while (*ptr)
 	{
-		*cpy = *(cpy + 1);
-		cpy++;
+		*ptr = *(ptr + 1);
+		ptr++;
 	}
-	free(tmp[r->position]);
 }
 
 void	set_env_val(char *name, char *val, t_d *d)

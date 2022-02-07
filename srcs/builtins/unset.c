@@ -1,7 +1,8 @@
 #include "minishell.h"
 
-int	ft_unset(char *name, t_d *d)
+int	ft_unset(t_d *d, char **args)
 {
-	set_env_val(name, NULL, d);
+	while (args && *args)
+		set_env_val(*args++, NULL, d);
 	return (0);
 }

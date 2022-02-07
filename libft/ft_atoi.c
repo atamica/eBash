@@ -2,22 +2,21 @@
 
 int	ft_atoi(const char *str)
 {
-	int	z;
-	int	r;
+	int	sign;
+	int	res;
 
-	z = 1;
-	r = 0;
+	res = 0;
 	while (ft_isalsp(*str))
 		str++;
+	sign = 1 - ((*str == '-') << 1);
 	if (*str == '+' || *str == '-')
-		if (*str++ == '-')
-			z = -1;
+		str++;
 	while (ft_isdigit(*str))
 	{
-		if (r * 10 < r)
-			return (-(z >= 0));
-		r *= 10;
-		r += *str++ - '0';
+		if (res * 10 < res)
+			return (-(sign >= 0));
+		res *= 10;
+		res += *str++ - '0';
 	}
-	return (z * r);
+	return (sign * res);
 }

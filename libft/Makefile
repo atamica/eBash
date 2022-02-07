@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: atamica <marvin@42.fr>                     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/03/16 13:35:40 by atamica           #+#    #+#              #
-#    Updated: 2020/11/17 18:00:39 by atamica          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = libft.a
 
 SCF = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
@@ -35,11 +23,11 @@ endif
 
 OF = $(CF:.c=.o)
 
-FL = -Wall -Wextra -Werror -I.
+FL = -Wall -Wextra -I. -O2 # -Werror 
 
 CC = gcc
 
-.PHONY: all bonus clean fclean re dd so sobonus norm
+.PHONY: all bonus clean fclean re dd norm
 
 all: $(NAME)
 

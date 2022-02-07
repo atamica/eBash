@@ -95,9 +95,9 @@ int			ft_cd(t_cmd *cmd);
 int			ft_echo(t_cmd *cmd, int fd);
 int			ft_pwd(t_cmd *cmd);
 int			ft_env(t_d *d, int fd);
-int			ft_export(t_d *d, int fd);
+int			ft_export(t_d *d, int fd, char **args, char **env);
 int			ft_exit(t_cmd *cmd, t_d *d);
-int			ft_unset(char *name, t_d *d);
+int			ft_unset(t_d *d, char **args);
 
 int			type_cmd(char *cmd);
 void		set_env_val(char *name, char *val, t_d *d);
