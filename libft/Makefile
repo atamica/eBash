@@ -23,7 +23,7 @@ endif
 
 OF = $(CF:.c=.o)
 
-FL = -Wall -Wextra -I. -O2 # -Werror 
+FL = -Wall -Wextra -I. -O2 #  -Werror 
 
 CC = gcc
 

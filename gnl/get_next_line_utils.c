@@ -1,5 +1,56 @@
 #include "get_next_line.h"
 
+# ifndef LIBFT_H
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s && *(s + i))
+		i++;
+	return (i);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	l;
+
+	l = 0;
+	if (dst)
+	{
+		while (src && size-- && *src)
+		{
+			*dst++ = *src++;
+			l++;
+		}
+		*dst = 0;
+	}
+	return (l);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*r;
+	size_t	l;
+
+	r = NULL;
+	if (s)
+	{
+		l = ft_strlen(s);
+		if (start > l)
+			start = l;
+		if (l < len + start)
+			len = l - start;
+		r = malloc((len + 1) * sizeof(char));
+		if (r)
+			ft_strlcpy(r, s + start, len);
+	}
+	return (r);
+}
+
+# endif
+
 char	*ft_strdup_mod(char **s, int del)
 {
 	char	*r;
