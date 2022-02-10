@@ -49,6 +49,7 @@ void		check_opened_fd(void);
 char		*get_pos_char(char *str, char c);
 char		*get_pos_after(char *str, int offset, char c);
 char		*prompt(t_d *d);
+size_t		amount_elements(char **ptr);
 
 /*
 **		err.c
@@ -181,5 +182,11 @@ char		*strip_quo(char *str, char **env, int fl_free);
 
 void		my_handler(int signo);
 void		init_signals(t_d *d);
+
+/*
+**		star.c
+*/
+
+char		**star(char *str, t_d *d);
 
 #endif

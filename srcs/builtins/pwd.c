@@ -9,7 +9,6 @@ int	ft_pwd(t_cmd *cmd)
 	{
 		ft_putendl_fd(getcwd(tmp, LEN_PATH), cmd->fd[1]);
 		free(tmp);
-		return (0);
 	}
-	return (2);
+	return ((tmp == NULL) << 1);
 }

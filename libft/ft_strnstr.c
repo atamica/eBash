@@ -2,26 +2,26 @@
 
 char	*ft_strnstr(const char *big, const char *lit, size_t len)
 {
-	size_t	dl;
-	size_t	db;
+	size_t	len_lit;
+	size_t	len_big;
+	size_t	len_rest;
 
 	if (big && lit)
 	{
-		dl = ft_strlen(lit);
-		if (!dl)
+		len_lit = ft_strlen(lit);
+		if (!len_lit)
 			return ((char *)big);
-		if (dl > len)
-			return (NULL);
-		db = ft_strlen(big);
-		if (db >= dl)
+		if (len > len_lit)
+			len = len_lit;
+		len_big = ft_strlen(big);
+		if (len_big >= len)
 		{
-			db = len - dl + 1;
-			while (*big && db--)
+			len_rest = len_big - len;
+			while (*big && len_rest--)
 			{
-				if (ft_memcmp(big, lit, dl))
-					big++;
-				else
+				if (!ft_memcmp(big, lit, len))
 					return ((char *)(big));
+				big++;
 			}
 		}
 	}

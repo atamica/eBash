@@ -24,7 +24,6 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	char	*tmp;
 
 	rl_clear_history();
-	init_cmd(&d->cmd);
 	d->ac = ac;
 	d->av = av;
 	copy_envs(env, d);
@@ -52,7 +51,6 @@ void	init_start(t_d *d, int ac, char **av, char **env)
 	int		lvl;
 	char	*tmp;
 
-	init_cmd(&d->cmd);
 	d->ac = ac;
 	d->av = av;
 	copy_envs(env, d);

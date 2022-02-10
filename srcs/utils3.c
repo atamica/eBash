@@ -88,3 +88,13 @@ char	*prompt(t_d *d)
 	ft_memcpy(d->prompt + len, "$", 2);
 	return (d->prompt);
 }
+
+size_t	amount_elements(char **ptr)
+{
+	size_t	amount;
+
+	amount = 0;
+	while (ptr && *ptr++)
+		amount++;
+	return (amount);
+}

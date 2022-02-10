@@ -35,12 +35,9 @@ typedef struct s_d
 {
 	char	*tmp;
 	char	*input;
-	t_cmd	cmd;
 	pid_t	cmd_pid;
 	int		std_fd[3];
-	int		*pipe_fd;
 	int		stat;
-	char	*path;
 	char	*prompt;
 	int		ac;
 	char	**av;

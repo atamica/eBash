@@ -14,7 +14,7 @@ X = start.c
 
 CFTST = parser.c parser1.c utils.c utils1.c utils2.c utils3.c free.c err.c \
 	err1.c init.c is.c is1.c run.c replace.c replace1.c signals.c \
-	history.c close.c heredoc.c \
+	history.c close.c heredoc.c star.c\
 	$(addprefix builtins/, $(BUILTINS)) \
 	$(addprefix redirections/, $(REDIR))
 
@@ -119,7 +119,7 @@ runb: bonus
 	./$(NAME)
 
 tst: $(HDRS) $(LIBFT)
-	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_dlr.c \
+	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_star.c \
 	$(addprefix $(SRC), $(CFTST)) $(GNL) $(LIBS); ./tst
 
 tst_pipe_split: $(HDRS) $(LIBFT)
