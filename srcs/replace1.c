@@ -95,8 +95,8 @@ char	*replace_star(t_d *d, char *str)
 */
 
 /*
-**
-**	arg = arg + b
+**	arg = arg.[begin, ..., pos) + b.[pos, ..., pos + len.b) + 
+**									+ arg.[pos + len.b, ..., end]
 */
 
 size_t	merge_args(t_d *d, char ***arg_ptr, size_t pos)
@@ -108,10 +108,8 @@ size_t	merge_args(t_d *d, char ***arg_ptr, size_t pos)
 	char	**tmp;
 
 	b = star((*arg_ptr)[pos], d);
-// print_param(b, "add->", '\n');
 	res = amount_elements(b);
 	len = res + amount_elements(*arg_ptr);
-// printf("merge: res=%zu len=%zu\n", res, len);
 	free((*arg_ptr)[pos]);
 	if (res)
 	{
@@ -120,30 +118,19 @@ size_t	merge_args(t_d *d, char ***arg_ptr, size_t pos)
 		while (i < len - 1)
 		{
 			if (i < pos)
-			{
 				tmp[i] = (*arg_ptr)[i];
-				// printf("i=(%zu) < pos=(%zu): (%s)\n", i, pos, tmp[i]);
-			}
 			else if (i < pos + res)
-			{
 				tmp[i] = b[i - pos];
-				// printf("i=(%zu) < pos=(%zu) + res=(%zu): (%s)\n", i, pos, res, tmp[i]);
-			}
 			else
-			{
 				tmp[i] = (*arg_ptr)[i - res + 1];
-				// printf("else: i=(%zu)  i-res+1=(%zu): (%s)\n", i, i- res+1, tmp[i]);
-			}
 			i++;
 		}
 		tmp[i] = NULL;
 		free(*arg_ptr);
 		*arg_ptr = tmp;
-// print_param(tmp, "merge add->", '\n');
-// printf(N);
 	}
 	else
-	{	// del arg[pos];
+	{
 		while (pos < len)
 		{
 			(*arg_ptr)[pos] =(*arg_ptr)[pos + 1];
@@ -152,7 +139,5 @@ size_t	merge_args(t_d *d, char ***arg_ptr, size_t pos)
 		free((*arg_ptr)[pos]);
 	}
 	free(b);
-// print_param(tmp, "merge result->", '\n');
-// printf(N);
 	return (res);
 }

@@ -20,9 +20,7 @@ static size_t	is_in_pattern(char *str, char **parts, size_t fl_star)
 			return ((ft_strlen(str) >= ft_strlen(*parts)) && !(ft_strncmp(str + ft_strlen(str) - ft_strlen(*parts), \
 					*parts, ft_strlen(*parts))));	//	"*t"
 		l = ft_strlen(*parts);
-// printf("in_pattern: (%s) in (%s), ", *parts, str);
 		str = ft_strnstr(str, *parts++, l);
-// printf("[%i]\n", str != NULL);
 		if (!str)
 			return (0);
 		str += l;
@@ -58,14 +56,6 @@ static t_list	*filenames_from_dir(char *path,  char **parts, size_t fl_star)
 	return (res);
   }
 
-/* static size_t	is_exist_non_star(char *str)
-{
-	while (str && *str)
-		if (*str++ != '*')
-			return (1);
-	return (0);
-} */
-
 static size_t	flag_star(char *str)
 {
 	size_t	fl;
@@ -77,7 +67,6 @@ static size_t	flag_star(char *str)
 		fl += fl && (*str != '*');
 		fl += (fl && (*(str + ft_strlen(str) - 1) != '*')) << 1;
 	}
-// printf("flag*: (%s) fl=%zu(%zu|%zu|%zu)\n", str, fl, fl & 1, fl & 2, fl & 4);	
 	return (fl);
 }
 

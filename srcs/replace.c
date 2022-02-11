@@ -47,13 +47,6 @@ char	*strip_quo(char *str, char **env)
 			ptr = replace_sq(str);
 		else if (*ptr == DQ)
 			ptr = replace_dq(str, env);
-		/* else
-		{
-			ptr = repl_dlr(str, env, (ptr != str));
-			if (fl_free && (ptr != str))
-				free(str);	//, int fl_free
-			//ptr = replace_star(d, ptr);
-		} */
 	}
 	return (ptr);
 }
@@ -94,15 +87,12 @@ void	manager_replace(char ***arg, char **env, t_d *d)
 		tmp = *arg;
 		while (*tmp)
 		{
-//printf("manager_replace: tmp=%p (%s)\n", tmp, *tmp);
 			if (is_present_non_screened_char(*tmp, '*'))
 			{
 				pos = tmp - *arg;
-//printf("manager_replace: pos=%zu, tmp=%p, *arg=%p\n", pos, tmp, *arg);
 				offs = merge_args(d, arg, pos) + pos;
 				tmp = *arg + offs;
 				pos = tmp - *arg;
-//printf("manager_replace: after pos=%zu, tmp=%p, *arg=%p\n", pos, tmp, *arg);
 			}
 			else
 				tmp++;
