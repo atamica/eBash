@@ -104,7 +104,8 @@ int	parser(char *str, t_cmd *cmd, t_d *d)
 		else
 			cmd->path = add_path(cmd->arg[0]);
 		cmd->type = type_cmd(cmd->arg[0]);
-		del_quotes(cmd->arg, d->env);
+		manager_replace(&cmd->arg, d->env, d);
+		// del_quotes(cmd->arg, d->env, d);
 	}
 	return (SUCCSESS);
 }

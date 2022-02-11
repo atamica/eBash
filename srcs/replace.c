@@ -36,7 +36,7 @@ char	*replace_dq(char *str, char **env)
 	return (res);
 }
 
-char	*strip_quo(char *str, char **env, int fl_free)
+char	*strip_quo(char *str, char **env)
 {
 	char	*ptr;
 
@@ -47,12 +47,13 @@ char	*strip_quo(char *str, char **env, int fl_free)
 			ptr = replace_sq(str);
 		else if (*ptr == DQ)
 			ptr = replace_dq(str, env);
-		else
+		/* else
 		{
 			ptr = repl_dlr(str, env, (ptr != str));
 			if (fl_free && (ptr != str))
-				free(str);
-		}
+				free(str);	//, int fl_free
+			//ptr = replace_star(d, ptr);
+		} */
 	}
 	return (ptr);
 }
@@ -67,8 +68,50 @@ void	del_quotes(char **arg, char **env)
 		{
 			tmp = *arg;
 			del_empty_sp(*arg);
-			*arg = strip_quo(tmp, env, 1);
+			*arg = strip_quo(tmp, env);
 			arg++;
+		}
+	}
+}
+
+void	manager_replace(char ***arg, char **env, t_d *d)
+{
+	char	**tmp;
+	size_t	pos;
+	size_t	offs;
+
+	if (*arg)
+	{
+		tmp = *arg;
+		while (*tmp)
+			del_empty_sp(*tmp++);
+		tmp = *arg;
+		while (*tmp)
+		{
+			*tmp = repl_dlr(*tmp, env, 1);
+			tmp++;
+		}
+		tmp = *arg;
+		while (*tmp)
+		{
+//printf("manager_replace: tmp=%p (%s)\n", tmp, *tmp);
+			if (is_present_non_screened_char(*tmp, '*'))
+			{
+				pos = tmp - *arg;
+//printf("manager_replace: pos=%zu, tmp=%p, *arg=%p\n", pos, tmp, *arg);
+				offs = merge_args(d, arg, pos) + pos;
+				tmp = *arg + offs;
+				pos = tmp - *arg;
+//printf("manager_replace: after pos=%zu, tmp=%p, *arg=%p\n", pos, tmp, *arg);
+			}
+			else
+				tmp++;
+		}
+		tmp = *arg;
+		while (*tmp)
+		{
+			*tmp = strip_quo(*tmp, env);
+			tmp++;
 		}
 	}
 }

@@ -51,6 +51,8 @@ char		*get_pos_after(char *str, int offset, char c);
 char		*prompt(t_d *d);
 size_t		amount_elements(char **ptr);
 
+size_t		ft_lstcalc_total_len(t_list *lst);
+
 /*
 **		err.c
 */
@@ -125,8 +127,9 @@ int			is_file_exist(char *path);
 t_val		is_in_env_list(char **env, char *name);
 int			is_only_digits(char *str);
 int			is_in_name(char *str);
-int			is_in_fname(char c);
+int			is_char_valid_fname(char c);
 int			is_in_quo(char *str);
+int			is_present_non_screened_char(char *str, char c);
 
 /*
 **		history.c
@@ -174,7 +177,10 @@ char		*replace_dq(char *str, char **env);
 void		del_quotes(char **arg, char **env);
 char		*repl_dlr(char *ptr, char **env, int fl_free);
 char		*replace(t_replace *r);
-char		*strip_quo(char *str, char **env, int fl_free);
+char		*strip_quo(char *str, char **env);
+//char		*replace_star(t_d *d, char *str);
+void		manager_replace(char ***arg, char **env, t_d *d);
+size_t		merge_args(t_d *d, char ***arg_ptr, size_t pos);
 
 /*
 **		srcs/signals.c
@@ -188,5 +194,6 @@ void		init_signals(t_d *d);
 */
 
 char		**star(char *str, t_d *d);
+//char		*star_to_char(char *str, t_d *d);
 
 #endif

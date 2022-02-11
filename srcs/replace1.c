@@ -49,7 +49,7 @@ char	*repl_dlr(char *ptr, char **env, int fl_free)
 **	r.src	r.src + r.st	r.src + r.st + r.len
 **				  \				  /
 **					-------------
-**			      replaced by r.val
+**			      replaced on r.val
 */
 
 char	*replace(t_replace *r)
@@ -76,5 +76,83 @@ char	*replace(t_replace *r)
 			}
 		}
 	}
+	return (res);
+}
+
+/*
+char	*replace_star(t_d *d, char *str)
+{
+	char	*ptr;
+
+	ptr = str;
+	if (get_pos_char(str, '*'))
+	{
+		ptr = star_to_char(str, d);
+		free(str);
+	}
+	return (ptr);
+}
+*/
+
+/*
+**
+**	arg = arg + b
+*/
+
+size_t	merge_args(t_d *d, char ***arg_ptr, size_t pos)
+{
+	size_t	res;
+	size_t	len;
+	size_t	i;
+	char	**b;
+	char	**tmp;
+
+	b = star((*arg_ptr)[pos], d);
+// print_param(b, "add->", '\n');
+	res = amount_elements(b);
+	len = res + amount_elements(*arg_ptr);
+// printf("merge: res=%zu len=%zu\n", res, len);
+	free((*arg_ptr)[pos]);
+	if (res)
+	{
+		if_err_fatal(tmp = malloc(sizeof(char *) * len), 2, d);
+		i = 0;
+		while (i < len - 1)
+		{
+			if (i < pos)
+			{
+				tmp[i] = (*arg_ptr)[i];
+				// printf("i=(%zu) < pos=(%zu): (%s)\n", i, pos, tmp[i]);
+			}
+			else if (i < pos + res)
+			{
+				tmp[i] = b[i - pos];
+				// printf("i=(%zu) < pos=(%zu) + res=(%zu): (%s)\n", i, pos, res, tmp[i]);
+			}
+			else
+			{
+				tmp[i] = (*arg_ptr)[i - res + 1];
+				// printf("else: i=(%zu)  i-res+1=(%zu): (%s)\n", i, i- res+1, tmp[i]);
+			}
+			i++;
+		}
+		tmp[i] = NULL;
+		free(*arg_ptr);
+		*arg_ptr = tmp;
+// print_param(tmp, "merge add->", '\n');
+// printf(N);
+	}
+	else
+	{	// del arg[pos];
+		while (pos < len)
+		{
+			(*arg_ptr)[pos] =(*arg_ptr)[pos + 1];
+			pos++;
+		}
+		free((*arg_ptr)[pos]);
+	}
+	free(b);
+// print_param(tmp, "merge result->", '\n');
+// printf(N);
 	return (res);
 }

@@ -12,7 +12,7 @@ static	void	set_values(t_d *d, char **args, char **env)
 		if (ptr)
 		{
 			name = ft_substr(*args, 0, ptr++ - *args);
-			val = strip_quo(ft_strdup(ptr), env, 1);
+			val = strip_quo(ft_strdup(ptr), env);
 			set_env_val(name, val, d);
 			free(val);
 			free(name);

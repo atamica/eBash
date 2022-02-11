@@ -6,11 +6,11 @@ static size_t	is_in_pattern(char *str, char **parts, size_t fl_star)
 	char	*ptr;
 
 	l = amount_elements(parts);
-	ptr = *parts;
 	if (!l && fl_star)
 		return (1);	// "*"
  	if (l == 1 && !fl_star)
 		return (!ft_strncmp(str, *parts, ft_strlen(str)));
+	ptr = *parts;
 	while (parts && *parts &&  str && *str)
 	{
 		if ((fl_star & 1) && (*parts == ptr) && \
@@ -20,13 +20,12 @@ static size_t	is_in_pattern(char *str, char **parts, size_t fl_star)
 			return ((ft_strlen(str) >= ft_strlen(*parts)) && !(ft_strncmp(str + ft_strlen(str) - ft_strlen(*parts), \
 					*parts, ft_strlen(*parts))));	//	"*t"
 		l = ft_strlen(*parts);
-printf("B:str=(%s), part(%s) len_p=%zu ==> ", str, *parts, ft_strlen(*parts));
+// printf("in_pattern: (%s) in (%s), ", *parts, str);
 		str = ft_strnstr(str, *parts++, l);
-printf("str=(%s)\n", str);
-		if (str)
-			str += l;
-		else
-			return (0);		
+// printf("[%i]\n", str != NULL);
+		if (!str)
+			return (0);
+		str += l;
 	}
 	return (1);
 }
@@ -59,12 +58,27 @@ static t_list	*filenames_from_dir(char *path,  char **parts, size_t fl_star)
 	return (res);
   }
 
-static size_t	is_exist_non_star(char *str)
+/* static size_t	is_exist_non_star(char *str)
 {
 	while (str && *str)
 		if (*str++ != '*')
 			return (1);
 	return (0);
+} */
+
+static size_t	flag_star(char *str)
+{
+	size_t	fl;
+
+	fl = 0;
+	if (str)
+	{
+		fl = (ft_strchr(str, '*') != NULL) << 2;
+		fl += fl && (*str != '*');
+		fl += (fl && (*(str + ft_strlen(str) - 1) != '*')) << 1;
+	}
+// printf("flag*: (%s) fl=%zu(%zu|%zu|%zu)\n", str, fl, fl & 1, fl & 2, fl & 4);	
+	return (fl);
 }
 
 char	**star(char *str, t_d *d)
@@ -75,22 +89,14 @@ char	**star(char *str, t_d *d)
 	size_t	amount;
 	t_list	*list_of_fnames;
 	t_list	*tmp;
-	size_t	fl;
 
 	res = NULL;
-	amount = 0;
 	if_err_fatal(path = malloc(LEN_PATH), 2, d);
 	if (getcwd(path, LEN_PATH))
 	{
 		parts = ft_split(str, '*');
-print_param(parts, "-->", '\n');
-		fl = (ft_strchr(str, '*') != NULL) << 2;
-		fl += (*str != '*') && is_exist_non_star(str + 1);
-		fl += (fl && (*(str + ft_strlen(str) - 1) != '*')) << 1;
-printf("len=%zu fl=%zu\n", amount_elements(parts), fl);
-		list_of_fnames = filenames_from_dir(path, parts, fl);
+		list_of_fnames = filenames_from_dir(path, parts, flag_star(str));
 		free2(parts);
-		free(path);
 		amount = ft_lstsize(list_of_fnames);
 		if_err_fatal(res = malloc(sizeof(char *) * (amount + 1)), 2, d);
 		res[amount] = NULL;
@@ -103,5 +109,38 @@ printf("len=%zu fl=%zu\n", amount_elements(parts), fl);
 		}
 		ft_lstclear(&list_of_fnames, free);
 	}
+	free(path);
 	return (res);
 }
+
+/* char	*star_to_char(char *str, t_d *d)
+{
+	char	*path;
+	char	*res;
+	char	*ptr;
+	char	**parts;
+	t_list	*list_of_fnames;
+	t_list	*tmp;
+
+	res = NULL;
+	if_err_fatal(path = malloc(LEN_PATH), 2, d);
+	if (getcwd(path, LEN_PATH))
+	{
+		parts = ft_split(str, '*');
+		list_of_fnames = filenames_from_dir(path, parts, flag_star(str));
+		free2(parts);
+		if_err_fatal(res = malloc(sizeof(char) * \
+			ft_lstcalc_total_len(list_of_fnames)), 2, d);
+		ptr = res;
+		tmp = list_of_fnames;
+		while (tmp)
+		{
+			ptr += ft_strlcpy(ptr, tmp->content, ft_strlen(tmp->content));
+			tmp = tmp->next;
+			*ptr++ = (SP * (tmp != NULL));
+		}
+		ft_lstclear(&list_of_fnames, free);
+	}
+	free(path);
+	return (res);
+} */

@@ -98,3 +98,16 @@ size_t	amount_elements(char **ptr)
 		amount++;
 	return (amount);
 }
+
+size_t	ft_lstcalc_total_len(t_list *lst)
+{
+	size_t	len;
+
+	len = 0;
+	while (lst)
+	{
+		len += ft_strlen((const char *)lst->content) + 1;
+		lst = lst->next;
+	}
+	return (len);
+}

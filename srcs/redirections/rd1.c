@@ -8,7 +8,7 @@ int	rd_s_left(char *str, t_cmd *cmd, t_d *d)
 	ptr = get_pos_char(str, L);
 	del_substring(ptr, 1);
 	fname = filename(ptr);
-	ptr = strip_quo(fname, cmd->env, (fname != ptr));
+	ptr = strip_quo(fname, cmd->env);
 	if (ptr)
 		cmd->fd[0] = open(ptr, O_RDONLY);
 	free(ptr);
@@ -38,7 +38,7 @@ int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
 
 	del_substring(ptr = get_pos_char(str, R), 1);
 	fname = filename(ptr);
-	ptr = strip_quo(fname, cmd->env, (ptr != fname));
+	ptr = strip_quo(fname, cmd->env);
 	if (ptr)
 		cmd->fd[1] = open(ptr, O_RDWR | O_CREAT | O_TRUNC, FILE_PERM);
 	free(ptr);
@@ -52,7 +52,7 @@ int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 
 	del_substring(ptr = get_pos_char(str, R), 2);
 	fname = filename(ptr);
-	ptr = strip_quo(fname, cmd->env, (ptr != fname));
+	ptr = strip_quo(fname, cmd->env);
 	if (ptr)
 		cmd->fd[1] = open(ptr, O_RDWR | O_CREAT | O_APPEND, FILE_PERM);
 	free(ptr);

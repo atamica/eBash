@@ -25,10 +25,11 @@ int	is_in_name(char *str)
 	return ((*(str) == '_') || ft_isalnum(*(str)));
 }
 
-int	is_in_fname(char c)
+int	is_char_valid_fname(char c)
 {
 	return((c == '.') || (c == '_') || (c == SL) || ft_isalnum(c));
 }
+
 int	is_in_quo(char *str)
 {
 	size_t len;
@@ -46,4 +47,9 @@ int	is_in_quo(char *str)
 		}
 	}
 	return (0);
+}
+
+int	is_present_non_screened_char(char *str, char c)
+{
+	return(get_pos_char(str, c) != NULL);
 }
