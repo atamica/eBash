@@ -14,7 +14,7 @@ static void	cmd_fill(t_splits *tmp, t_cmds *cm, t_d *d)
 	cm->cmd[i].type = EMPTY;
 }
 
-t_cmds	*pa2(t_d *d)
+t_cmds	*create_array_cmds(t_d *d)
 {
 	t_cmds		*cm;
 	int			i;
@@ -63,7 +63,7 @@ int	pipes_count(char *str)
 
 /*
 **	split by '|'
-**	need add also split by other: ';', "&&" "||"
+**	need add also split by other: ';', "&&" "||" for bonus
 */
 
 t_splits	*split_cmds2(t_d *d)

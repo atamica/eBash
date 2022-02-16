@@ -159,13 +159,13 @@ int			rd_d_right(char *str, t_cmd *cmd, t_d *d);
 void		restore_std_io(t_d *d);
 
 /*
-**		par.c
+**		parser.c
 */
 
 int			pipes_count(char *str);
 char		*skip_sps(char *ptr);
 t_splits	*split_cmds2(t_d *d);
-t_cmds		*pa2(t_d *d);
+t_cmds		*create_array_cmds(t_d *d);
 
 /*
 **		replace.c
@@ -179,7 +179,11 @@ char		*repl_dlr(char *ptr, char **env, int fl_free);
 char		*replace(t_replace *r);
 char		*strip_quo(char *str, char **env);
 //char		*replace_star(t_d *d, char *str);
+# if BONUS == 1
 void		manager_replace(char ***arg, char **env, t_d *d);
+# else
+void		manager_replace(char ***arg, char **env);
+# endif
 size_t		merge_args(t_d *d, char ***arg_ptr, size_t pos);
 
 /*

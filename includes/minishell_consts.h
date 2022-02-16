@@ -5,6 +5,8 @@
 //# define NDEBUG_RUN
 
 # define FILE_PERM S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH	// 0664
+# define FILE_APPEND O_RDWR | O_CREAT | O_APPEND
+# define FILE_TRUNC O_RDWR | O_CREAT | O_TRUNC
 
 # define S "\001\033"
 # define E "\002"
@@ -95,6 +97,34 @@
 # define CTRL_SL	131
 # define CTRL_D		4
 
+/*
+**	|.bit.|4|3|2|1|0|
+**	-----------------
+**		  |0|0|0|0|0| = 0 (NONE)
+**		  |0|0|0|0|1| = 1 (S_LEFT) <
+**		  |0|0|0|1|0| = 2 (D_LEFT) <<
+**		  |0|0|1|0|0| = 4 (S_RIGHT) >
+**		  |0|1|0|0|0| = 8 (D_RIGHT) >>
+**	if ((rd & 3) || (rd & 12)) then syntax error
+**	else	Ok
+*/
+
+typedef enum e_redir
+{
+	NONE = 0,
+	S_LEFT = 1,
+	D_LEFT = 2,
+	S_RIGHT = 4,
+	D_RIGHT = 8
+}	t_redir;
+
+typedef enum e_errors
+{
+	SUCCSESS = 0,
+	ERROR = -1,
+	FATAL = -2
+}	t_errors;
+
 typedef enum e_pipe
 {
 	IN = STDIN_FILENO,
@@ -109,44 +139,5 @@ typedef enum e_type
 	EXTERNALS,
 	OTHERS
 }	t_type;
-
-/*
-**	|.bit.|4|3|2|1|0|
-**	-----------------
-**		  |0|0|0|0|0| = 0 (NONE)
-**		  |0|0|0|0|1| = 1 (S_LEFT)
-**		  |0|0|0|1|0| = 2 (D_LEFT)
-**		  |0|0|1|0|0| = 4 (S_RIGHT)
-**		  |0|1|0|0|0| = 8 (D_RIGHT)
-**	if ((rd & 3) || (rd & 12)) then syntax error
-**	else	Ok
-*/
-
-typedef enum e_redir
-{
-	NONE = 0,
-	S_LEFT = 1,
-	D_LEFT = 2,
-	S_RIGHT = 4,
-	D_RIGHT = 8
-}	t_redir;
-
-/* typedef enum e_esc_chars
-{
-	ESC_SQ,
-	ESC_DQ,
-	ESC_SL,
-	ESC_SL_DQ_SQ,
-	ESC_DQ_SQ,
-	ESC_SL_DQ,
-	ESC_SL_SQ
-}	t_esc_chars; */
-
-typedef enum e_errors
-{
-	SUCCSESS = 0,
-	ERROR = -1,
-	FATAL = -2
-}	t_errors;
 
 #endif

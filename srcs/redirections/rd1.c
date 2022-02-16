@@ -40,7 +40,7 @@ int	rd_s_right(char *str, t_cmd *cmd, t_d *d)
 	fname = filename(ptr);
 	ptr = strip_quo(fname, cmd->env);
 	if (ptr)
-		cmd->fd[1] = open(ptr, O_RDWR | O_CREAT | O_TRUNC, FILE_PERM);
+		cmd->fd[1] = open(ptr, FILE_TRUNC, FILE_PERM);
 	free(ptr);
 	return (!ptr || err_open(cmd->fd[1], d));
 }
@@ -54,7 +54,7 @@ int	rd_d_right(char *str, t_cmd *cmd, t_d *d)
 	fname = filename(ptr);
 	ptr = strip_quo(fname, cmd->env);
 	if (ptr)
-		cmd->fd[1] = open(ptr, O_RDWR | O_CREAT | O_APPEND, FILE_PERM);
+		cmd->fd[1] = open(ptr, FILE_APPEND, FILE_PERM);
 	free(ptr);
 	return (!ptr || err_open(cmd->fd[1], d));
 }

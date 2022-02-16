@@ -23,7 +23,15 @@ endif
 
 OF = $(CF:.c=.o)
 
-FL = -Wall -Wextra -I. -O2 #  -Werror 
+OPTIM_LVL=2 # {g, 0, ..., 3}
+
+ifeq ($(strip $(OPTIM_LVL)), g)
+	OPTIM=-$(strip $(OPTIM_LVL))
+else
+	OPTIM=-O$(strip $(OPTIM_LVL)) "-D OPTIM=$(strip $(OPTIM_LVL))"
+endif
+
+FL = -Wall -Wextra -Werror -I. $(OPTIM)
 
 CC = gcc
 
@@ -49,8 +57,7 @@ fclean: clean
 re: fclean all
 
 dd:
-	echo $(CF)
-	echo $(BCF)
+	@echo $(FL)
 
 norm:
 	norminette $(CF) $(HDR)

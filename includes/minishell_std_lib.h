@@ -20,7 +20,7 @@
 # include <stdio.h>		// readline, printf
 						// void perror(const char *s);
 
-# if OS == 1			// Linux
+# if OS == LINUX		// 1
 #  include <readline/readline.h>
 #  include <readline/history.h>
 # else					// MacOS -- ??

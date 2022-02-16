@@ -17,10 +17,7 @@ void	free2(char **ptr)
 	{
 		tmp = ptr;
 		while (*tmp)
-		{
-			free(*tmp);
-			tmp++;
-		}
+			free(*tmp++);
 		free(ptr);
 	}
 }

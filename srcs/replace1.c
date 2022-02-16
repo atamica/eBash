@@ -99,6 +99,8 @@ char	*replace_star(t_d *d, char *str)
 **									+ arg.[pos + len.b, ..., end]
 */
 
+# if BONUS == 1
+
 size_t	merge_args(t_d *d, char ***arg_ptr, size_t pos)
 {
 	size_t	res;
@@ -115,7 +117,7 @@ size_t	merge_args(t_d *d, char ***arg_ptr, size_t pos)
 	{
 		if_err_fatal(tmp = malloc(sizeof(char *) * len), 2, d);
 		i = 0;
-		while (i < len - 1)
+		while (i + 1 < len)
 		{
 			if (i < pos)
 				tmp[i] = (*arg_ptr)[i];
@@ -141,3 +143,5 @@ size_t	merge_args(t_d *d, char ***arg_ptr, size_t pos)
 	free(b);
 	return (res);
 }
+
+#endif

@@ -2,7 +2,7 @@
 
 /*
 **	funtion calculate args count
-**	return: argc, -1 if syntax error (unpaires quotes)
+**	return: argc || -1 if syntax error (unpaires quotes)
 */
 
 static int	arg_count(char *str)
@@ -104,7 +104,11 @@ int	parser(char *str, t_cmd *cmd, t_d *d)
 		else
 			cmd->path = add_path(cmd->arg[0]);
 		cmd->type = type_cmd(cmd->arg[0]);
+# if BONUS == 1
 		manager_replace(&cmd->arg, d->env, d);
+# else
+		manager_replace(&cmd->arg, d->env);
+# endif
 		// del_quotes(cmd->arg, d->env, d);
 	}
 	return (SUCCSESS);

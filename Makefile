@@ -14,7 +14,7 @@ X = start.c
 
 CFTST = parser.c parser1.c utils.c utils1.c utils2.c utils3.c free.c err.c \
 	err1.c init.c is.c is1.c run.c replace.c replace1.c signals.c \
-	history.c close.c heredoc.c star.c\
+	history.c close.c heredoc.c \
 	$(addprefix builtins/, $(BUILTINS)) \
 	$(addprefix redirections/, $(REDIR))
 
@@ -22,6 +22,8 @@ GNLPH = gnl/
 GNL = $(addprefix $(GNLPH), $(CFGNL))
 	
 CF1 = $X $(CFTST)
+
+CF2 = $(CF1) star.c
 
 #CFTST = $(subst $X, , $(CF1))
 
@@ -47,7 +49,7 @@ LIBS = -L $(LIBDIR) -lft -lreadline
 endif
 
 ifeq ($(BON), 1)
-	CF=$(addprefix $(SRC)bonus/, $(CF2)) $(GNL)
+	CF=$(addprefix $(SRC), $(CF2)) $(GNL)
 	D = -D BONUS=1
 else
 	CF=$(addprefix $(SRC), $(CF1)) $(GNL)
@@ -71,7 +73,7 @@ else
 	D += -D OS=2
 endif
 
-FL = -Wall -Wextra -Werror $(INCLUD) -g # -O2
+FL = -Wall -Wextra -Werror $(INCLUD) -g # -O2 
 
 all: $(NAME)
 
@@ -103,14 +105,6 @@ norm:
 	norminette --cfile $(CF)
 	norminette --hfile $(HDRS)
 	$(MAKE) norm -C $(LIBDIR)	
-
-CMD1="cat -e"
-CMD2="grep f"
-CMD3="wc -wlc"
-FILE1=file1
-FILE2=file2
-CMD="< $(FILE1) $(CMD1) | $(CMD2) > $(FILE2)"
-CMDB="< $(FILE1) $(CMD1) | $(CMD2) | $(CMD3) > $(FILE2)"
 
 run: $(NAME)
 	./$(NAME)

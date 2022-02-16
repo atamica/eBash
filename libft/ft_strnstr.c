@@ -10,7 +10,7 @@ char	*ft_strnstr(const char *big, const char *lit, size_t len)
 	{
 		len_lit = ft_strlen(lit);
 		if (!len_lit)
-			return (big);
+			return ((char *)big);
 		if (len > len_lit)
 			len = len_lit;
 		len_big = ft_strlen(big);

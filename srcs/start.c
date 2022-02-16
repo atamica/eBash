@@ -52,7 +52,7 @@ int	main(int ac, char **av, char **env)
 	init_start(&d, ac, av, env);
 	while (input(&d))
 	{
-		cmds = pa2(&d);
+		cmds = create_array_cmds(&d);
 		if (cmds->cod == SUCCSESS)
 		{
 			run_cmd(cmds, &d);

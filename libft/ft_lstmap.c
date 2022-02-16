@@ -6,7 +6,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	t_list	*result;
 
 	result = NULL;
-	if (!f || !del)
+	if (!f)
 		return (NULL);
 	while (lst)
 	{
@@ -14,7 +14,8 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		ft_lstadd_back(&result, newlist);
 		if (!(newlist))
 		{
-			ft_lstclear(&result, del);
+			if (del)
+				ft_lstclear(&result, del);
 			return (NULL);
 		}
 		lst = lst->next;

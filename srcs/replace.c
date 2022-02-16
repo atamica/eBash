@@ -67,9 +67,11 @@ void	del_quotes(char **arg, char **env)
 	}
 }
 
+#if BONUS == 1
 void	manager_replace(char ***arg, char **env, t_d *d)
 {
 	char	**tmp;
+
 	size_t	pos;
 	size_t	offs;
 
@@ -77,16 +79,9 @@ void	manager_replace(char ***arg, char **env, t_d *d)
 	{
 		tmp = *arg;
 		while (*tmp)
-			del_empty_sp(*tmp++);
-		tmp = *arg;
-		while (*tmp)
 		{
+			del_empty_sp(*tmp);
 			*tmp = repl_dlr(*tmp, env, 1);
-			tmp++;
-		}
-		tmp = *arg;
-		while (*tmp)
-		{
 			if (is_present_non_screened_char(*tmp, '*'))
 			{
 				pos = tmp - *arg;
@@ -94,14 +89,26 @@ void	manager_replace(char ***arg, char **env, t_d *d)
 				tmp = *arg + offs;
 				pos = tmp - *arg;
 			}
-			else
-				tmp++;
-		}
-		tmp = *arg;
-		while (*tmp)
-		{
 			*tmp = strip_quo(*tmp, env);
 			tmp++;
 		}
 	}
 }
+#else
+void	manager_replace(char ***arg, char **env)
+{
+	char	**tmp;
+
+	if (*arg)
+	{
+		tmp = *arg;
+		while (*tmp)
+		{
+			del_empty_sp(*tmp);
+			*tmp = repl_dlr(*tmp, env, 1);
+			*tmp = strip_quo(*tmp, env);
+			tmp++;
+		}
+	}
+}
+#endif

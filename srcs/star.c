@@ -8,18 +8,17 @@ static size_t	is_in_pattern(char *str, char **parts, size_t fl_star)
 	l = amount_elements(parts);
 	if (!l && fl_star)
 		return (1);	// "*"
- 	if (l == 1 && !fl_star)
+ 	if (l == 1 && !fl_star)	// "!*"
 		return (!ft_strncmp(str, *parts, ft_strlen(str)));
 	ptr = *parts;
-	while (parts && *parts &&  str && *str)
+	while (parts && *parts && str && *str)
 	{
-		if ((fl_star & 1) && (*parts == ptr) && \
-				ft_strncmp(str, ptr, ft_strlen(ptr)))
+		l = ft_strlen(*parts);
+		if ((fl_star & 1) && (*parts == ptr) && ft_strncmp(str, ptr, l))
 			return (0);	//	"M*"
 		if ((fl_star & 2) && !(*(parts + 1)))
-			return ((ft_strlen(str) >= ft_strlen(*parts)) && !(ft_strncmp(str + ft_strlen(str) - ft_strlen(*parts), \
-					*parts, ft_strlen(*parts))));	//	"*t"
-		l = ft_strlen(*parts);
+			return ((ft_strlen(str) >= l) && !(ft_strncmp(str + ft_strlen(str) - ft_strlen(*parts), \
+					*parts, l)));	//	"*t"
 		str = ft_strnstr(str, *parts++, l);
 		if (!str)
 			return (0);
@@ -28,7 +27,7 @@ static size_t	is_in_pattern(char *str, char **parts, size_t fl_star)
 	return (1);
 }
 
-static t_list	*filenames_from_dir(char *path,  char **parts, size_t fl_star)
+static t_list	*filenames_from_dir(char *path, char **parts, size_t fl_star)
 {
 	t_list			*res;
 	DIR				*dir;
@@ -41,8 +40,8 @@ static t_list	*filenames_from_dir(char *path,  char **parts, size_t fl_star)
 		if (dir)
 		{
 			while ((entry = readdir(dir)) != NULL)
-				if ((entry->d_type == DT_REG) && \
-						is_in_pattern(entry->d_name, parts, fl_star))
+				if (is_in_pattern(entry->d_name, parts, fl_star) && \
+					(*entry->d_name != '.'))
 				{
 					if (res)
 						ft_lstadd_back(&res, \
@@ -54,7 +53,7 @@ static t_list	*filenames_from_dir(char *path,  char **parts, size_t fl_star)
 		}
 	}
 	return (res);
-  }
+}
 
 static size_t	flag_star(char *str)
 {
@@ -80,6 +79,7 @@ char	**star(char *str, t_d *d)
 	t_list	*tmp;
 
 	res = NULL;
+	//  path = pwd
 	if_err_fatal(path = malloc(LEN_PATH), 2, d);
 	if (getcwd(path, LEN_PATH))
 	{
