@@ -41,7 +41,7 @@ static int	argv_fill(char *str, int ac, char **av, t_d *d)
 {
 	char	flq;
 	char	*ptr;
-	size_t	len;
+//	size_t	len;
 
 	av[ac] = NULL;
 	while (ac-- && *str)
@@ -58,8 +58,8 @@ static int	argv_fill(char *str, int ac, char **av, t_d *d)
 		}
 		else if (*str)
 			str = skip_not_spaces(str);
-		len = str - ptr;
-		if_err_fatal(*av++ = ft_substr(ptr, 0, len), 2, d);
+//		len = str - ptr;
+		if_err_fatal(*av++ = ft_substr(ptr, 0, str - ptr), 2, d);
 	}
 	if (*str)
 		return (ERROR);

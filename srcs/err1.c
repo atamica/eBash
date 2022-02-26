@@ -33,7 +33,8 @@ void	if_err_cd(int er, int fd, char *path)
 	if (er < 0)
 	{
 		ft_putstr_fd(CD, fd);
-		ft_putstr_fd(path, fd);
+		if (path)
+			ft_putstr_fd(path, fd);
 		ft_putendl_fd(": Нет такого файла или каталога", fd);
 	}
 }

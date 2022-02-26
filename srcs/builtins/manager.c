@@ -32,7 +32,7 @@ int	run_builtins_cmd(t_d *d, t_cmd *cmd, int *pipe_out)
 	if (cmd->type == BUILTINS)
 	{
 		if (!ft_strncmp(cmd->path, "cd", 3))
-			res = ft_cd(cmd);
+			res = ft_cd(cmd, d);
 		else if (!ft_strncmp(cmd->path, "echo", 5))
 			res = ft_echo(cmd, fout.fd);
 		else if (!ft_strncmp(cmd->path, "pwd", 4))

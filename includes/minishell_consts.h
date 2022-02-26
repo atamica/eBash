@@ -1,6 +1,7 @@
 #ifndef MINISHELL_CONSTS_H
 # define MINISHELL_CONSTS_H
 
+# define BONUS 1
 //# define NDEBUG
 //# define NDEBUG_RUN
 
@@ -51,6 +52,7 @@
 
 # define PRMT "minishell"
 # define LVL "MINISHELL_LVL"
+# define OLD_DIR "OLD_DIR"
 
 # define MSGE1 RED "Error args!" N RESET
 # define MSGE2 RED "Error memory!" N RESET

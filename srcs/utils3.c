@@ -111,3 +111,14 @@ size_t	ft_lstcalc_total_len(t_list *lst)
 	}
 	return (len);
 }
+
+char	*get_current_dir(void)
+{
+	char	*cur_dir;
+
+	cur_dir = malloc(LEN_PATH);
+	if (cur_dir && getcwd(cur_dir, LEN_PATH))
+		return (cur_dir);
+	free(cur_dir);
+	return (NULL);
+}

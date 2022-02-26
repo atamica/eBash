@@ -36,8 +36,7 @@ static t_list	*filenames_from_dir(char *path, char **parts, size_t fl_star)
 	res = NULL;
 	if (path)
 	{
-		dir = opendir(path);
-		if (dir)
+		if ((dir = opendir(path)))
 		{
 			while ((entry = readdir(dir)) != NULL)
 				if (is_in_pattern(entry->d_name, parts, fl_star) && \

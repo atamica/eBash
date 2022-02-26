@@ -16,59 +16,35 @@ void	init_cmd(t_cmd *cmd)
 	cmd->fl_replace = 0;
 }
 
+
+
+void	init_start(t_d *d, int ac, char **av, char **env)
+{
+	int		lvl;
+	char	*tmp;
+
 #if OS == LINUX
-
-void	init_start(t_d *d, int ac, char **av, char **env)
-{
-	int		lvl;
-	char	*tmp;
-
 	rl_clear_history();
-	d->ac = ac;
-	d->av = av;
-	copy_envs(env, d);
-	using_history ();
-	tmp = get_env_val(d->env, LVL);
-	if (tmp && ft_strlen(tmp))
-		lvl = ft_atoi(tmp) + 1;
-	else
-		lvl = 1;
-	free(tmp);
-	tmp = ft_itoa(lvl);
-	set_env_val(LVL, tmp, d);
-	free(tmp);
-	rl_catch_signals = 0;
-	init_signals(d);
-	d->std_fd[0] = dup(IN);
-	d->std_fd[1] = dup(OUT);
-	d->std_fd[2] = dup(ER);
-}
-
-#else
-
-void	init_start(t_d *d, int ac, char **av, char **env)
-{
-	int		lvl;
-	char	*tmp;
-
-	d->ac = ac;
-	d->av = av;
-	copy_envs(env, d);
-	using_history ();
-	tmp = get_env_val(d->env, LVL);
-	if (tmp && ft_strlen(tmp))
-		lvl = ft_atoi(tmp) + 1;
-	else
-		lvl = 1;
-	free(tmp);
-	tmp = ft_itoa(lvl);
-	set_env_val(LVL, tmp, d);
-	free(tmp);
-	rl_catch_signals = 0;
-	init_signals(d);
-	d->std_fd[0] = dup(IN);
-	d->std_fd[1] = dup(OUT);
-	d->std_fd[2] = dup(ER);
-}
-
 #endif
+	d->ac = ac;
+	d->av = av;
+	copy_envs(env, d);
+	using_history ();
+	tmp = get_env_val(d->env, LVL);
+	if (tmp && ft_strlen(tmp))
+		lvl = ft_atoi(tmp) + 1;
+	else
+		lvl = 1;
+	free(tmp);
+	tmp = ft_itoa(lvl);
+	set_env_val(LVL, tmp, d);
+	free(tmp);
+	if_err_fatal(tmp = get_current_dir(), 2, d);
+	set_env_val(OLD_DIR, tmp, d);
+	free(tmp);
+	rl_catch_signals = 0;
+	init_signals(d);
+	d->std_fd[0] = dup(IN);
+	d->std_fd[1] = dup(OUT);
+	d->std_fd[2] = dup(ER);
+}

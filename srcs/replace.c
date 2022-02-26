@@ -71,7 +71,6 @@ void	del_quotes(char **arg, char **env)
 void	manager_replace(char ***arg, char **env, t_d *d)
 {
 	char	**tmp;
-
 	size_t	pos;
 	size_t	offs;
 

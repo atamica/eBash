@@ -52,6 +52,7 @@ char		*prompt(t_d *d);
 size_t		amount_elements(char **ptr);
 
 size_t		ft_lstcalc_total_len(t_list *lst);
+char		*get_current_dir(void);
 
 /*
 **		err.c
@@ -94,7 +95,7 @@ void		free_cmds(t_cmds *cmds);
 **		builtins/ *.c
 */
 
-int			ft_cd(t_cmd *cmd);
+int			ft_cd(t_cmd *cmd, t_d *d);
 int			ft_echo(t_cmd *cmd, int fd);
 int			ft_pwd(t_cmd *cmd);
 int			ft_env(t_d *d, int fd);
