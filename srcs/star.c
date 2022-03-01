@@ -68,6 +68,15 @@ static size_t	flag_star(char *str)
 	return (fl);
 }
 
+static void	copy_fnames(t_list *list_of_fnames, char **parts)
+{
+	while (list_of_fnames)
+	{
+		*parts++ = ft_strdup(list_of_fnames->content);
+		list_of_fnames = list_of_fnames->next;
+	}
+}
+
 char	**star(char *str, t_d *d)
 {
 	char	*path;
@@ -75,29 +84,21 @@ char	**star(char *str, t_d *d)
 	char	**parts;
 	size_t	amount;
 	t_list	*list_of_fnames;
-	t_list	*tmp;
 
 	res = NULL;
-	//  path = pwd
-	if_err_fatal(path = malloc(LEN_PATH), 2, d);
-	if (getcwd(path, LEN_PATH))
+	path = get_current_dir();
+	if (path)
 	{
 		parts = ft_split(str, '*');
 		list_of_fnames = filenames_from_dir(path, parts, flag_star(str));
 		free2(parts);
+		free(path);
 		amount = ft_lstsize(list_of_fnames);
 		if_err_fatal(res = malloc(sizeof(char *) * (amount + 1)), 2, d);
 		res[amount] = NULL;
-		parts = res;
-		tmp = list_of_fnames;
-		while (tmp)
-		{
-			*parts++ = ft_strdup(tmp->content);
-			tmp = tmp->next;
-		}
+		copy_fnames(list_of_fnames, res);
 		ft_lstclear(&list_of_fnames, free);
 	}
-	free(path);
 	return (res);
 }
 

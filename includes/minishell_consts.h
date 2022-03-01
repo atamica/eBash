@@ -1,7 +1,7 @@
 #ifndef MINISHELL_CONSTS_H
 # define MINISHELL_CONSTS_H
 
-# define BONUS 1
+//# define BONUS 1
 //# define NDEBUG
 //# define NDEBUG_RUN
 

@@ -68,46 +68,38 @@ void	del_quotes(char **arg, char **env)
 }
 
 #if BONUS == 1
-void	manager_replace(char ***arg, char **env, t_d *d)
-{
-	char	**tmp;
-	size_t	pos;
-	size_t	offs;
 
-	if (*arg)
+static void	replace_star(t_d *d, char ***arg, char ***tmp)
+{
+	size_t	pos;
+
+	if (is_present_non_screened_char(**tmp, '*'))
 	{
-		tmp = *arg;
-		while (*tmp)
-		{
-			del_empty_sp(*tmp);
-			*tmp = repl_dlr(*tmp, env, 1);
-			if (is_present_non_screened_char(*tmp, '*'))
-			{
-				pos = tmp - *arg;
-				offs = merge_args(d, arg, pos) + pos;
-				tmp = *arg + offs;
-				pos = tmp - *arg;
-			}
-			*tmp = strip_quo(*tmp, env);
-			tmp++;
-		}
+		pos = *tmp - *arg;
+		pos = merge_args(d, arg, pos);
+		*tmp = *arg + pos;
 	}
 }
+
+void	manager_replace(char ***arg, char **env, t_d *d)
 #else
 void	manager_replace(char ***arg, char **env)
+#endif
 {
-	char	**tmp;
+	char	**ptr;
 
-	if (*arg)
+	if (arg && *arg)
 	{
-		tmp = *arg;
-		while (*tmp)
+		ptr = *arg;
+		while (*ptr)
 		{
-			del_empty_sp(*tmp);
-			*tmp = repl_dlr(*tmp, env, 1);
-			*tmp = strip_quo(*tmp, env);
-			tmp++;
+			del_empty_sp(*ptr);
+#if BONUS == 1
+			replace_star(d, arg, &ptr);
+#endif			
+			*ptr = repl_dlr(*ptr, env, 1);
+			*ptr = strip_quo(*ptr, env);
+			ptr++;	
 		}
 	}
 }
-#endif

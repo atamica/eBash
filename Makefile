@@ -12,6 +12,8 @@ CFGNL = get_next_line.c get_next_line_utils.c
 
 X = start.c
 
+CF_BONUS = star.c
+
 CFTST = parser.c parser1.c utils.c utils1.c utils2.c utils3.c free.c err.c \
 	err1.c init.c is.c is1.c run.c replace.c replace1.c signals.c \
 	history.c close.c heredoc.c \
@@ -23,8 +25,6 @@ GNL = $(addprefix $(GNLPH), $(CFGNL))
 	
 CF1 = $X $(CFTST)
 
-CF2 = $(CF1) star.c
-
 #CFTST = $(subst $X, , $(CF1))
 
 LIBDIR = libft/
@@ -33,10 +33,9 @@ LIBFT = $(LIBDIR)libft.a
 
 HDIR = ./includes
 
-HDF = $(NAME).h $(NAME)_std_lib.h $(NAME)_consts.h $(NAME)_structs.h \
-		
-HDRS = $(addprefix $(HDIR)/, $(HDF)) $(LIBDIR)libft.h $(GNLPH)get_next_line.h
+HDF = $(NAME).h $(NAME)_std_lib.h $(NAME)_consts.h $(NAME)_structs.h
 
+HDRS = $(addprefix $(HDIR)/, $(HDF)) $(LIBDIR)libft.h $(GNLPH)get_next_line.h
 
 ifneq ($(OSY), Linux)
 CC = gcc
@@ -49,19 +48,16 @@ LIBS = -L $(LIBDIR) -lft -lreadline
 endif
 
 ifeq ($(BON), 1)
-	CF=$(addprefix $(SRC), $(CF2)) $(GNL)
+	CF1 += $(CF_BONUS)
 	D = -D BONUS=1
 else
-	CF=$(addprefix $(SRC), $(CF1)) $(GNL)
 	D = -D BONUS=0
 endif
 
-OF1 = $(CF1:.c=.o)
-OF2 = $(CF2:.c=.o)
+CF=$(addprefix $(SRC), $(CF1)) $(GNL)
 
 OF = $(CF:.c=.o)
 DF = $(CF:.c=.d)
-#OFGNL = $(CFGNL:.c=.o)
 
 DEPFL = -MMD -MF $(@:.o=.d)
 
@@ -114,6 +110,7 @@ runb: bonus
 
 tst: $(HDRS) $(LIBFT)
 	gcc -I includes -I gnl -I libft -o tst srcs/tst/tst_star.c \
+	$(addprefix $(SRC), $(CF_BONUS)) \
 	$(addprefix $(SRC), $(CFTST)) $(GNL) $(LIBS); ./tst
 
 tst_pipe_split: $(HDRS) $(LIBFT)
@@ -124,15 +121,17 @@ val: $(NAME)
 	valgrind -s --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 valb: bonus $(NAME)
+	clear
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 # --track-origins=yes --leak-check=full -s ARG=$(ARG);
 
 dd:
-	@echo $(shell clear)
+	clear
 	@echo $(CFTST)
 	@echo ---
 	@echo $(CF1)
+	@echo $(CF_BONUS)
 	@echo $(MAKE_TERMOUT)
 
 .PHONY: all bonus clean dd fclean norm re run runb tst val valb tst_pipe_split
