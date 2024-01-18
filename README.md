@@ -1,4 +1,4 @@
-# *e*<font color="green">Bash</font>
+# e***Bash***
 
 
 **Subject: minishell**
