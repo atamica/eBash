@@ -1,11 +1,4 @@
-<style>
-r { color: Red }
-o { color: Orange }
-g { color: Green }
-</style>
-
-
-# <r>***e***</r>B<g>ash</g>
+# ***e***Bash
 
 
 **Subject: minishell**
