@@ -1,4 +1,4 @@
-# *e*<span style="color:green">Bash</span>
+# *e*<font color="green">Bash</font>
 
 
 **Subject: minishell**
